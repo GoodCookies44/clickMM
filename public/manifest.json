@@ -6,13 +6,14 @@
   "background": {
     "service_worker": "background.js"
   },
-  "action": {
-    "default_popup": "index.html",
+  "side_panel": {
+    "default_path": "index.html",
+    
     "default_icon": {
       "16": "logo192.png",
       "48": "logo192.png",
       "128": "logo192.png"
     }
   },
-  "permissions": ["activeTab", "storage"]
+  "permissions": ["sidePanel", "storage"]
 }
