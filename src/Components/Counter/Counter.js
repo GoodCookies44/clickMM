@@ -6,20 +6,36 @@ const Counter = () => {
 
   // Функция для увеличения значения счетчика и сохранения в Chrome Storage
   const increment = () => {
-    setCount(count + 1);
-    saveCountToStorage(count + 1);
+    setCount((prevCount) => {
+      const newCount = prevCount + 1;
+      saveCountToStorage(newCount);
+      return newCount;
+    });
   };
 
   // Функция для уменьшения значения счетчика и сохранения в Chrome Storage
   const decrement = () => {
-    setCount(count - 1);
-    saveCountToStorage(count - 1);
+    setCount((prevCount) => {
+      const newCount = prevCount - 1;
+      saveCountToStorage(newCount);
+      return newCount;
+    });
+  };
+
+  // Функция для сброса значения счетчика и сохранения в Chrome Storage
+  const reset = () => {
+    setCount(0);
+    saveCountToStorage(0);
   };
 
   // Функция для сохранения значения в Chrome Storage
   const saveCountToStorage = (value) => {
     chrome.storage.sync.set({count: value}, () => {
-      console.log("Value is set to " + value);
+      if (chrome.runtime.lastError) {
+        console.error("Error saving value to storage:", chrome.runtime.lastError);
+      } else {
+        console.log("Value saved to storage: " + value);
+      }
     });
   };
 
@@ -28,10 +44,10 @@ const Counter = () => {
     chrome.storage.sync.get(["count"], (result) => {
       if (result.count !== undefined) {
         setCount(result.count);
-        console.log("Value currently is " + result.count);
+        console.log("Value loaded from storage: " + result.count);
       }
     });
-  }, []); // Пустой массив зависимостей, чтобы useEffect вызывался только при монтировании
+  }, [setCount]); // Передаем setCount в массив зависимостей
 
   // Визуализация компонента
   return (
@@ -39,6 +55,7 @@ const Counter = () => {
       <p>Счётчик: {count}</p>
       <button onClick={increment}>Добавить</button>
       <button onClick={decrement}>Убавить</button>
+      <button onClick={reset}>Сбросить</button>
     </div>
   );
 };

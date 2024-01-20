@@ -5,9 +5,9 @@ import Counter from "../Counter/Counter";
 function App() {
   return (
     <div className="App">
-      <header>
+      <body>
         <Counter />
-      </header>
+      </body>
     </div>
   );
 }
