@@ -6,4 +6,9 @@ body {
   width: 100%;
   
   font-family: "Comfortaa", sans-serif;
+  
+  display: flex;
+  justify-content: center;
+  
+  background-color: #474747;
 }
