@@ -6,19 +6,18 @@ function Header() {
   return (
     <header>
       <nav className="header__links">
-        <Link to={"MKT"}>МКТ</Link>
-        <a href="/src/pages/MKTPage/MKTPage.js" className="link header__link">
+        <Link to={"MKT"} className="link header__link">
           МКТ
-        </a>
-        <a href="/" className="link header__link">
+        </Link>
+        <Link to={"PP"} className="link header__link">
           ПП
-        </a>
-        <a href="/" className="link header__link">
+        </Link>
+        <Link to={"MFP"} className="link header__link">
           МФП
-        </a>
-        <a href="/" className="link header__link">
+        </Link>
+        <Link to={"DFP"} className="link header__link">
           ДФП
-        </a>
+        </Link>
       </nav>
     </header>
   );

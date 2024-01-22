@@ -1,6 +1,6 @@
 import React from "react";
 import {Outlet, Route, Routes} from "react-router-dom";
-import Header from "./Components/Header/Header";
+import Header from "./components/Header/Header";
 import MKTPage from "./pages/MKTPage/MKTPage";
 import PPPage from "./pages/PPPage/PPPage";
 import MFPPage from "./pages/MFPPage/MFPPage";
