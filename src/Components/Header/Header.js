@@ -2,24 +2,23 @@ import React from "react";
 import {BrowserRouter as Link} from "react-router-dom";
 import "./Header.css";
 
-function Header() {
+export default function Header() {
   return (
     <header>
-      <nav className="header__links">
-        <Link to={"MKT"} className="link header__link">
+      <div className="header__links">
+        <Link to={"/src/pages/MKTPage/MKTPage.js"} className="link header__link">
           МКТ
         </Link>
-        <Link to={"PP"} className="link header__link">
+        <Link to={"/src/pages/PPPage/PPPage.js"} className="link header__link">
           ПП
         </Link>
-        <Link to={"MFP"} className="link header__link">
+        <Link to={"/src/pages/MFPPage/MFPPage.js"} className="link header__link">
           МФП
         </Link>
-        <Link to={"DFP"} className="link header__link">
+        <Link to={"/src/pages/DFPPage/DFPPage.js"} className="link header__link">
           ДФП
         </Link>
-      </nav>
+      </div>
     </header>
   );
 }
-export default Header;
