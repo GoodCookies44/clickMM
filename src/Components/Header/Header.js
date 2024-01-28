@@ -1,24 +1,26 @@
 import React from "react";
-import {BrowserRouter as Link} from "react-router-dom";
 import "./Header.css";
+import {NavLink} from "react-router-dom";
 
 export default function Header() {
   return (
-    <header>
-      <div className="header__links">
-        <Link to={"/src/pages/MKTPage/MKTPage.js"} className="link header__link">
-          МКТ
-        </Link>
-        <Link to={"/src/pages/PPPage/PPPage.js"} className="link header__link">
-          ПП
-        </Link>
-        <Link to={"/src/pages/MFPPage/MFPPage.js"} className="link header__link">
-          МФП
-        </Link>
-        <Link to={"/src/pages/DFPPage/DFPPage.js"} className="link header__link">
-          ДФП
-        </Link>
-      </div>
-    </header>
+    <>
+      <header>
+        <nav className="header__links">
+          <NavLink to={"/"} className="link header__link">
+            МКТ
+          </NavLink>
+          <NavLink to={"PP"} className="link header__link">
+            ПП
+          </NavLink>
+          <NavLink to={"MFP"} className="link header__link">
+            МФП
+          </NavLink>
+          <NavLink to={"DFP"} className="link header__link">
+            ДФП
+          </NavLink>
+        </nav>
+      </header>
+    </>
   );
 }
