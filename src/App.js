@@ -10,11 +10,11 @@ import {Outlet, Route, Routes} from "react-router-dom";
 export default function App() {
   return (
     <Routes>
-      <Route path={"/"} element={<Layout />}>
+      <Route exact path={"/"} element={<Layout />}>
         <Route index element={<MKTPage />} />
-        <Route path={"PP"} element={<PPPage />} />
-        <Route path={"MFP"} element={<MFPPage />} />
-        <Route path={"DFP"} element={<DFPPage />} />
+        <Route path={"/PP"} element={<PPPage />} />
+        <Route path={"/MFP"} element={<MFPPage />} />
+        <Route path={"/DFP"} element={<DFPPage />} />
       </Route>
     </Routes>
   );
