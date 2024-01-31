@@ -1,11 +1,18 @@
+/* Скрываем полосы прокрутки только для WebKit браузеров (Chrome, Safari) */
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
-  margin: 0;
-  padding: 0;
   
-  font-family: "Comfortaa", sans-serif;
-  
-  display: flex;
-  justify-content: center;
-  
-  background-color: #474747;
+    box-sizing: border-box;
+    width: 100vw;
+    
+    margin: 0;
+    padding: 0;
+    
+    font-family: "Comfortaa", sans-serif;
+    font-size: 20px;
+      
+    background-color: #474747;    
 }

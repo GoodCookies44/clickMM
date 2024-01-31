@@ -1,15 +1,58 @@
 header{
+  box-sizing: border-box;
+
+  height: 2.5em;
+
   width: 100%;
-  height: 100px;
   
-  font-family: "Comfortaa", sans-serif;
-  
+  margin: 0;
+  padding: 0 1em;
+
+  background: #474747;
+  border-radius: 0px 0px 1em 1em;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+
   display: flex;
-  justify-content: center;
-  
-  background-color: #fff;
+  align-items: center;  
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 
+nav{
+  width: 100%;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;  
+}
+
+/* Состояния ссылок */
+  .link:link {
+    text-decoration: none;
+  }
+
+  .link:visited {
+    text-decoration: none;
+  }
+
+  .link:hover, .link:active {
+    text-decoration: none;
+    background-color: #2F2F2F; 
+  }
+
+/* Ссылки в шапке */
 .header__link{
-  padding: 5px;
+  padding: 0.3em;
+
+  background: #474747;
+  color: #EAC56B;
+  border-radius: 0.6em;
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+
+  transition: linear 0.5s;
+  
+  user-select: none;
 }

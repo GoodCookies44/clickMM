@@ -1,12 +1,14 @@
+// Модули
 import React from "react";
-import "./Header.css";
 import {NavLink} from "react-router-dom";
+// Стили
+import "./Header.css";
 
 export default function Header() {
   return (
     <>
       <header>
-        <nav className="header__links">
+        <nav>
           <NavLink to={"/"} className="link header__link">
             МКТ
           </NavLink>
