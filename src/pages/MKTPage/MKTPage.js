@@ -5,7 +5,7 @@ import Counter from "../../components/Counter/Counter.js";
 // Стили
 import "./MKTPage.css";
 
-function MKTPage() {
+export default function MKTPage() {
   return (
     <>
       <section className="counter__section">
@@ -56,4 +56,3 @@ function MKTPage() {
     </>
   );
 }
-export default MKTPage;

@@ -1,0 +1,50 @@
+ul{
+  margin:0 1em 0 0 0;
+  padding: 0;
+  
+  list-style-type: none;
+  
+  font-size: 1.3em;
+}
+
+li{
+  margin: .3em 0;
+}
+
+.copy__button{
+  width: 1.5em;
+  height: 1em;
+  
+  margin: .4em;
+  padding: .2em;
+  
+  border-radius: .6em;
+  background: #474747;
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.50);
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: linear 0.5s;
+}
+
+.copy__button:hover {
+  text-decoration: none;
+  background-color: #2F2F2F; 
+    
+  cursor: pointer;
+}
+
+.copy__button:active {
+  transform: scale(0.80);
+}
+
+svg{
+  height: 24px;
+  width: 24px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -2,10 +2,18 @@
 import React from "react";
 // Компоненты
 import Counter from "../../components/Counter/Counter";
+import ListItem from "../../components/ListItem/ListItem";
 // Стили
 import "./MFPPage.css";
 
-function MFPPage() {
+export default function MFPPage() {
+  //Автоматическое добавление в счётчик ШК
+
+  // Копирование текста в буфер обмена
+  const handleCopyText = () => {
+    navigator.clipboard.writeText(text);
+  };
+
   return (
     <div>
       <section className="counter__section">
@@ -30,7 +38,23 @@ function MFPPage() {
           <Counter id="MFP_revision" initialValue={0} />
         </div>
       </section>
+      <section className="list__section">
+        <p>Причины отказа:</p>
+        <ul>
+          <ListItem text={"Причина 1: Мало фотографий"} />
+          <ListItem text={"Причина 2: Несоответствующие ракурсы"} />
+          <ListItem text={"Причина 3: Фотографии слишком темные/светлые"} />
+          <ListItem text={"Причина 4: Фото не студийное"} />
+          <ListItem text={"Причина 5: На фото есть инфографика"} />
+          <ListItem text={"Причина 6: Фото в карточке товара оформлено в виде коллажа"} />
+          <ListItem text={"Причина 7: Плохое качество фото"} />
+          <ListItem text={"Причина 8: Нарушено кадрирование фото"} />
+          <ListItem text={"Причина 9: Нет достаточного размытия"} />
+          <ListItem text={"Причина 10: Исходников нет или они не соответствуют требованиям"} />
+          <ListItem text={"Причина 11: Нарушены требования к внешнему виду моделей"} />
+          <ListItem text={"Причина 12: На фото есть лишний реквизит"} />
+        </ul>
+      </section>
     </div>
   );
 }
-export default MFPPage;

@@ -10,6 +10,8 @@ section{
   border-radius: 0px 0px 1.5em 1.5em;
   background: #2F2F2F;
   box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.30);
+  
+  user-select: none;
 }
 
 .list__section{
@@ -22,7 +24,11 @@ section{
 }
 
 p{
+  margin: 1em .5em .5em;
+  
   font-size: 2em;
+  
+  user-select: none;
 }
 
 ol{

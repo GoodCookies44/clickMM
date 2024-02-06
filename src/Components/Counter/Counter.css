@@ -35,13 +35,8 @@
   
   padding: .2em;
   
-  text-align: center;
-  font-style: normal;
-  font-weight: 400;
-  
   border-radius: 1em;
   background: #474747;
-  color: #F6F6F6;
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.50);
   
   display: flex;
@@ -58,6 +53,10 @@
   cursor: pointer
 }
 
+.counter__button:active{
+  transform: scale(0.90);
+}
+
 svg{
   height: 24px;
   width: 24px;
@@ -65,5 +64,4 @@ svg{
   display: flex;
   align-items: center;
   justify-content: center;
-
 }

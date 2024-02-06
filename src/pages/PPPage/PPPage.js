@@ -5,7 +5,7 @@ import Counter from "../../components/Counter/Counter";
 // Стили
 import "./PPPage.css";
 
-function PPPage() {
+export default function PPPage() {
   return (
     <div>
       <section className="counter__section">
@@ -14,4 +14,3 @@ function PPPage() {
     </div>
   );
 }
-export default PPPage;
