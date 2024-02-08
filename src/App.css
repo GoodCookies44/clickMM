@@ -16,3 +16,24 @@ body {
       
     background-color: #474747;    
 }
+
+.container__FP{
+  width: 50%;
+  height: 50%;
+  
+  font-size: 15px;
+  font-weight: 400;
+  
+  color: #EAC56B;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  flex-direction: column;
+  
+  text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.50);
+}
+
+.container__FP .button__container{
+  gap: .5em;
+}
