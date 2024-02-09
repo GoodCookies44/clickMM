@@ -7,6 +7,7 @@ import MKTPage from "./pages/MKTPage/MKTPage.js";
 import PPPage from "./pages/PPPage/PPPage.js";
 import MFPPage from "./pages/MFPPage/MFPPage.js";
 import DFPPage from "./pages/DFPPage/DFPPage.js";
+import {CounterProvider} from "./components/Context/CounterContext.js";
 // Стили
 import "./App.css";
 
@@ -28,7 +29,9 @@ function Layout() {
     <div className="App">
       <Header />
       <main>
-        <Outlet />
+        <CounterProvider>
+          <Outlet />
+        </CounterProvider>
       </main>
     </div>
   );

@@ -1,57 +1,41 @@
 // Модули
-import React, {useState, useEffect} from "react";
+import React, {useContext, useState} from "react";
 import PropTypes from "prop-types";
+import {CounterContext} from "../Context/CounterContext";
 // Стили
 import "./Counter.css";
 
 const Counter = ({id, initialValue}) => {
+  // Получаем функцию для обновления значения из контекста
+  const {addCounterId, updateCounterValue} = useContext(CounterContext);
+
+  // Добавляем идентификатор в массив контекста при монтировании компонента
+  useEffect(() => {
+    addCounterId(id);
+  }, [addCounterId, id]);
+
   // Состояние счетчика
   const [count, setCount] = useState(initialValue);
 
-  // Функция для увеличения значения счетчика и сохранения в Chrome Storage
+  // Функция для увеличения значения счетчика
   const increment = () => {
-    setCount((prevCount) => {
-      const newCount = prevCount + 1;
-      saveCountToStorage(newCount);
-      return newCount;
-    });
+    const newCount = count + 1;
+    setCount(newCount);
+    updateCounterValue(id, newCount); // Обновляем значение счетчика в контексте
   };
 
-  // Функция для уменьшения значения счетчика и сохранения в Chrome Storage
+  // Функция для уменьшения значения счетчика
   const decrement = () => {
-    setCount((prevCount) => {
-      const newCount = prevCount - 1;
-      saveCountToStorage(newCount);
-      return newCount;
-    });
+    const newCount = count - 1;
+    setCount(newCount);
+    updateCounterValue(id, newCount); // Обновляем значение счетчика в контексте
   };
 
-  // Функция для сброса значения счетчика и сохранения в Chrome Storage
+  // Функция для сброса значения счетчика
   const reset = () => {
     setCount(initialValue);
-    saveCountToStorage(initialValue);
+    updateCounterValue(id, initialValue); // Обновляем значение счетчика в контексте
   };
-
-  // Функция для сохранения значения в Chrome Storage
-  const saveCountToStorage = (value) => {
-    chrome.storage.sync.set({[id]: value}, () => {
-      if (chrome.runtime.lastError) {
-        console.error("Error saving value to storage:", chrome.runtime.lastError);
-      } else {
-        console.log(`Value saved to storage for ${id}: ${value}`);
-      }
-    });
-  };
-
-  // Эффект, срабатывающий при монтировании компонента, для загрузки значения из Chrome Storage
-  useEffect(() => {
-    chrome.storage.sync.get([id], (result) => {
-      if (result[id] !== undefined) {
-        setCount(result[id]);
-        console.log(`Value loaded from storage for ${id}: ${result[id]}`);
-      }
-    });
-  }, [id, setCount]); // Передаем id и setCount в массив зависимостей
 
   // Визуализация компонента
   return (
