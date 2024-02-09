@@ -111,7 +111,6 @@ const Counter = ({id}) => {
 
 Counter.propTypes = {
 	id: PropTypes.string.isRequired,
-	initialValue: PropTypes.number.isRequired,
 }
 
 export default Counter

@@ -17,23 +17,23 @@ export default function MFPPage() {
 			<section className='counter__section'>
 				<div className='container__FP'>
 					Запросы
-					<Counter id='MFP_request' initialValue={0} />
+					<Counter id='MFP_request' />
 				</div>
 				<div className='container__FP'>
 					ШК
-					<Counter id='MFP_SHK' initialValue={0} />
+					<Counter id='MFP_SHK' />
 				</div>
 				<div className='container__FP'>
 					Принято
-					<Counter id='MFP_accepted' initialValue={0} />
+					<Counter id='MFP_accepted' />
 				</div>
 				<div className='container__FP'>
 					Отклонено
-					<Counter id='MFP_rejected' initialValue={0} />
+					<Counter id='MFP_rejected' />
 				</div>
 				<div className='container__FP'>
 					На доработку
-					<Counter id='MFP_revision' initialValue={0} />
+					<Counter id='MFP_revision' />
 				</div>
 			</section>
 			<section className='list__section'>
