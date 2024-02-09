@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 // Компоненты
 import Counter from "../../components/Counter/Counter";
 import ListItem from "../../components/ListItem/ListItem";
@@ -6,9 +6,6 @@ import ListItem from "../../components/ListItem/ListItem";
 import "./DFPPage.css";
 
 export default function DFPPage() {
-  const [acceptedCount, setAcceptedCount] = useState(0);
-  const [requestCount, setRequestCount] = useState(0);
-
   const handleAcceptedCountChange = (newValue) => {
     setAcceptedCount(newValue);
     setRequestCount(newValue);
@@ -19,22 +16,12 @@ export default function DFPPage() {
       <section className="counter__section DFP">
         <div className="container__FP">
           Запросы
-          <Counter
-            id="DFP_request"
-            initialValue={0}
-            value={requestCount}
-            onChange={handleAcceptedCountChange}
-          />
+          <Counter id="DFP_request" initialValue={0} />
         </div>
         <div className="bottom_container">
           <div className="container__FP ">
             Принято
-            <Counter
-              id="DFP_accepted"
-              initialValue={0}
-              value={acceptedCount}
-              onChange={handleAcceptedCountChange}
-            />
+            <Counter id="DFP_accepted" initialValue={0} />
           </div>
           <div className="container__FP">
             Отклонено
