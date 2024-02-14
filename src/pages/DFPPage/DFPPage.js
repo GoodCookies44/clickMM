@@ -21,11 +21,11 @@ export default function DFPPage() {
 				<div className='bottom_container'>
 					<div className='container__FP '>
 						Принято
-						<Counter id='DFP_accepted' />
+						<Counter id='DFP_accepted' targetId='DFP_request' />
 					</div>
 					<div className='container__FP'>
 						Отклонено
-						<Counter id='DFP_rejected' />
+						<Counter id='DFP_rejected' targetId='DFP_request' />
 					</div>
 				</div>
 			</section>
