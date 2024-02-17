@@ -17,6 +17,8 @@ body {
     background-color: #474747;    
 }
 
+
+
 .container__FP{
   width: 50%;
   height: 50%;
@@ -36,4 +38,14 @@ body {
 
 .container__FP .button__container{
   gap: .5em;
+}
+
+.counter__container{
+  font-weight: 400;
+  
+  font-size: 1em;
+  
+  color: #EAC56B;
+  
+  text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.50);
 }

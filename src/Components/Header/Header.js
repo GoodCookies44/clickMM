@@ -1,27 +1,75 @@
 // Модули
-import React from "react";
+import React, {useRef, useState} from "react";
 import {NavLink} from "react-router-dom";
 // Стили
 import "./Header.css";
 
 export default function Header() {
+  // Состояние для отслеживания активной ссылки
+  const [activeLink, setActiveLink] = useState("");
+  const navRef = useRef(null);
+  let scrollInterval = null;
+
+  // Функция для установки активной ссылки
+  const handleSetActiveLink = (link) => {
+    setActiveLink(link);
+  };
+
+  const handleScroll = (direction) => {
+    if (navRef.current) {
+      scrollInterval = setInterval(() => {
+        if (direction === "left") {
+          navRef.current.scrollLeft -= 5;
+        } else if (direction === "right") {
+          navRef.current.scrollLeft += 5;
+        }
+      }, 20);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    clearInterval(scrollInterval);
+  };
+
+  // Функция для создания ссылки с установкой активного состояния
+  const createNavLink = (to, text) => {
+    return (
+      <NavLink
+        to={to}
+        className={`link header__link ${activeLink === to ? "active" : ""}`}
+        onClick={() => handleSetActiveLink(to)}
+        key={to}
+      >
+        {text}
+      </NavLink>
+    );
+  };
+
   return (
     <>
       <header>
-        <nav>
-          <NavLink to={"/"} className="link header__link">
-            МКТ
-          </NavLink>
-          <NavLink to={"/PP"} className="link header__link">
-            ПП
-          </NavLink>
-          <NavLink to={"/MFP"} className="link header__link">
-            МФП
-          </NavLink>
-          <NavLink to={"/DFP"} className="link header__link">
-            ДФП
-          </NavLink>
+        <button
+          className="scroll-button"
+          onMouseEnter={() => handleScroll("left")}
+          onMouseLeave={handleMouseLeave}
+        >
+          {"<"}
+        </button>
+        <nav ref={navRef}>
+          {createNavLink("/", "МКТ")}
+          {createNavLink("/PP", "ПП")}
+          {createNavLink("/MFP", "МФП")}
+          {createNavLink("/DFP", "ДФП")}
+          {createNavLink("/KP", "КП")}
+          {createNavLink("/BP", "БП")}
         </nav>
+        <button
+          className="scroll-button"
+          onMouseEnter={() => handleScroll("right")}
+          onMouseLeave={handleMouseLeave}
+        >
+          {">"}
+        </button>
       </header>
     </>
   );
