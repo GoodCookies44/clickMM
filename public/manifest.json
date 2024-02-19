@@ -17,7 +17,7 @@
     "48": "./images/icon_48.png",
     "128": "./images/icon_128.png"
   },
-  "permissions": ["sidePanel", "storage"],
+  "permissions": ["sidePanel", "storage", "clipboardWrite"],
   
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';",

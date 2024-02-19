@@ -13,7 +13,11 @@ export default function BPPage() {
         </div>
         <div className="counter__container">
           Запросы в Trello, ОКК:
-          <Counter id="KP_OKK" />
+          <Counter id="BP_OKK" />
+        </div>
+        <div className="counter__container">
+          Контрафакт:
+          <Counter id="BP_Kont" />
         </div>
       </section>
     </div>

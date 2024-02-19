@@ -7,11 +7,6 @@ import ListItem from "../../components/ListItem/ListItem";
 import "./MFPPage.css";
 
 export default function MFPPage() {
-  // Копирование текста в буфер обмена
-  const handleCopyText = () => {
-    navigator.clipboard.writeText(text);
-  };
-
   return (
     <div>
       <section className="counter__section">
@@ -25,21 +20,20 @@ export default function MFPPage() {
         </div>
         <div className="container__FP">
           Принято
-          <Counter id="MFP_accepted" targetId="MFP_SHK" />
+          <Counter id="MFP_accepted" targetIds={["MFP_SHK"]} />
         </div>
         <div className="container__FP">
           Отклонено
-          <Counter id="MFP_rejected" targetId="MFP_SHK" />
+          <Counter id="MFP_rejected" targetIds={["MFP_SHK"]} />
         </div>
         <div className="container__FP">
           На доработку
-          <Counter id="MFP_revision" targetId="MFP_SHK" />
+          <Counter id="MFP_revision" targetIds={["MFP_SHK"]} />
         </div>
       </section>
       <section className="list__section">
         <p>Причины отказа:</p>
         <ul>
-          <ListItem text={"Уже стоит отметка о студийных фотографиях"} />
           <ListItem text={"Причина 1: Мало фотографий"} />
           <ListItem text={"Причина 2: Фото не студийное"} />
           <ListItem text={"Причина 3: На фото есть инфографика"} />
@@ -50,6 +44,7 @@ export default function MFPPage() {
           <ListItem text={"Причина 8: Исходников нет или они не соответствуют требованиям"} />
           <ListItem text={"Причина 9: Нарушены требования к внешнему виду моделей"} />
           <ListItem text={"Причина 10: На фото есть лишний реквизит"} />
+          <ListItem text={"Уже стоит отметка о студийных фотографиях"} />
         </ul>
       </section>
     </div>

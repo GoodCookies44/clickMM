@@ -62,6 +62,7 @@ export default function Header() {
           {createNavLink("/DFP", "ДФП")}
           {createNavLink("/KP", "КП")}
           {createNavLink("/BP", "БП")}
+          {createNavLink("/Report", "Отчёт")}
         </nav>
         <button
           className="scroll-button"

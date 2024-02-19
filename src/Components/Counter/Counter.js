@@ -5,7 +5,7 @@ import {CounterContext} from "../Context/CounterContext";
 // Стили
 import "./Counter.css";
 
-export default function Counter({id, targetId}) {
+export default function Counter({id, targetIds}) {
   // Получаем доступ к контексту с помощью хука useContext
   const {counters, addCounterId, updateCounterValue} = useContext(CounterContext);
 
@@ -36,11 +36,13 @@ export default function Counter({id, targetId}) {
     updateCounterValue(id, newCount);
 
     // Проверяем наличие целевого счётчика и обновляем его значение
-    if (targetId) {
-      const targetCounter = counters.find((counter) => counter.id === targetId);
-      if (targetCounter) {
-        updateCounterValue(targetId, targetCounter.value + 1);
-      }
+    if (targetIds && targetIds.length > 0) {
+      targetIds.forEach((targetId) => {
+        const targetCounter = counters.find((counter) => counter.id === targetId);
+        if (targetCounter) {
+          updateCounterValue(targetId, targetCounter.value + 1);
+        }
+      });
     }
   };
 
@@ -51,11 +53,13 @@ export default function Counter({id, targetId}) {
     updateCounterValue(id, newCount < 0 ? 0 : newCount);
 
     // Проверяем наличие целевого счётчика и обновляем его значение
-    if (targetId) {
-      const targetCounter = counters.find((counter) => counter.id === targetId);
-      if (targetCounter && targetCounter.value > 0) {
-        updateCounterValue(targetId, targetCounter.value - 1);
-      }
+    if (targetIds && targetIds.length > 0) {
+      targetIds.forEach((targetId) => {
+        const targetCounter = counters.find((counter) => counter.id === targetId);
+        if (targetCounter && targetCounter.value > 0) {
+          updateCounterValue(targetId, targetCounter.value - 1);
+        }
+      });
     }
   };
 
@@ -134,5 +138,5 @@ export default function Counter({id, targetId}) {
 
 Counter.propTypes = {
   id: PropTypes.string.isRequired,
-  targetId: PropTypes.string,
+  targetIds: PropTypes.arrayOf(PropTypes.string),
 };
