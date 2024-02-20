@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Click KE",
-  "version": "1.0",
+  "version": "1.04",
   
   "background": {
     "service_worker": "background.js"

@@ -41,9 +41,9 @@ export default function ReportPage() {
         {text: "По запросу контролирующих органов:", id: "MKT11"},
         {text: "По запросу контролирующих органов ФАС:", id: "MKT12"},
       ],
-      pp_group: [{text: "**Модерация платного продвижения:**", id: "PP"}],
+      pp_group: [{text: "**Модерация платного продвижения:**", id: "PP", addEmptyLineBefore: true}],
       mfp_group: [
-        {text: "**Модерация фото продавцов:**", id: ""},
+        {text: "**Модерация фото продавцов:**", id: "", addEmptyLineBefore: true},
         {text: "Проверено запросов:", id: "MFP_request"},
         {text: "Проверено ШК:", id: "MFP_SHK"},
         {text: "Из них принято:", id: "MFP_accepted"},
@@ -51,16 +51,24 @@ export default function ReportPage() {
         {text: "На доработку:", id: "MFP_revision"},
       ],
       dfp_group: [
-        {text: "**Обработано запросов на добавление фото продавца:**", id: "DFP_request"},
+        {
+          text: "**Обработано запросов на добавление фото продавца:**",
+          id: "DFP_request",
+          addEmptyLineBefore: true,
+        },
         {text: "Принято:", id: "DFP_accepted"},
         {text: "Отклонено:", id: "DFP_rejected"},
       ],
       kp_group: [
-        {text: "**Обработано запросов в Trello, КП:**", id: "KP_Trello"},
+        {text: "**Обработано запросов в Trello, КП:**", id: "KP_Trello", addEmptyLineBefore: true},
         {text: "**Обработано запросов от КП (адм.):**", id: "KP_Adm"},
       ],
       bp_group: [
-        {text: "**Обработано запросов в Trello, Бизнес:**", id: "BP_Business"},
+        {
+          text: "**Обработано запросов в Trello, Бизнес:**",
+          id: "BP_Business",
+          addEmptyLineBefore: true,
+        },
         {text: "**Обработано запросов в Trello, ОКК:**", id: "BP_OKK"},
         {
           text: "**Проверены контрафактные товары, текстовые разделы товаров изменены**",
@@ -101,13 +109,14 @@ export default function ReportPage() {
           group.forEach((item) => {
             const counter = counters.find((counter) => counter.id === item.id);
             if (counter) {
+              if (item.addEmptyLineBefore) {
+                reportText += "\n";
+              }
               reportText += `${item.text} ${counter.value}\n`; // Добавить значение счетчика в отчет
             }
           });
         }
       }
-
-      reportText += "\n"; // Добавить пустую строку между группами
     });
 
     setReport(reportText);
@@ -134,10 +143,10 @@ export default function ReportPage() {
       </div>
       <div className="button__container">
         <button className="report__button" onClick={generateReport} disabled={!isNameEntered}>
-          Сгенерировать отчет
+          Создать
         </button>
         <button className="report__button" onClick={copyReport} disabled={!report}>
-          Скопировать отчет
+          Копировать
         </button>
       </div>
       <pre className="report__text">{report}</pre>
