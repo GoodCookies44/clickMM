@@ -23,7 +23,7 @@ export default function Header() {
         } else if (direction === "right") {
           navRef.current.scrollLeft += 5;
         }
-      }, 20);
+      }, 18);
     }
   };
 

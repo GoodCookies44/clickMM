@@ -1,16 +1,14 @@
 // Модули
-import React from 'react'
+import React from "react";
 // Компоненты
-import Counter from '../../components/Counter/Counter'
-// Стили
-import './PPPage.css'
+import Counter from "../../components/Counter/Counter";
 
 export default function PPPage() {
-	return (
-		<div>
-			<section className='counter__section'>
-				<Counter id='PP' />
-			</section>
-		</div>
-	)
+  return (
+    <div>
+      <section className="counter__section">
+        <Counter id="PP" />
+      </section>
+    </div>
+  );
 }

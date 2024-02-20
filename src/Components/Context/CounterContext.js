@@ -23,10 +23,10 @@ export const CounterProvider = ({children}) => {
     });
   };
 
-  // Сохраняем данные в локальное хранилище при изменении counters
-  useEffect(() => {
-    localStorage.setItem("counters", JSON.stringify(counters));
-  }, [counters]);
+  // // Сохраняем данные в локальное хранилище при изменении counters
+  // useEffect(() => {
+  //   localStorage.setItem("counters", JSON.stringify(counters));
+  // }, [counters]);
 
   return (
     <CounterContext.Provider value={{counters, addCounterId, updateCounterValue}}>

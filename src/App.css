@@ -3,7 +3,7 @@
   display: none;
 }
 
-body {
+body, header {
   
     box-sizing: border-box;
     width: 100vw;
@@ -17,7 +17,51 @@ body {
     background-color: #474747;    
 }
 
+section{
+  margin: 0;
+  padding: 0 1em;
 
+}
+
+button{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* Дополнительные стили, если нужно */
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+pre{
+  width: 100%;
+  color:#F6F6F6;
+ 
+  font-size: .8em; 
+  
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.counter__section{
+  padding: 4em 0 0;
+  
+  border-radius: 0px 0px 1.5em 1.5em;
+  background: #2F2F2F;
+  box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.30);
+  
+  user-select: none;
+}
+
+.list__section{
+  color: #EAC56B;
+  font-size: 0.5em;
+  font-weight: 600;
+  line-height: 2em; 
+  
+  cursor: default
+}
 
 .container__FP{
   width: 50%;
@@ -49,3 +93,4 @@ body {
   
   text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.50);
 }
+

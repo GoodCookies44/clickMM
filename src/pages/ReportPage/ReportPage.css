@@ -1,0 +1,81 @@
+.report__section{
+  padding: 4em .8em .2em;
+  
+  border-radius: 0px 0px 1.5em 1.5em;
+  background: #2F2F2F;
+  box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.30);
+  
+  user-select: none;
+}
+
+.report__label{
+  color:#F6F6F6
+}
+
+.report__input::placeholder {
+  padding-left: .2em;
+  
+  color: #474747; 
+  font-size: .8em; 
+}
+
+.report__input{
+  all: unset;
+  
+  width: 9em;
+  
+  margin-left:.3em;
+  
+  border: none;
+  border-bottom: 2px solid #474747; /* Цвет полосы по умолчанию */
+
+  outline: none;
+  
+  transition: border-bottom-color 0.3s; /* Анимация изменения цвета */
+}
+
+.report__input:hover, :focus{
+  border-bottom-color: #EAC56B;
+  
+  cursor: text;
+}
+
+.button__container{
+  margin-top: 1em;
+}
+
+.report__button{  
+  padding: .5em;
+  
+  color:#EAC56B;
+    
+  border-radius: .6em;
+  background: #474747;
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.50);
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: linear 0.5s;
+}
+
+.report__button:hover {
+  text-decoration: none;
+  background-color: #2F2F2F; 
+    
+  cursor: pointer;
+}
+
+.report__button:active {
+  transform: scale(0.80);
+}
+
+.report__button:disabled {
+  opacity: 0.5; 
+  
+  pointer-events: none; 
+  cursor: not-allowed; 
+}
+
+

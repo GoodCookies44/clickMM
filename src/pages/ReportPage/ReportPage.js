@@ -1,6 +1,8 @@
 // Модули
 import React, {useContext, useState} from "react";
 import {CounterContext} from "../../components/Context/CounterContext";
+//Стили
+import "./ReportPage.css";
 
 export default function ReportPage() {
   const {counters} = useContext(CounterContext); // Подставьте ваш контекст с данными
@@ -25,7 +27,7 @@ export default function ReportPage() {
     const groups = {
       mkt_group: [
         {text: "**Модерация карточек товара:**", id: "MKT"},
-        {text: "Отклонено:", id: "MKT_Sum"},
+        {text: "Отклонено:", id: "MKT_Sum", addEmptyLineAfter: true},
         {text: "Описание в карточке не соответствует товару:", id: "MKT1"},
         {text: "Пересорт:", id: "MKT2"},
         {text: "Запрещенный к продаже товар для самозанятых:", id: "MKT3"},
@@ -77,6 +79,9 @@ export default function ReportPage() {
           const counter = counters.find((counter) => counter.id === item.id);
           if (counter && counter.value !== 0) {
             reportText += `${item.text} ${counter.value}\n`; // Добавить значение счетчика в отчет
+            if (item.addEmptyLineAfter) {
+              reportText += "\n";
+            }
           }
         });
       } else {
@@ -92,6 +97,7 @@ export default function ReportPage() {
           if (groupKey === "mfp_group") {
             reportText += "**Модерация фото продавцов:**\n";
           }
+
           group.forEach((item) => {
             const counter = counters.find((counter) => counter.id === item.id);
             if (counter) {
@@ -111,20 +117,30 @@ export default function ReportPage() {
     navigator.clipboard.writeText(report);
   };
   return (
-    <div>
-      <h1>Генерация отчета</h1>
-      <label>
-        Имя:
-        <input type="text" id="username" name="username" value={name} onChange={handleNameChange} />
-      </label>
-      <br />
-      <button onClick={generateReport} disabled={!isNameEntered}>
-        Сгенерировать отчет
-      </button>
-      <button onClick={copyReport} disabled={!report}>
-        Скопировать отчет
-      </button>
-      <pre>{report}</pre>
-    </div>
+    <section className="report__section">
+      <div className="label__container">
+        <label className="report__label">
+          Имя:
+          <input
+            className="report__input"
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Введите Ваше имя"
+            value={name}
+            onChange={handleNameChange}
+          />
+        </label>
+      </div>
+      <div className="button__container">
+        <button className="report__button" onClick={generateReport} disabled={!isNameEntered}>
+          Сгенерировать отчет
+        </button>
+        <button className="report__button" onClick={copyReport} disabled={!report}>
+          Скопировать отчет
+        </button>
+      </div>
+      <pre className="report__text">{report}</pre>
+    </section>
   );
 }
