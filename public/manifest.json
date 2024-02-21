@@ -5,9 +5,15 @@
   
   "background": {
     "service_worker": "background.js"
-    
   },
- 
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"]
+    }
+  ],
+  
   "side_panel": {
     "default_path": "index.html"
   },
@@ -17,7 +23,7 @@
     "48": "./images/icon_48.png",
     "128": "./images/icon_128.png"
   },
-  "permissions": ["sidePanel", "storage", "clipboardWrite"],
+  "permissions": ["sidePanel", "storage", "activeTab"],
   
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';",
