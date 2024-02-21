@@ -53,3 +53,69 @@ const images = document.getElementsByTagName("img");
 for (let i = 0; i < images.length; i++) {
   images[i].addEventListener("mousemove", handleMouseMove);
 }
+
+//Функция изменения регистра
+let selectedText = ""; // Переменная для хранения выделенного текста
+
+// Функция для обработки нажатия комбинации клавиш
+function handleKeyPress(event) {
+  // Проверяем, нажата ли клавиша Alt
+  if (event.altKey) {
+    // Если нажата клавиша "a"
+    if (event.key === "a") {
+      // Получаем выделенный текст на странице
+      selectedText = window.getSelection().toString();
+
+      // Если есть выделенный текст
+      if (selectedText) {
+        // Меняем регистр слов
+        selectedText = toggleCase(selectedText);
+
+        // Заменяем выделенный текст на измененный
+        document.execCommand("insertText", false, selectedText);
+      }
+    }
+    // Если нажата клавиша "s"
+    else if (event.key === "s") {
+      // Получаем выделенный текст на странице
+      const selection = window.getSelection();
+      if (selection && selection.rangeCount > 0) {
+        // Получаем текст из выделения
+        const selectedText = selection.toString();
+        // Разделяем текст на слова
+        const words = selectedText.split(" ");
+        // Изменяем регистр первой буквы каждого слова
+        const capitalizedWords = words.map((word) => capitalizeFirstLetter(word));
+        // Обновляем выделение текста с изменённым регистром
+        document.execCommand("insertText", false, capitalizedWords.join(" "));
+      }
+    }
+  }
+}
+
+// Добавляем слушателя событий для обработки нажатия клавиш
+document.addEventListener("keydown", handleKeyPress);
+
+// Функция для изменения регистра слов
+function toggleCase(text) {
+  // Разделяем текст на массив слов
+  const words = text.split(" ");
+
+  // Меняем регистр каждого слова
+  const toggledWords = words.map((word, index) => {
+    // Если это первое слово, делаем первую букву заглавной
+    if (index === 0) {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    } else {
+      return word.toLowerCase(); // Делаем остальные слова строчными
+    }
+  });
+
+  // Соединяем массив слов обратно в строку
+  return toggledWords.join(" ");
+}
+
+// Функция для изменения регистра первой буквы слова на заглавную
+function capitalizeFirstLetter(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
