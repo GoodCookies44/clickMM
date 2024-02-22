@@ -4,13 +4,13 @@ chrome.sidePanel.setPanelBehavior({openPanelOnActionClick: true});
 chrome.runtime.onInstalled.addListener(function () {
   chrome.contextMenus.create({
     id: "toggleCase",
-    title: "Toggle Case",
+    title: "Первое слово с заглавной буквы",
     contexts: ["selection"],
   });
 
   chrome.contextMenus.create({
     id: "lowerCase",
-    title: "Lower Case",
+    title: "Все слова строчными",
     contexts: ["selection"],
   });
 });
