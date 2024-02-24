@@ -43,15 +43,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 });
 
-// Обработчик горячих клавиш
-document.addEventListener("keydown", function (event) {
-  if (event.altKey && event.key === "a") {
-    chrome.runtime.sendMessage({action: "toggleCase"});
-  } else if (event.altKey && event.key === "s") {
-    chrome.runtime.sendMessage({action: "lowerCase"});
-  }
-});
-
+//Отображение разрешения фото при наведении на него
 // Функция для создания элемента, который будет содержать информацию о размере и разрешении изображения
 function createTooltipElement() {
   const tooltip = document.createElement("div");
@@ -64,46 +56,50 @@ function createTooltipElement() {
   return tooltip;
 }
 
-// Функция для обработки события наведения на изображение
-function handleImageHover(event) {
-  const img = event.target;
-  const tooltip = createTooltipElement();
+// Функция для обновления содержимого окна с разрешением
+async function updateTooltipContent(tooltip, imgSrc, event) {
+  const img = new Image();
+  img.src = imgSrc;
+  await img.decode(); // Дожидаемся загрузки изображения
+
   tooltip.textContent = `Size: ${img.naturalWidth}x${img.naturalHeight}`;
   tooltip.style.position = "absolute";
   tooltip.style.top = `${event.pageY}px`;
 
   // Устанавливаем left так, чтобы всплывающее окно было справа от курсора
-  const offsetX = 15; // Можете изменить значение смещения по вашему усмотрению
+  const offsetX = 15;
   tooltip.style.left = `${event.pageX + offsetX}px`;
 
-  document.body.appendChild(tooltip);
-
-  // Обработчик для скрытия информации при перемещении курсора с изображения
-  const mouseMoveHandler = (event) => {
-    tooltip.style.top = `${event.pageY}px`;
-    tooltip.style.left = `${event.pageX + offsetX}px`;
-  };
-
-  // Обработчик для скрытия информации при уходе курсора с изображения
-  const mouseOutHandler = () => {
-    document.body.removeChild(tooltip);
-    img.removeEventListener("mousemove", mouseMoveHandler);
-    img.removeEventListener("mouseout", mouseOutHandler);
-  };
-
-  img.addEventListener("mousemove", mouseMoveHandler);
-  img.addEventListener("mouseout", mouseOutHandler);
-}
-
-// Обработчик события для проверки нажатия клавиши Alt при движении мыши над изображением
-function handleMouseMove(event) {
-  if (event.altKey) {
-    handleImageHover(event);
+  if (!tooltip.parentNode) {
+    document.body.appendChild(tooltip);
   }
 }
 
-// Находим все изображения на странице и добавляем обработчик события наведения на них
-const images = document.getElementsByTagName("img");
-for (let i = 0; i < images.length; i++) {
-  images[i].addEventListener("mousemove", handleMouseMove);
+// Функция для обработки события наведения на элементы
+function handleHoverWithAlt(event) {
+  if (!event.altKey) {
+    if (tooltip.parentNode) {
+      document.body.removeChild(tooltip);
+    }
+    return;
+  }
+
+  const elementsMouseIsOver = document.elementsFromPoint(event.clientX, event.clientY);
+
+  const imgElement = elementsMouseIsOver.find((element) => element.tagName === "IMG");
+
+  if (imgElement) {
+    const imgSrc = imgElement.src;
+    updateTooltipContent(tooltip, imgSrc, event);
+  } else {
+    if (tooltip.parentNode) {
+      document.body.removeChild(tooltip);
+    }
+  }
 }
+
+// Создаем одно окно для отображения разрешения изображения
+const tooltip = createTooltipElement();
+
+// Добавляем обработчик события наведения мыши на страницу
+document.addEventListener("mousemove", handleHoverWithAlt);
