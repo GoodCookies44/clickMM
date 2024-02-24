@@ -23,7 +23,28 @@
     "48": "./images/icon_48.png",
     "128": "./images/icon_128.png"
   },
-  "permissions": ["sidePanel", "storage", "activeTab", "contextMenus"],
+  "permissions": ["sidePanel", "contextMenus", "storage", "tabs", "declarativeContent", "scripting", "commands"],
+  
+  "commands": {
+    "toggleCaseCommand": {
+      "suggested_key": {
+        "default": "Alt+X"
+      },
+      "description": "Переключить регистр первого слова"
+    },
+    "capitalizeWordsCommand": {
+      "suggested_key": {
+        "default": "Alt+C"
+      },
+      "description": "Первая буква каждого слова заглавная"
+    },
+    "lowerCaseCommand": {
+      "suggested_key": {
+        "default": "Alt+V"
+      },
+      "description": "Все слова строчными"
+    }
+  },
   
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';",

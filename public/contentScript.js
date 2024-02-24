@@ -12,6 +12,9 @@ function changeCase(type) {
         case "lower":
           selectedText = selectedText.toLowerCase();
           break;
+        case "capitalize":
+          selectedText = capitalizeWords(selectedText);
+          break;
         default:
           break;
       }
@@ -34,16 +37,26 @@ function toggleCase(text) {
   return toggledWords.join(" ");
 }
 
+// Функция для приведения первой буквы каждого слова к заглавной
+function capitalizeWords(text) {
+  const words = text.split(" ");
+  const capitalizedWords = words.map((word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  });
+  return capitalizedWords.join(" ");
+}
+
 // Обработчик сообщений от фонового скрипта
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "toggleCase") {
     changeCase("toggle");
   } else if (request.action === "lowerCase") {
     changeCase("lower");
+  } else if (request.action === "capitalizeWords") {
+    changeCase("capitalize");
   }
 });
 
-//Отображение разрешения фото при наведении на него
 // Функция для создания элемента, который будет содержать информацию о размере и разрешении изображения
 function createTooltipElement() {
   const tooltip = document.createElement("div");
