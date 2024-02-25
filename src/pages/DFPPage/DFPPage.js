@@ -2,6 +2,7 @@ import React from "react";
 // Компоненты
 import Counter from "../../components/Counter/Counter";
 import ListItem from "../../components/ListItem/ListItem";
+import ResetCountersButton from "../../components/ResetCountersButton/ResetCountersButton";
 // Стили
 import "./DFPPage.css";
 
@@ -9,18 +10,21 @@ export default function DFPPage() {
   return (
     <div>
       <section className="counter__section DFP">
-        <div className="container__FP">
-          Запросы
-          <Counter id="DFP_request" />
-        </div>
-        <div className="bottom_container">
-          <div className="container__FP ">
-            Принято
-            <Counter id="DFP_accepted" targetIds={["DFP_request"]} />
-          </div>
+        <ResetCountersButton counterIds={["DFP_request", "DFP_accepted", "DFP_rejected"]} />
+        <div className="counters__container DFP">
           <div className="container__FP">
-            Отклонено
-            <Counter id="DFP_rejected" targetIds={["DFP_request"]} />
+            Запросы
+            <Counter id="DFP_request" />
+          </div>
+          <div className="bottom_container">
+            <div className="container__FP ">
+              Принято
+              <Counter id="DFP_accepted" targetIds={["DFP_request"]} />
+            </div>
+            <div className="container__FP">
+              Отклонено
+              <Counter id="DFP_rejected" targetIds={["DFP_request"]} />
+            </div>
           </div>
         </div>
       </section>

@@ -1,4 +1,4 @@
-.counter__section{
+.counter__section .FP{
   display: flex;
   flex-wrap: wrap;
 }

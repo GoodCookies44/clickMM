@@ -2,6 +2,7 @@
 import React from "react";
 // Компоненты
 import Counter from "../../components/Counter/Counter.js";
+import ResetCountersButton from "../../components/ResetCountersButton/ResetCountersButton.js";
 // Стили
 import "./MKTPage.css";
 
@@ -9,7 +10,27 @@ export default function MKTPage() {
   return (
     <>
       <section className="counter__section">
-        <Counter id="MKT" />
+        <ResetCountersButton
+          counterIds={[
+            "MKT",
+            "MKT_Sum",
+            "MKT1",
+            "MKT2",
+            "MKT3",
+            "MKT4",
+            "MKT5",
+            "MKT6",
+            "MKT7",
+            "MKT8",
+            "MKT9",
+            "MKT10",
+            "MKT11",
+            "MKT12",
+          ]}
+        />
+        <div className="counters__container">
+          <Counter id="MKT" />
+        </div>
       </section>
       <section className="list__section">
         <p>Причины блокировки МКТ:</p>

@@ -3,32 +3,38 @@ import React from "react";
 // Компоненты
 import Counter from "../../components/Counter/Counter";
 import ListItem from "../../components/ListItem/ListItem";
+import ResetCountersButton from "../../components/ResetCountersButton/ResetCountersButton";
 // Стили
 import "./MFPPage.css";
 
 export default function MFPPage() {
   return (
     <div>
-      <section className="counter__section">
-        <div className="container__FP">
-          Запросы
-          <Counter id="MFP_request" />
-        </div>
-        <div className="container__FP">
-          ШК
-          <Counter id="MFP_SHK" />
-        </div>
-        <div className="container__FP">
-          Принято
-          <Counter id="MFP_accepted" targetIds={["MFP_SHK"]} />
-        </div>
-        <div className="container__FP">
-          Отклонено
-          <Counter id="MFP_rejected" targetIds={["MFP_SHK"]} />
-        </div>
-        <div className="container__FP">
-          На доработку
-          <Counter id="MFP_revision" targetIds={["MFP_SHK"]} />
+      <section className="counter__section FP">
+        <ResetCountersButton
+          counterIds={["MFP_request", "MFP_SHK", "MFP_accepted", "MFP_rejected", "MFP_revision"]}
+        />
+        <div className="counters__container">
+          <div className="container__FP">
+            Запросы
+            <Counter id="MFP_request" />
+          </div>
+          <div className="container__FP">
+            ШК
+            <Counter id="MFP_SHK" />
+          </div>
+          <div className="container__FP">
+            Принято
+            <Counter id="MFP_accepted" targetIds={["MFP_SHK"]} />
+          </div>
+          <div className="container__FP">
+            Отклонено
+            <Counter id="MFP_rejected" targetIds={["MFP_SHK"]} />
+          </div>
+          <div className="container__FP">
+            На доработку
+            <Counter id="MFP_revision" targetIds={["MFP_SHK"]} />
+          </div>
         </div>
       </section>
       <section className="list__section">

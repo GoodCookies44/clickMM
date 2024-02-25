@@ -23,13 +23,21 @@ export const CounterProvider = ({children}) => {
     });
   };
 
+  // Функция для сброса значений счетчиков по списку идентификаторов
+  const resetCounters = (ids) => {
+    // Сброс значений для счетчиков, чьи идентификаторы переданы в списке ids
+    setCounters((prevCounters) =>
+      prevCounters.map((counter) => (ids.includes(counter.id) ? {...counter, value: 0} : counter))
+    );
+  };
+
   // Сохраняем данные в локальное хранилище при изменении counters
   useEffect(() => {
     localStorage.setItem("counters", JSON.stringify(counters));
   }, [counters]);
 
   return (
-    <CounterContext.Provider value={{counters, addCounterId, updateCounterValue}}>
+    <CounterContext.Provider value={{counters, addCounterId, updateCounterValue, resetCounters}}>
       {children}
     </CounterContext.Provider>
   );

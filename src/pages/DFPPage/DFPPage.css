@@ -1,7 +1,11 @@
-.counter__section.DFP{
+.counter__section .DFP{
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+}
+
+.counters__container .DFP{
   justify-content: center;
 }
 
