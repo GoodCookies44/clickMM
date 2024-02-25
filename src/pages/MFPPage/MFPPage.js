@@ -34,6 +34,7 @@ export default function MFPPage() {
       <section className="list__section">
         <p>Причины отказа:</p>
         <ul>
+          <ListItem text={"Уже стоит отметка о студийных фотографиях"} />
           <ListItem text={"Причина 1: Мало фотографий"} />
           <ListItem text={"Причина 2: Фото не студийное"} />
           <ListItem text={"Причина 3: На фото есть инфографика"} />
@@ -44,7 +45,6 @@ export default function MFPPage() {
           <ListItem text={"Причина 8: Исходников нет или они не соответствуют требованиям"} />
           <ListItem text={"Причина 9: Нарушены требования к внешнему виду моделей"} />
           <ListItem text={"Причина 10: На фото есть лишний реквизит"} />
-          <ListItem text={"Уже стоит отметка о студийных фотографиях"} />
         </ul>
       </section>
     </div>
