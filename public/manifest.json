@@ -28,19 +28,19 @@
   "commands": {
     "toggleCaseCommand": {
       "suggested_key": {
-        "default": "Alt+X"
+        "default": "Alt+Z"
       },
       "description": "Переключить регистр первого слова"
     },
     "capitalizeWordsCommand": {
       "suggested_key": {
-        "default": "Alt+C"
+        "default": "Alt+X"
       },
       "description": "Первая буква каждого слова заглавная"
     },
     "lowerCaseCommand": {
       "suggested_key": {
-        "default": "Alt+V"
+        "default": "Alt+C"
       },
       "description": "Все слова строчными"
     }

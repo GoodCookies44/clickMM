@@ -43,7 +43,7 @@ export default function ReportPage() {
       ],
       pp_group: [{text: "**Модерация платного продвижения:**", id: "PP", addEmptyLineBefore: true}],
       mfp_group: [
-        {text: "**Модерация фото продавцов:**", id: "", addEmptyLineBefore: true},
+        {text: "**Модерация фото продавцов:**", id: ""},
         {text: "Проверено запросов:", id: "MFP_request"},
         {text: "Проверено ШК:", id: "MFP_SHK"},
         {text: "Из них принято:", id: "MFP_accepted"},
@@ -103,7 +103,7 @@ export default function ReportPage() {
         if (hasNonZeroValue) {
           // Для группы mfp_group добавляем строку "Модерация фото продавцов"
           if (groupKey === "mfp_group") {
-            reportText += "**Модерация фото продавцов:**\n";
+            reportText += "\n**Модерация фото продавцов:**\n";
           }
 
           group.forEach((item) => {
