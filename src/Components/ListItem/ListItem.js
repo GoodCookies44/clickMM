@@ -19,7 +19,7 @@ const ListItem = ({text}) => {
   };
 
   return (
-    <li>
+    <div className="list__container">
       <span>{text}</span>
       <div className="copy__button" onClick={handleCopyText}>
         <svg
@@ -35,7 +35,7 @@ const ListItem = ({text}) => {
           />
         </svg>
       </div>
-    </li>
+    </div>
   );
 };
 

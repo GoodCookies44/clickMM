@@ -1,30 +1,41 @@
-ul{
-  margin:0 1em 0 0 0;
+.FP ul{
+  margin: .4em 0;
   padding: 0;
   
   list-style-type: none;
   
-  font-size: 1.3em;
+  font-size: 1.5em;
 }
 
-li{
-  margin: .3em 0;
+.FP span{
+  text-shadow: 5px 5px 10px #00000080;
+}
+
+.FP .list__container{
+  width: 100%;
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  border-bottom: 2px solid transparent;
+  
+  transition: border-bottom 0.5s ease;
+}
+
+.FP .list__container:hover {
+  border-bottom: 2px solid #707070; 
 }
 
 .copy__button{
-  width: 1.5em;
-  height: 1em;
-  
-  margin: .4em;
   padding: .2em;
   
   border-radius: .6em;
   background: #474747;
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.50);
   
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
   
   transition: linear 0.5s;
 }
@@ -40,11 +51,7 @@ li{
   transform: scale(0.80);
 }
 
-svg{
-  height: 24px;
-  width: 24px;
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.copy__button svg{
+  height: 20px;
+  width: 20px;
 }

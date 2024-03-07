@@ -17,7 +17,7 @@ export default function Header() {
         {to: "/DFP", label: "ДФП", active: false},
         {to: "/KP", label: "КП", active: false},
         {to: "/BP", label: "БП", active: false},
-        {to: "/UsefulLinks", label: "Ссылки", active: false},
+        {to: "/UsefulList", label: "Ссылки", active: false},
       ]
     );
   });

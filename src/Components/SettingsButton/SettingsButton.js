@@ -7,7 +7,6 @@ import ResetCountersButton from "../ResetCountersButton/ResetCountersButton";
 import {CounterContext} from "../Context/CounterContext";
 // Стили
 import "./SettingsButton.css";
-import UsefulLinks from "../UsefulLinks/UsefulLinks";
 
 export default function SettingsButton({updateTabs, activeLinks}) {
   const {counters} = useContext(CounterContext);
@@ -15,7 +14,6 @@ export default function SettingsButton({updateTabs, activeLinks}) {
   const allCounterIds = counters.map((counter) => counter.id);
   const [isListOpen, setIsListOpen] = useState({
     activeTabs: false,
-    usefulLinks: false,
   });
   const openModal = () => {
     setModalIsOpen(true);
@@ -123,23 +121,6 @@ export default function SettingsButton({updateTabs, activeLinks}) {
               </li>
             ))}
           </ul>
-        </div>
-        <div className="paragraph__container">
-          <h3 onClick={() => toggleList("usefulLinks")}>
-            Полезные ссылки
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`arrow-icon ${isListOpen.usefulLinks ? "open" : ""}`}
-              width="8"
-              height="14"
-              viewBox="0 0 8 14"
-              strokeWidth="2"
-              fill="none"
-            >
-              <path d="M7 1L1 7L7 13" stroke="#F6F6F6" />
-            </svg>
-          </h3>
-          {isListOpen.usefulLinks && <UsefulLinks />}
         </div>
       </Modal>
     </>
