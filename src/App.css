@@ -5,16 +5,20 @@
 
 body, header {
   
-    box-sizing: border-box;
-    width: 100vw;
-    
-    margin: 0;
-    padding: 0;
-    
-    font-family: "Comfortaa", sans-serif;
-    font-size: 20px;
-      
-    background-color: #474747;    
+  box-sizing: border-box;
+  width: 100vw;
+
+  margin: 0;
+  padding: 0;
+
+  font-family: "Comfortaa", sans-serif;
+  font-size: 20px;
+
+  background-color: #474747;    
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 section{
@@ -27,7 +31,7 @@ button{
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  /* Дополнительные стили, если нужно */
+  
   border: none;
   background: none;
   padding: 0;
@@ -59,13 +63,6 @@ pre{
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-}
-
-.reset__button_container{
-  margin-right: 1em;
-  
-  display: flex;
-  justify-content:flex-end
 }
 
 .list__section{
@@ -108,3 +105,20 @@ pre{
   text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.50);
 }
 
+svg{
+  height: 30px;
+  width: 30px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h2, h3{
+  margin: 0;
+  padding: 0;
+  
+  cursor: default;
+  
+  text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.50)
+}

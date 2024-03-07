@@ -9,6 +9,7 @@ import MFPPage from "./pages/MFPPage/MFPPage.js";
 import DFPPage from "./pages/DFPPage/DFPPage.js";
 import KPPage from "./pages/KPPage/KPPage.js";
 import BPPage from "./pages/BPPage/BPPage.js";
+import UsefulLinks from "./components/UsefulLinks/UsefulLinks.js";
 import ReportPage from "./pages/ReportPage/ReportPage.js";
 import {CounterProvider} from "./components/Context/CounterContext.js";
 // Стили
@@ -24,6 +25,7 @@ export default function App() {
         <Route path={"/DFP"} element={<DFPPage />} />
         <Route path={"/KP"} element={<KPPage />} />
         <Route path={"/BP"} element={<BPPage />} />
+        <Route path={"/UsefulLinks"} element={<UsefulLinks />} />
         <Route path={"/Report"} element={<ReportPage />} />
       </Route>
     </Routes>
@@ -33,12 +35,12 @@ export default function App() {
 function Layout() {
   return (
     <div className="App">
-      <Header />
-      <main>
-        <CounterProvider>
+      <CounterProvider>
+        <Header />
+        <main>
           <Outlet />
-        </CounterProvider>
-      </main>
+        </main>
+      </CounterProvider>
     </div>
   );
 }

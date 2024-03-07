@@ -26,16 +26,16 @@
   
   display: flex;
   justify-content: space-around;
-  gap: 1em;
+  gap: .5em;
 }
 
 .counter__button{
-  width: 2.5em;
-  height: 2em;
+  width: 5.5em;
+  height: 4em;
   
   padding: .2em;
   
-  border-radius: 1em;
+  border-radius: 2em;
   background: #474747;
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.50);
   
@@ -44,6 +44,14 @@
   justify-content: center;
   
   transition: linear 0.5s;
+}
+
+.FP .counter__button,
+.DFP .counter__button {
+  width: 3.5em;
+  height: 3em;
+  
+  border-radius: 1.2em;
 }
 
 .counter__button:hover {
@@ -57,11 +65,12 @@
   transform: scale(0.90);
 }
 
-svg{
-  height: 24px;
-  width: 24px;
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.rotate {
+  animation: rotateIcon 1s forwards; /* Применяем анимацию и оставляем ее состояние после завершения */
+}
+
+@keyframes rotateIcon {
+  100% {
+    transform: rotate(-360deg); /* Поворачиваем на 360 градусов */
+  }
 }
