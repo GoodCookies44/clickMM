@@ -12,39 +12,38 @@ export default function UsefulList() {
         <h3>Пароль Wi-fi:</h3>
         <ListItem text="Kaz334SS" />
 
-        <h2>-//- // Аккаунты // -//-</h2>
-
-        <li>
-          <h3>
-            <a
-              href="https://admin.kznexpress.ru/"
-              target="_blank"
-              rel="nofollow noopenner noreferrer"
-            >
-              Админка
-            </a>
-          </h3>
-        </li>
-
-        <li>
-          <h3>
-            <a
-              href="https://trello.com/b/XvvyLFmB/%D0%BC%D0%BE%D0%B4%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BE%D0%BA%D0%BA"
-              target="_blank"
-              rel="nofollow noopenner noreferrer"
-            >
-              Trelo
-            </a>
-          </h3>
-          <h4>
-            Логин: <ListItem text="marketmoderationdepartment@gmail.com" />
-          </h4>
-          <h4>
-            Пароль: <ListItem text="3aNY-Yc5yj" />
-          </h4>
-        </li>
-
-        <h2>-//- // Инструкции // -//-</h2>
+        <h2>Аккаунты</h2>
+        <div className="li__container">
+          <li>
+            <h3>
+              <a
+                href="https://admin.kznexpress.ru/"
+                target="_blank"
+                rel="nofollow noopenner noreferrer"
+              >
+                Админка
+              </a>
+            </h3>
+          </li>
+          <li>
+            <h3>
+              <a
+                href="https://trello.com/b/XvvyLFmB/%D0%BC%D0%BE%D0%B4%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BE%D0%BA%D0%BA"
+                target="_blank"
+                rel="nofollow noopenner noreferrer"
+              >
+                Trelo
+              </a>
+            </h3>
+            <h4>
+              Логин: <ListItem text="marketmoderationdepartment@gmail.com" />
+            </h4>
+            <h4>
+              Пароль: <ListItem text="3aNY-Yc5yj" />
+            </h4>
+          </li>
+        </div>
+        <h2>Инструкции</h2>
 
         <li>
           <h3>
@@ -112,7 +111,7 @@ export default function UsefulList() {
           </h3>
         </li>
 
-        <h2>-//- // Графики // -//-</h2>
+        <h2>Графики</h2>
 
         <li>
           <h3>
@@ -138,7 +137,7 @@ export default function UsefulList() {
           </h3>
         </li>
 
-        <h2>-//- // Рабочие таблицы // -//-</h2>
+        <h2>Рабочие таблицы</h2>
 
         <li>
           <h3>
@@ -200,7 +199,7 @@ export default function UsefulList() {
           </h3>
         </li>
 
-        <h2>-//-// Формы //-//-</h2>
+        <h2>Формы</h2>
 
         <li>
           <h3>

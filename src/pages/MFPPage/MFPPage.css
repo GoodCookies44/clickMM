@@ -3,5 +3,7 @@
   flex-wrap: wrap;
 }
 
-
+.FP li{
+  margin: .4em 0;
+}
 

@@ -2,7 +2,7 @@
 margin: 4em .5em .5em;
 
   color: #F6F6F6; 
-}
+  }
 
 @keyframes blink {
   0% { opacity: .2; }
@@ -42,6 +42,9 @@ margin: 4em .5em .5em;
 }
 
 .useful__list h2{
+  display: flex;
+  justify-content: center;
+  
   margin: .8em 0 .2em;
   
   color: #EAC56B;
