@@ -101,7 +101,7 @@ export default function UsefulList() {
         <li>
           <h3>
             <a
-              href=" https://docs.google.com/spreadsheets/d/1MOJnhVjanqt3ha5y20QwwMuCNEtRK4Gb9Y2O6u_OoLc/edit#gid=0"
+              href="https://business.kazanexpress.ru/manual/photo-moderation/#_1-%D0%BC%D0%B0%D0%BB%D0%BE-%D1%84%D0%BE%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%B8"
               target="_blank"
               rel="nofollow noopenner noreferrer"
             >
