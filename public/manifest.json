@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Click KE",
-  "version": "1.05",
+  "version": "1.06",
   
   "background": {
     "service_worker": "background.js"
@@ -45,6 +45,12 @@
         "default": "Alt+C"
       },
       "description": "Все слова строчными"
+    },
+    "addQuotesCommand": {
+      "suggested_key": {
+        "default": "Alt+2"
+      },
+      "description": "Добавить кавычки"
     }
   },
   

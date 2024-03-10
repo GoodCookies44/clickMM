@@ -15,6 +15,9 @@ function changeCase(type) {
         case "capitalize":
           selectedText = capitalizeWords(selectedText);
           break;
+        case "addQuotes":
+          selectedText = addQuotes(selectedText);
+          break;
         default:
           break;
       }
@@ -46,6 +49,13 @@ function capitalizeWords(text) {
   return capitalizedWords.join(" ");
 }
 
+// Функция для добавления кавычек в начале и конце выделенного текста
+function addQuotes(text) {
+  text = text.trim();
+  text = `"${text}"`;
+  return text;
+}
+
 // Обработчик сообщений от фонового скрипта
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "toggleCase") {
@@ -54,6 +64,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     changeCase("lower");
   } else if (request.action === "capitalizeWords") {
     changeCase("capitalize");
+  } else if (request.action === "addQuotes") {
+    changeCase("addQuotes");
   }
 });
 

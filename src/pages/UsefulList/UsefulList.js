@@ -13,36 +13,35 @@ export default function UsefulList() {
         <ListItem text="Kaz334SS" />
 
         <h2>Аккаунты</h2>
-        <div className="li__container">
-          <li>
-            <h3>
-              <a
-                href="https://admin.kznexpress.ru/"
-                target="_blank"
-                rel="nofollow noopenner noreferrer"
-              >
-                Админка
-              </a>
-            </h3>
-          </li>
-          <li>
-            <h3>
-              <a
-                href="https://trello.com/b/XvvyLFmB/%D0%BC%D0%BE%D0%B4%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BE%D0%BA%D0%BA"
-                target="_blank"
-                rel="nofollow noopenner noreferrer"
-              >
-                Trelo
-              </a>
-            </h3>
-            <h4>
-              Логин: <ListItem text="marketmoderationdepartment@gmail.com" />
-            </h4>
-            <h4>
-              Пароль: <ListItem text="3aNY-Yc5yj" />
-            </h4>
-          </li>
-        </div>
+        <li>
+          <h3>
+            <a
+              href="https://admin.kznexpress.ru/"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Админка
+            </a>
+          </h3>
+        </li>
+        <li>
+          <h3>
+            <a
+              href="https://trello.com/b/OMWvPtZB/%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81-%D0%BC%D0%BE%D0%B4%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Trelo
+            </a>
+          </h3>
+          <h4>
+            Логин: <ListItem text="marketmoderationdepartment@gmail.com" />
+          </h4>
+          <h4>
+            Пароль: <ListItem text="3aNY-Yc5yj" />
+          </h4>
+        </li>
+
         <h2>Инструкции</h2>
 
         <li>
@@ -70,7 +69,7 @@ export default function UsefulList() {
               target="_blank"
               rel="nofollow noopenner noreferrer"
             >
-              KazanExpress Business
+              Запрещённые к продаже товары (KazanExpress Business)
             </a>
           </h3>
         </li>
@@ -106,7 +105,7 @@ export default function UsefulList() {
               target="_blank"
               rel="nofollow noopenner noreferrer"
             >
-              Таблица изменений для МФП
+              Критерии фотографий
             </a>
           </h3>
         </li>
@@ -208,7 +207,33 @@ export default function UsefulList() {
               target="_blank"
               rel="nofollow noopenner noreferrer"
             >
-              Запрос на модерацию фото(МФП №1)
+              Запрос на модерацию фото (МФП №1)
+            </a>
+          </h3>
+        </li>
+
+        <h2>Прочее</h2>
+
+        <li>
+          <h3>
+            <a
+              href="https://www.devicespecifications.com/ru"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Сайт для поиска размеров экрана телефонов
+            </a>
+          </h3>
+        </li>
+
+        <li>
+          <h3>
+            <a
+              href="https://get-color.ru/image/"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Пипетка
             </a>
           </h3>
         </li>

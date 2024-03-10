@@ -31,6 +31,9 @@ export default function Counter({id, targetIds}) {
     }
   }, [counter]);
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedValue, setEditedValue] = useState("");
+
   // Функция для увеличения значения счетчика
   const increment = () => {
     const newCount = count + 1;
@@ -76,10 +79,40 @@ export default function Counter({id, targetIds}) {
     setTimeout(() => setIsRotated(false), 1000);
   };
 
-  // Визуализация компонента
+  const handleDoubleClick = () => {
+    setIsEditing(true);
+    setEditedValue(count.toString());
+  };
+
+  const handleEditChange = (event) => {
+    setEditedValue(event.target.value);
+  };
+
+  const handleEditBlur = () => {
+    setIsEditing(false);
+    const newValue = parseInt(editedValue);
+    if (!isNaN(newValue)) {
+      setCount(newValue);
+      updateCounterValue(id, newValue);
+    }
+  };
+
   return (
     <div className="counter__container">
-      <div className="counter_value">{count}</div>
+      <div className="counter_value" onDoubleClick={handleDoubleClick}>
+        {isEditing ? (
+          <input
+            type="text"
+            value={editedValue}
+            onChange={handleEditChange}
+            onBlur={handleEditBlur}
+            autoFocus
+            className="custom-input"
+          />
+        ) : (
+          count
+        )}
+      </div>{" "}
       <div className="button__container">
         <button onClick={increment} className="counter__button">
           {/* Иконка Плюс */}

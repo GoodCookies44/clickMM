@@ -1,15 +1,23 @@
 // Модули
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {CounterContext} from "../../components/Context/CounterContext";
 //Стили
 import "./ReportPage.css";
 
 export default function ReportPage() {
   const {counters} = useContext(CounterContext); // Подставьте ваш контекст с данными
-  const [name, setName] = useState("");
+  const [name, setName] = useState(localStorage.getItem("username") || "");
   const [isNameEntered, setIsNameEntered] = useState(false);
   const [report, setReport] = useState("");
   const currentDate = new Date().toLocaleDateString();
+
+  useEffect(() => {
+    setIsNameEntered(name.trim() !== "");
+  }, [name]);
+
+  useEffect(() => {
+    localStorage.setItem("username", name);
+  }, [name]);
 
   const handleNameChange = (event) => {
     const enteredName = event.target.value;
