@@ -1,29 +1,41 @@
 chrome.sidePanel.setPanelBehavior({openPanelOnActionClick: true});
-// Создаем контекстное меню
+
+let contextMenuCreated = false;
+
+// Создаем контекстное меню при установке расширения
 chrome.runtime.onInstalled.addListener(function () {
-  chrome.contextMenus.create({
-    id: "toggleCase",
-    title: "Первое слово с заглавной буквы (Alt+Z)",
-    contexts: ["selection"],
-  });
+  if (!contextMenuCreated) {
+    chrome.contextMenus.create({
+      id: "toggleCase",
+      title: "Первое слово с заглавной буквы (Alt+Z)",
+      contexts: ["selection"],
+    });
 
-  chrome.contextMenus.create({
-    id: "capitalizeWords",
-    title: "Первая буква каждого слова заглавная (Alt+X)",
-    contexts: ["selection"],
-  });
+    chrome.contextMenus.create({
+      id: "capitalizeWords",
+      title: "Первая буква каждого слова заглавная (Alt+X)",
+      contexts: ["selection"],
+    });
 
-  chrome.contextMenus.create({
-    id: "lowerCase",
-    title: "Все слова строчными (Alt+C)",
-    contexts: ["selection"],
-  });
+    chrome.contextMenus.create({
+      id: "lowerCase",
+      title: "Все слова строчными (Alt+C)",
+      contexts: ["selection"],
+    });
 
-  chrome.contextMenus.create({
-    id: "addQuotes",
-    title: "Добавить кавычки (Alt+2)",
-    contexts: ["selection"],
-  });
+    chrome.contextMenus.create({
+      id: "addQuotes",
+      title: "Добавить кавычки (Alt+2)",
+      contexts: ["selection"],
+    });
+
+    chrome.contextMenus.create({
+      id: "downloadAllImages",
+      title: "Загрузить все изображения",
+      contexts: ["page"],
+    });
+    contextMenuCreated = true;
+  }
 });
 
 // Добавляем обработчик горячих клавиш
@@ -64,8 +76,21 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     case "addQuotes":
       sendMessageToTab({action: "addQuotes"});
       break;
+    case "downloadAllImages":
+      sendMessageToTab({action: "downloadAllImages"});
+      break;
     default:
       break;
+  }
+});
+
+//Функция скачивания фото и изменнеия их названия
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === "downloadImage") {
+    const imageUrl = request.imageUrl;
+    const count = request.count;
+    const filename = count + ".jpg";
+    chrome.downloads.download({url: imageUrl, filename: filename}, function (downloadId) {});
   }
 });
 

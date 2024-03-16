@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Click KE",
-  "version": "1.06",
+  "version": "1.07",
   
   "background": {
     "service_worker": "background.js"
@@ -25,7 +25,7 @@
     "128": "./images/icon_128.png"
   },
   
-  "permissions": ["sidePanel", "contextMenus", "storage", "tabs", "declarativeContent", "scripting", "commands"],
+  "permissions": ["sidePanel", "contextMenus", "storage", "tabs", "declarativeContent", "scripting", "commands", "downloads"],
   
   "commands": {
     "toggleCaseCommand": {

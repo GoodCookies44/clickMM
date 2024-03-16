@@ -56,6 +56,28 @@ function addQuotes(text) {
   return text;
 }
 
+//Функция скачивания фото 1 кнопкой
+let downloadedImages = new Set();
+let imageCount = 1;
+
+function downloadAllImages() {
+  const images = document.querySelectorAll(".image-table img, .Images a, .js-attachment-list a");
+  images.forEach((image) => {
+    const imageUrl = image.href || image.src; // Проверяем, есть ли ссылка в href, иначе используем src
+    if (!downloadedImages.has(imageUrl)) {
+      chrome.runtime.sendMessage({action: "downloadImage", imageUrl: imageUrl, count: imageCount});
+      downloadedImages.add(imageUrl);
+      imageCount++;
+    }
+  });
+}
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === "downloadAllImages") {
+    downloadAllImages();
+  }
+});
+
 // Обработчик сообщений от фонового скрипта
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "toggleCase") {
@@ -66,6 +88,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     changeCase("capitalize");
   } else if (request.action === "addQuotes") {
     changeCase("addQuotes");
+  } else if (request.action === "downloadAllImages") {
+    downloadAllImages();
   }
 });
 
