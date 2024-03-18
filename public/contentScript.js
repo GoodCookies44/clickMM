@@ -57,19 +57,24 @@ function addQuotes(text) {
 }
 
 //Функция скачивания фото 1 кнопкой
-let downloadedImages = new Set();
-let imageCount = 1;
+function isValidImageUrl(url) {
+  // Проверяем расширение файла для изображений
+  const validExtensions = [".jpg", ".jpeg", ".png"];
+  return validExtensions.some((ext) => url.toLowerCase().endsWith(ext));
+}
 
 function downloadAllImages() {
   const images = document.querySelectorAll(".image-table img, .Images a, .js-attachment-list a");
+  const uniqueImages = new Set();
+
   images.forEach((image) => {
-    const imageUrl = image.href || image.src; // Проверяем, есть ли ссылка в href, иначе используем src
-    if (!downloadedImages.has(imageUrl)) {
-      chrome.runtime.sendMessage({action: "downloadImage", imageUrl: imageUrl, count: imageCount});
-      downloadedImages.add(imageUrl);
-      imageCount++;
+    const imageUrl = image.href || image.src;
+    if (isValidImageUrl(imageUrl)) {
+      uniqueImages.add(imageUrl);
     }
   });
+
+  chrome.runtime.sendMessage({action: "downloadImages", images: Array.from(uniqueImages)});
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

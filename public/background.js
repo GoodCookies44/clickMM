@@ -85,12 +85,41 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 });
 
 //Функция скачивания фото и изменнеия их названия
+let downloadedImages = new Set();
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === "downloadImage") {
-    const imageUrl = request.imageUrl;
-    const count = request.count;
-    const filename = count + ".jpg";
-    chrome.downloads.download({url: imageUrl, filename: filename}, function (downloadId) {});
+  if (request.action === "downloadImages") {
+    const images = request.images;
+    const currentDate = new Date();
+    const formattedDate =
+      currentDate.getDate().toString().padStart(2, "0") +
+      "." +
+      (currentDate.getMonth() + 1).toString().padStart(2, "0") +
+      "_" +
+      currentDate.getHours().toString().padStart(2, "0") +
+      "." +
+      currentDate.getMinutes().toString().padStart(2, "0") +
+      "." +
+      currentDate.getSeconds().toString().padStart(2, "0");
+    const folderPath = formattedDate.replace(/[\/\\<>|?:*]/g, "-") + "/"; // Заменяем недопустимые символы на "-"
+
+    chrome.downloads.download(
+      {
+        url: "data:text/plain,", // Создаем заглушку для скачивания папки
+        filename: folderPath, // Создаем новую папку
+        conflictAction: "uniquify", // Уникальное имя папки, если такая уже существует
+        saveAs: false, // Не открывать диалоговое окно "Сохранить как"
+      },
+      function (downloadId) {
+        images.forEach((imageUrl, index) => {
+          if (!downloadedImages.has(imageUrl)) {
+            const filename = index + 1 + imageUrl.substring(imageUrl.lastIndexOf("."));
+            chrome.downloads.download({url: imageUrl, filename: folderPath + filename});
+            downloadedImages.add(imageUrl);
+          }
+        });
+      }
+    );
   }
 });
 
