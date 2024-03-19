@@ -1,9 +1,6 @@
-// Модули
 import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
-// Компоненты
 import SettingsButton from "../SettingsButton/SettingsButton";
-// Стили
 import "./Header.css";
 
 export default function Header() {
@@ -18,6 +15,7 @@ export default function Header() {
         {to: "/KP", label: "КП", active: false},
         {to: "/BP", label: "БП", active: false},
         {to: "/UsefulList", label: "Ссылки", active: false},
+        {to: "/Report", label: "Отчёт", active: false},
       ]
     );
   });
@@ -30,25 +28,43 @@ export default function Header() {
     setActiveLinks(updatedTabs);
   };
 
+  const handleLinkOrderChange = (dragIndex, hoverIndex) => {
+    const updatedLinks = [...activeLinks];
+    const draggedLink = updatedLinks[dragIndex];
+    updatedLinks.splice(dragIndex, 1);
+    updatedLinks.splice(hoverIndex, 0, draggedLink);
+    setActiveLinks(updatedLinks);
+  };
+
   return (
     <>
       <header>
         <nav>
-          {activeLinks.map((link) =>
+          {activeLinks.map((link, index) =>
             link.active ? (
-              <NavLink to={link.to} className={`link header__link`} key={link.to}>
+              <NavLink
+                to={link.to}
+                className={`link header__link`}
+                key={link.to}
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData("dragIndex", index);
+                }}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                }}
+                onDrop={(e) => {
+                  const dragIndex = parseInt(e.dataTransfer.getData("dragIndex"));
+                  const hoverIndex = index;
+                  handleLinkOrderChange(dragIndex, hoverIndex);
+                }}
+              >
                 {link.label}
               </NavLink>
             ) : null
           )}
-          <NavLink to="/Report" className={`link header__link`} key="/Report">
-            Отчёт
-          </NavLink>
         </nav>
-        <SettingsButton
-          updateTabs={updateTabs}
-          activeLinks={activeLinks.filter((link) => link.to !== "/Report")}
-        />
+        <SettingsButton updateTabs={updateTabs} activeLinks={activeLinks} />
       </header>
     </>
   );

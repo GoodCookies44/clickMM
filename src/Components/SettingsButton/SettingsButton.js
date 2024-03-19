@@ -86,38 +86,36 @@ export default function SettingsButton({updateTabs, activeLinks}) {
           <ul className={`slide-down ${isListOpen.activeTabs ? "open" : ""}`}>
             {activeLinks.map((link, index) => (
               <li key={link.to}>
-                {link.to !== "/Report" && (
-                  <label className="checkbox-label">
-                    <input
-                      type="checkbox"
-                      className="hidden-checkbox"
-                      checked={link.active}
-                      onChange={() => toggleActiveTabs(index)}
-                    />
-                    {link.label}
-                    <div className="custom-checkbox__container">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                        <path
-                          className="custom-checkbox"
-                          d="M1 15V5C1 2.79086 2.79086 1 5 1H15C17.2091 1 19 2.79086 19 5V15C19 17.2091 17.2091 19 15 19H5C2.79086 19 1 17.2091 1 15Z"
-                          stroke="#F6F6F6"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    className="hidden-checkbox"
+                    checked={link.active}
+                    onChange={() => toggleActiveTabs(index)}
+                  />
+                  {link.label}
+                  <div className="custom-checkbox__container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                      <path
+                        className="custom-checkbox"
+                        d="M1 15V5C1 2.79086 2.79086 1 5 1H15C17.2091 1 19 2.79086 19 5V15C19 17.2091 17.2091 19 15 19H5C2.79086 19 1 17.2091 1 15Z"
+                        stroke="#F6F6F6"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
 
-                        <path
-                          className="custom-marker"
-                          d="M3 10L9 16L18 4"
-                          stroke="#16ff65"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </label>
-                )}
+                      <path
+                        className="custom-marker"
+                        d="M3 10L9 16L18 4"
+                        stroke="#16ff65"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </label>
               </li>
             ))}
           </ul>
