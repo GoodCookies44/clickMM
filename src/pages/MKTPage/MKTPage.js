@@ -40,48 +40,60 @@ export default function MKTPage() {
 
         <ol>
           <li>
-            Описание в карточке не соответствует товару:{" "}
+            Описание в карточке не соответствует товару:
             <Counter id="MKT1" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            Пересорт: <Counter id="MKT2" targetIds={["MKT", "MKT_Sum"]} />
+            Пересорт:
+            <Counter id="MKT2" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            Фотография в карточке не соответствует товару:{" "}
+            Фотография в карточке не соответствует товару:
             <Counter id="MKT3" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            Подозрение на контрафакт: <Counter id="MKT4" targetIds={["MKT", "MKT_Sum"]} />
+            Подозрение на контрафакт:
+            <Counter id="MKT4" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            Запрещенный к продаже товар для самозанятых:{" "}
+            Отсутствие цензуры на контенте 18+:
             <Counter id="MKT5" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            Запрещенный к продаже товар: <Counter id="MKT6" targetIds={["MKT", "MKT_Sum"]} />
+            Запрещенный к продаже товар для самозанятых:
+            <Counter id="MKT6" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            Использование карточки для другого товара:{" "}
+            Запрещенный к продаже товар:
             <Counter id="MKT7" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            По запросу правообладателя товарного знака:{" "}
+            Изначально в карточке продавался другой товар:
             <Counter id="MKT8" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            Изображение упаковки не соответствует фактической:{" "}
+            По запросу правообладателя товарного знака:
             <Counter id="MKT9" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            Использование фотографий другого продавца:{" "}
+            Изображение упаковки не соответствует фактической:
             <Counter id="MKT10" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            По запросу контролирующих органов: <Counter id="MKT11" targetIds={["MKT", "MKT_Sum"]} />
+            Использование фотографий другого продавца:
+            <Counter id="MKT11" targetIds={["MKT", "MKT_Sum"]} />
           </li>
           <li>
-            По запросу контролирующих органов ФАС:{" "}
+            По запросу контролирующих органов:
             <Counter id="MKT12" targetIds={["MKT", "MKT_Sum"]} />
+          </li>
+          <li>
+            По запросу контролирующих органов ФАС:
+            <Counter id="MKT13" targetIds={["MKT", "MKT_Sum"]} />
+          </li>
+          <li>
+            Нарушена маркировка в системе «Честный знак». Не переданы QR коды в ЭДО:
+            <Counter id="MKT14" targetIds={["MKT", "MKT_Sum"]} />
           </li>
         </ol>
       </section>

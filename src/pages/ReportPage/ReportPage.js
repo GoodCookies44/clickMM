@@ -30,7 +30,7 @@ export default function ReportPage() {
       return;
     }
 
-    let reportText = `#отчет${name} ${currentDate}\n\n`;
+    let reportText = `#отчет${name} ${currentDate}\n`;
 
     const groups = {
       mkt_group: [
@@ -40,14 +40,19 @@ export default function ReportPage() {
         {text: "Пересорт:", id: "MKT2"},
         {text: "Фотография в карточке не соответствует товару:", id: "MKT3"},
         {text: "Подозрение на контрафакт:", id: "MKT4"},
-        {text: "Запрещенный к продаже товар для самозанятых:", id: "MKT5"},
-        {text: "Запрещенный к продаже товар:", id: "MKT6"},
-        {text: "Использование карточки для другого товара:", id: "MKT7"},
-        {text: "По запросу правообладателя товарного знака:", id: "MKT8"},
-        {text: "Изображение упаковки не соответствует фактической:", id: "MKT9"},
-        {text: "Использование фотографий другого продавца:", id: "MKT10"},
-        {text: "По запросу контролирующих органов:", id: "MKT11"},
-        {text: "По запросу контролирующих органов ФАС:", id: "MKT12"},
+        {text: "Отсутствие цензуры на контенте 18+:", id: "MKT5"},
+        {text: "Запрещенный к продаже товар для самозанятых:", id: "MKT6"},
+        {text: "Запрещенный к продаже товар:", id: "MKT7"},
+        {text: "Изначально в карточке продавался другой товар:", id: "MKT8"},
+        {text: "По запросу правообладателя товарного знака:", id: "MKT9"},
+        {text: "Изображение упаковки не соответствует фактической:", id: "MKT10"},
+        {text: "Использование фотографий другого продавца:", id: "MKT11"},
+        {text: "По запросу контролирующих органов:", id: "MKT12"},
+        {text: "По запросу контролирующих органов ФАС:", id: "MKT13"},
+        {
+          text: " Нарушена маркировка в системе «Честный знак». Не переданы QR коды в ЭДО:",
+          id: "MKT14",
+        },
       ],
       pp_group: [{text: "**Модерация платного продвижения:**", id: "PP", addEmptyLineBefore: true}],
       mfp_group: [
@@ -94,7 +99,7 @@ export default function ReportPage() {
         group.forEach((item) => {
           const counter = counters.find((counter) => counter.id === item.id);
           if (counter && counter.value !== 0) {
-            reportText += `${item.text} ${counter.value}\n`; // Добавить значение счетчика в отчет
+            reportText += `\n${item.text} ${counter.value}`; // Добавить значение счетчика в отчет
             if (item.addEmptyLineAfter) {
               reportText += "\n";
             }
