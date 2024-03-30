@@ -42,6 +42,18 @@ export default function UsefulList() {
           </h4>
         </li>
 
+        <li>
+          <h3>
+            <a
+              href="https://magnit-market.kaiten.ru/space/349342"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Kaiten
+            </a>
+          </h3>
+        </li>
+
         <h2>Инструкции</h2>
 
         <li>
@@ -208,6 +220,18 @@ export default function UsefulList() {
               rel="nofollow noopenner noreferrer"
             >
               Запрос на модерацию фото (МФП №1)
+            </a>
+          </h3>
+        </li>
+
+        <li>
+          <h3>
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSe_0msnpS70TuZG0cqN5HKx4Q4yaFmcbTS3CkyXOt3fL9qLWg/viewform"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Запрос на модерацию фото (МФП №2)
             </a>
           </h3>
         </li>
