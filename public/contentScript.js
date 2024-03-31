@@ -64,17 +64,47 @@ function isValidImageUrl(url) {
 }
 
 function downloadAllImages() {
-  const images = document.querySelectorAll(".image-table img, .Images a, .js-attachment-list a");
-  const uniqueImages = new Set();
+  const imageContainers = document.querySelectorAll(".image-table[data-sku]:not(.first-row)");
 
-  images.forEach((image) => {
-    const imageUrl = image.href || image.src;
-    if (isValidImageUrl(imageUrl)) {
-      uniqueImages.add(imageUrl);
-    }
+  imageContainers.forEach((container) => {
+    const sku = container.getAttribute("data-sku");
+    const images = container.querySelectorAll("img");
+    const uniqueImages = new Set();
+
+    images.forEach((image) => {
+      const imageUrl = image.src;
+      if (isValidImageUrl(imageUrl)) {
+        uniqueImages.add(imageUrl);
+      }
+    });
+
+    const folderPath = generateFolderPath(sku);
+
+    chrome.runtime.sendMessage({
+      action: "downloadImages",
+      images: Array.from(uniqueImages),
+      folderPath: folderPath,
+    });
   });
+}
 
-  chrome.runtime.sendMessage({action: "downloadImages", images: Array.from(uniqueImages)});
+function generateFolderPath(sku) {
+  if (!sku) return null;
+
+  const currentDate = new Date();
+  const formattedDate =
+    currentDate.getDate().toString().padStart(2, "0") +
+    "." +
+    (currentDate.getMonth() + 1).toString().padStart(2, "0") +
+    "_" +
+    currentDate.getHours().toString().padStart(2, "0") +
+    "." +
+    currentDate.getMinutes().toString().padStart(2, "0") +
+    "." +
+    currentDate.getSeconds().toString().padStart(2, "0");
+  const folderPath = formattedDate.replace(/[\/\\<>|?:*]/g, "-") + "/" + sku + "/"; // Заменяем недопустимые символы на "-"
+
+  return folderPath;
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

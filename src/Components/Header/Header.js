@@ -12,6 +12,7 @@ export default function Header() {
         {to: "/PP", label: "ПП", active: false},
         {to: "/MFP", label: "МФП", active: false},
         {to: "/DFP", label: "ДФП", active: false},
+        {to: "/UMF", label: "УМФ", active: false},
         {to: "/KP", label: "КП", active: false},
         {to: "/BP", label: "БП", active: false},
         {to: "/UsefulList", label: "Ссылки", active: false},

@@ -8,6 +8,8 @@
 }
 
 .FP span{
+  margin-right: .2em;
+  
   text-shadow: 5px 5px 10px #00000080;
 }
 

@@ -4,6 +4,8 @@ p{
   font-size: 2em;
   
   user-select: none;
+  
+  text-shadow: 5px 5px 10px #00000080;
 }
 
 ol{

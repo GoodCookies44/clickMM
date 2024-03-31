@@ -63,6 +63,13 @@ export default function ReportPage() {
         {text: "Отклонено:", id: "MFP_rejected"},
         {text: "На доработку:", id: "MFP_revision"},
       ],
+      umf_group: [
+        {text: "**Упрощённая модерация фото:**", id: ""},
+        {text: "Проверено запросов:", id: "UMF_request"},
+        {text: "Проверено ШК:", id: "UMF_SHK"},
+        {text: "Из них принято:", id: "UMF_accepted"},
+        {text: "Отклонено:", id: "UMF_rejected"},
+      ],
       dfp_group: [
         {
           text: "**Обработано запросов на добавление фото продавца:**",
@@ -117,6 +124,10 @@ export default function ReportPage() {
           // Для группы mfp_group добавляем строку "Модерация фото продавцов"
           if (groupKey === "mfp_group") {
             reportText += "\n**Модерация фото продавцов:**\n";
+          }
+          // Для группы umf_group добавляем строку "Модерация фото продавцов"
+          if (groupKey === "umf_group") {
+            reportText += "\n**Упрощённая модерация фото:**\n";
           }
 
           group.forEach((item) => {

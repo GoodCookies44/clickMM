@@ -117,7 +117,31 @@ export default function UsefulList() {
               target="_blank"
               rel="nofollow noopenner noreferrer"
             >
-              Критерии фотографий
+              Критерии фотографий МФП
+            </a>
+          </h3>
+        </li>
+
+        <li>
+          <h3>
+            <a
+              href="https://docs.google.com/document/d/11ma-uLytSlroAyng0SDuNWz-OY0NGOuE6Zz6Z19ISu4/edit"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Порядок работы по УМФ
+            </a>
+          </h3>
+        </li>
+
+        <li>
+          <h3>
+            <a
+              href="https://docs.google.com/document/d/1KMH_yEn2eDWPmm5XCwzyLCCkbT764ZDYjEPO1cIRYeg/edit"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Критерии фотографий УМФ
             </a>
           </h3>
         </li>
@@ -170,6 +194,30 @@ export default function UsefulList() {
               rel="nofollow noopenner noreferrer"
             >
               Таблица МФП №2
+            </a>
+          </h3>
+        </li>
+
+        <li>
+          <h3>
+            <a
+              href="https://docs.google.com/spreadsheets/d/1IeFHrpChv_TB4YwrbKnIG_tag8nT0fqLMwtOC9PPtp0/edit#gid=1369042334"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Таблица УМФ №1
+            </a>
+          </h3>
+        </li>
+
+        <li>
+          <h3>
+            <a
+              href="https://docs.google.com/spreadsheets/d/1KRjHA9SgUtzb-UtTvsQrld5Kl_svVym3aT5ZHsciqaw/edit#gid=1142747448"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Таблица УМФ №2
             </a>
           </h3>
         </li>
