@@ -31,9 +31,16 @@ chrome.runtime.onInstalled.addListener(function () {
 
     chrome.contextMenus.create({
       id: "downloadAllImages",
-      title: "Загрузить все изображения",
+      title: "Загрузить изображения",
       contexts: ["page"],
     });
+
+    chrome.contextMenus.create({
+      id: "createList",
+      title: "Создать список",
+      contexts: ["selection"],
+    });
+
     contextMenuCreated = true;
   }
 });
@@ -78,6 +85,9 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
       break;
     case "downloadAllImages":
       sendMessageToTab({action: "downloadAllImages"});
+      break;
+    case "createList":
+      sendMessageToTab({action: "createList"});
       break;
     default:
       break;

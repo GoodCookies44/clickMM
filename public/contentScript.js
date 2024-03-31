@@ -56,7 +56,80 @@ function addQuotes(text) {
   return text;
 }
 
-//Функция скачивания фото 1 кнопкой
+// Функция для преобразования выделенного текста в список
+function convertToBulletList(text) {
+  const lines = text
+    .trim()
+    .split("\n")
+    .filter((line) => line.trim() !== ""); // Убираем пустые строки
+  const listItems = lines.map((line) => {
+    let listItem = line.trim();
+    // Если строка начинается с цифры, делаем её элементом нумерованного списка
+    if (/^\d/.test(listItem)) {
+      listItem = listItem.replace(/^\d+\.\s*/, ""); // Удаляем номер и пробел после него
+      return `<li>${listItem}</li>`;
+    } else if (/^-/.test(listItem)) {
+      // Если строка начинается с "-", и список не нумерованный
+      listItem = listItem.replace(/^-+\s*/, ""); // Удаляем "-" и пробел после него
+    }
+    // Если строка не начинается с цифры и не содержит "-", делаем её элементом не нумерованного списка
+    return `<li>${listItem}</li>`;
+  });
+  // Создаем список в зависимости от первого символа
+  const listType = /^\d/.test(lines[0]) ? "ol" : "ul";
+  return `<${listType}>${listItems.join("")}</${listType}>`;
+}
+
+// Функция для обработки сообщений от фонового скрипта
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (
+    request.action === "toggleCase" ||
+    request.action === "lowerCase" ||
+    request.action === "capitalizeWords" ||
+    request.action === "addQuotes" ||
+    request.action === "createList"
+  ) {
+    changeContent(request.action);
+  } else if (request.action === "downloadAllImages") {
+    downloadAllImages();
+  }
+});
+
+// Функция для изменения контента в зависимости от действия
+function changeContent(action) {
+  const selection = window.getSelection();
+  if (selection && selection.rangeCount > 0) {
+    const range = selection.getRangeAt(0);
+    let selectedText = selection.toString();
+    if (selectedText.trim() !== "") {
+      switch (action) {
+        case "toggleCase":
+          selectedText = toggleCase(selectedText);
+          break;
+        case "lowerCase":
+          selectedText = selectedText.toLowerCase();
+          break;
+        case "capitalizeWords":
+          selectedText = capitalizeWords(selectedText);
+          break;
+        case "addQuotes":
+          selectedText = addQuotes(selectedText);
+          break;
+        case "createList":
+          selectedText = convertToBulletList(selectedText);
+          break;
+        default:
+          break;
+      }
+      // Заменяем содержимое выделения на преобразованный текст
+      range.deleteContents();
+      const fragment = range.createContextualFragment(selectedText);
+      range.insertNode(fragment);
+    }
+  }
+}
+
+//Функция скачивания фото
 function isValidImageUrl(url) {
   // Проверяем расширение файла для изображений
   const validExtensions = [".jpg", ".jpeg", ".png"];
@@ -109,21 +182,6 @@ function generateFolderPath(sku) {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "downloadAllImages") {
-    downloadAllImages();
-  }
-});
-
-// Обработчик сообщений от фонового скрипта
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === "toggleCase") {
-    changeCase("toggle");
-  } else if (request.action === "lowerCase") {
-    changeCase("lower");
-  } else if (request.action === "capitalizeWords") {
-    changeCase("capitalize");
-  } else if (request.action === "addQuotes") {
-    changeCase("addQuotes");
-  } else if (request.action === "downloadAllImages") {
     downloadAllImages();
   }
 });
