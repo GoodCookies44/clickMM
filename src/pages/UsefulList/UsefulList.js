@@ -137,6 +137,18 @@ export default function UsefulList() {
         <li>
           <h3>
             <a
+              href="https://docs.google.com/spreadsheets/d/1_usX24awN6NWMahyTMsOgVJ__WXc8M3f5sb0py_uX_Y/edit#gid=0"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Категории для УМФ
+            </a>
+          </h3>
+        </li>
+
+        <li>
+          <h3>
+            <a
               href="https://docs.google.com/document/d/1KMH_yEn2eDWPmm5XCwzyLCCkbT764ZDYjEPO1cIRYeg/edit"
               target="_blank"
               rel="nofollow noopenner noreferrer"
