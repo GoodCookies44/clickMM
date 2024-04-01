@@ -100,7 +100,18 @@ let downloadedImages = new Set();
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "downloadImages") {
     const images = request.images;
-    const folderPath = request.folderPath;
+    const currentDate = new Date();
+    const formattedDate =
+      currentDate.getDate().toString().padStart(2, "0") +
+      "." +
+      (currentDate.getMonth() + 1).toString().padStart(2, "0") +
+      "_" +
+      currentDate.getHours().toString().padStart(2, "0") +
+      "." +
+      currentDate.getMinutes().toString().padStart(2, "0") +
+      "." +
+      currentDate.getSeconds().toString().padStart(2, "0");
+    const folderPath = formattedDate.replace(/[\/\\<>|?:*]/g, "-") + "/"; // Заменяем недопустимые символы на "-"
 
     chrome.downloads.download(
       {
@@ -111,8 +122,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       },
       function (downloadId) {
         images.forEach((imageUrl, index) => {
-          const filename = index + 1 + imageUrl.substring(imageUrl.lastIndexOf("."));
-          chrome.downloads.download({url: imageUrl, filename: folderPath + filename});
+          if (!downloadedImages.has(imageUrl)) {
+            const filename = index + 1 + imageUrl.substring(imageUrl.lastIndexOf("."));
+            chrome.downloads.download({url: imageUrl, filename: folderPath + filename});
+            downloadedImages.add(imageUrl);
+          }
         });
       }
     );

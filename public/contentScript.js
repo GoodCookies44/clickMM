@@ -1,3 +1,25 @@
+// Функция для изменения контента в зависимости от действия
+function changeContent(action) {
+  const selection = window.getSelection();
+  if (selection && selection.rangeCount > 0) {
+    const range = selection.getRangeAt(0);
+    let selectedText = selection.toString();
+    if (selectedText.trim() !== "") {
+      switch (action) {
+        case "createList":
+          const listFragment = convertToBulletList(selectedText);
+          const fragment = range.createContextualFragment(listFragment);
+          range.deleteContents();
+          range.insertNode(fragment);
+          break;
+        default:
+          changeCase(action, selectedText, range);
+          break;
+      }
+    }
+  }
+}
+
 // Функция для изменения регистра слов в выделенном тексте
 function changeCase(type) {
   const selection = window.getSelection();
@@ -64,15 +86,16 @@ function convertToBulletList(text) {
     .filter((line) => line.trim() !== ""); // Убираем пустые строки
   const listItems = lines.map((line) => {
     let listItem = line.trim();
+    // Если список не нумерованный, удаляем "-" или "•" в начале строки
+    if (!/^\d/.test(listItem)) {
+      listItem = listItem.replace(/^[-•]\s*/, ""); // Удаляем "-" или "•" и пробел после него
+    }
     // Если строка начинается с цифры, делаем её элементом нумерованного списка
     if (/^\d/.test(listItem)) {
       listItem = listItem.replace(/^\d+\.\s*/, ""); // Удаляем номер и пробел после него
       return `<li>${listItem}</li>`;
-    } else if (/^-/.test(listItem)) {
-      // Если строка начинается с "-", и список не нумерованный
-      listItem = listItem.replace(/^-+\s*/, ""); // Удаляем "-" и пробел после него
     }
-    // Если строка не начинается с цифры и не содержит "-", делаем её элементом не нумерованного списка
+    // Если строка не начинается с цифры, делаем её элементом не нумерованного списка
     return `<li>${listItem}</li>`;
   });
   // Создаем список в зависимости от первого символа
@@ -80,16 +103,18 @@ function convertToBulletList(text) {
   return `<${listType}>${listItems.join("")}</${listType}>`;
 }
 
-// Функция для обработки сообщений от фонового скрипта
+// Обработчик сообщений от фонового скрипта
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (
-    request.action === "toggleCase" ||
-    request.action === "lowerCase" ||
-    request.action === "capitalizeWords" ||
-    request.action === "addQuotes" ||
-    request.action === "createList"
-  ) {
-    changeContent(request.action);
+  if (request.action === "toggleCase") {
+    changeCase("toggle");
+  } else if (request.action === "lowerCase") {
+    changeCase("lower");
+  } else if (request.action === "capitalizeWords") {
+    changeCase("capitalize");
+  } else if (request.action === "addQuotes") {
+    changeCase("addQuotes");
+  } else if (request.action === "createList") {
+    changeContent("createList");
   } else if (request.action === "downloadAllImages") {
     downloadAllImages();
   }
@@ -137,47 +162,17 @@ function isValidImageUrl(url) {
 }
 
 function downloadAllImages() {
-  const imageContainers = document.querySelectorAll(".image-table[data-sku]:not(.first-row)");
+  const images = document.querySelectorAll(".image-table img, .Images a, .js-attachment-list a");
+  const uniqueImages = new Set();
 
-  imageContainers.forEach((container) => {
-    const sku = container.getAttribute("data-sku");
-    const images = container.querySelectorAll("img");
-    const uniqueImages = new Set();
-
-    images.forEach((image) => {
-      const imageUrl = image.src;
-      if (isValidImageUrl(imageUrl)) {
-        uniqueImages.add(imageUrl);
-      }
-    });
-
-    const folderPath = generateFolderPath(sku);
-
-    chrome.runtime.sendMessage({
-      action: "downloadImages",
-      images: Array.from(uniqueImages),
-      folderPath: folderPath,
-    });
+  images.forEach((image) => {
+    const imageUrl = image.href || image.src;
+    if (isValidImageUrl(imageUrl)) {
+      uniqueImages.add(imageUrl);
+    }
   });
-}
 
-function generateFolderPath(sku) {
-  if (!sku) return null;
-
-  const currentDate = new Date();
-  const formattedDate =
-    currentDate.getDate().toString().padStart(2, "0") +
-    "." +
-    (currentDate.getMonth() + 1).toString().padStart(2, "0") +
-    "_" +
-    currentDate.getHours().toString().padStart(2, "0") +
-    "." +
-    currentDate.getMinutes().toString().padStart(2, "0") +
-    "." +
-    currentDate.getSeconds().toString().padStart(2, "0");
-  const folderPath = formattedDate.replace(/[\/\\<>|?:*]/g, "-") + "/" + sku + "/"; // Заменяем недопустимые символы на "-"
-
-  return folderPath;
+  chrome.runtime.sendMessage({action: "downloadImages", images: Array.from(uniqueImages)});
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
