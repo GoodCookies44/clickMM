@@ -16,7 +16,7 @@ export default function UsefulList() {
         <li>
           <h3>
             <a
-              href="https://admin.kznexpress.ru/"
+              href="https://admin.kazanexpress.ru/"
               target="_blank"
               rel="nofollow noopenner noreferrer"
             >
