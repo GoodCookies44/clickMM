@@ -112,6 +112,7 @@ export default function ReportPage() {
             }
           }
         });
+        reportText += "\n";
       } else {
         // Проверяем, есть ли хотя бы одно ненулевое значение в группе
         const hasNonZeroValue = group.some((item) => {

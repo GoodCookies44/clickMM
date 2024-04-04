@@ -1,9 +1,9 @@
 // Модули
 import React from "react";
 // Компоненты
+import ListItem from "../../components/ListItem/ListItem";
 // Стили
 import "./UsefulList.css";
-import ListItem from "../../components/ListItem/ListItem";
 
 export default function UsefulList() {
   return (

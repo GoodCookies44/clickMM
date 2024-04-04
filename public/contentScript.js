@@ -88,7 +88,7 @@ function convertToBulletList(text) {
     let listItem = line.trim();
     // Если список не нумерованный, удаляем "-" или "•" в начале строки
     if (!/^\d/.test(listItem)) {
-      listItem = listItem.replace(/^[-•●]\s*/, ""); // Удаляем "-" или "•" и пробел после него
+      listItem = listItem.replace(/^[-·•●]\s*/, ""); // Удаляем "-" или "•" и пробел после него
     }
     // Если строка начинается с цифры, делаем её элементом нумерованного списка
     if (/^\d/.test(listItem)) {
