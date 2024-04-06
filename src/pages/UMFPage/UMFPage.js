@@ -47,7 +47,7 @@ export default function UMFPage() {
             <ListItem text={"Причина 3: Фотографии не отражают реальный вид товара"} />
           </li>
           <li>
-            <ListItem text={"Причина №4: Фотографии не качественные"} />
+            <ListItem text={"Причина 4: Фотографии не качественные"} />
           </li>
           <li>
             <ListItem
