@@ -146,6 +146,7 @@ function changeContent(action) {
         default:
           break;
       }
+
       // Заменяем содержимое выделения на преобразованный текст
       range.deleteContents();
       const fragment = range.createContextualFragment(selectedText);
@@ -156,6 +157,9 @@ function changeContent(action) {
 
 //Функция скачивания фото
 function isValidImageUrl(url) {
+  if (typeof url !== "string") {
+    return false; // Если url не является строкой, считаем его недопустимым
+  }
   // Проверяем расширение файла для изображений
   const validExtensions = [".jpg", ".jpeg", ".png"];
   return validExtensions.some((ext) => url.toLowerCase().endsWith(ext));
@@ -163,13 +167,13 @@ function isValidImageUrl(url) {
 
 function downloadAllImages() {
   const images = document.querySelectorAll(
-    ".image-table img, .Images a, .js-attachment-list a, [class^='jss'] img"
+    ".image-table img, .Images a, .js-attachment-list a, a[class^='jss']"
   );
   const uniqueImages = new Set();
 
   images.forEach((image) => {
     const imageUrl = image.href || image.src;
-    if (isValidImageUrl(imageUrl) && !image.classList.contains("MuiAvatar-img")) {
+    if (isValidImageUrl(imageUrl)) {
       uniqueImages.add(imageUrl);
     }
   });
