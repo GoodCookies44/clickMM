@@ -162,12 +162,14 @@ function isValidImageUrl(url) {
 }
 
 function downloadAllImages() {
-  const images = document.querySelectorAll(".image-table img, .Images a, .js-attachment-list a");
+  const images = document.querySelectorAll(
+    ".image-table img, .Images a, .js-attachment-list a, [class^='jss'] img"
+  );
   const uniqueImages = new Set();
 
   images.forEach((image) => {
     const imageUrl = image.href || image.src;
-    if (isValidImageUrl(imageUrl)) {
+    if (isValidImageUrl(imageUrl) && !image.classList.contains("MuiAvatar-img")) {
       uniqueImages.add(imageUrl);
     }
   });
