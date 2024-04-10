@@ -11,11 +11,11 @@ export default function BPPage() {
         <ResetCountersButton counterIds={["BP_Business", "BP_OKK", "BP_Kont"]} />
         <div className="counters__container">
           <div className="counter__container">
-            Запросы в Trello, Бизнес:
+            Запросы в Kaiten, Бизнес:
             <Counter id="BP_Business" />
           </div>
           <div className="counter__container">
-            Запросы в Trello, ОКК:
+            Запросы в Kaiten, ОКК:
             <Counter id="BP_OKK" />
           </div>
           <div className="counter__container">

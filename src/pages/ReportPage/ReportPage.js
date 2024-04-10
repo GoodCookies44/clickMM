@@ -80,16 +80,16 @@ export default function ReportPage() {
         {text: "Отклонено:", id: "DFP_rejected"},
       ],
       kp_group: [
-        {text: "**Обработано запросов в Trello, КП:**", id: "KP_Trello", addEmptyLineBefore: true},
+        {text: "**Обработано запросов в Kaiten, КП:**", id: "KP_Trello", addEmptyLineBefore: true},
         {text: "**Обработано запросов от КП (адм.):**", id: "KP_Adm"},
       ],
       bp_group: [
         {
-          text: "**Обработано запросов в Trello, Бизнес:**",
+          text: "**Обработано запросов в Kaiten, Бизнес:**",
           id: "BP_Business",
           addEmptyLineBefore: true,
         },
-        {text: "**Обработано запросов в Trello, ОКК:**", id: "BP_OKK"},
+        {text: "**Обработано запросов в Kaiten, ОКК:**", id: "BP_OKK"},
         {
           text: "**Проверены контрафактные товары, текстовые разделы товаров изменены**",
           id: "BP_Kont",

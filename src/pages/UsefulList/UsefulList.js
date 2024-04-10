@@ -52,6 +52,12 @@ export default function UsefulList() {
               Kaiten
             </a>
           </h3>
+          <h4>
+            Логин: <ListItem text="moderator.om@kazanexpress.tech" />
+          </h4>
+          <h4>
+            Пароль: <ListItem text="Jd%2eovS" />
+          </h4>
         </li>
 
         <h2>Инструкции</h2>
