@@ -21,32 +21,25 @@ function changeContent(action) {
 }
 
 // Функция для изменения регистра слов в выделенном тексте
-function changeCase(type) {
-  const selection = window.getSelection();
-  if (selection && selection.rangeCount > 0) {
-    const range = selection.getRangeAt(0);
-    let selectedText = selection.toString();
-    if (selectedText.trim() !== "") {
-      switch (type) {
-        case "toggle":
-          selectedText = toggleCase(selectedText);
-          break;
-        case "lower":
-          selectedText = selectedText.toLowerCase();
-          break;
-        case "capitalize":
-          selectedText = capitalizeWords(selectedText);
-          break;
-        case "addQuotes":
-          selectedText = addQuotes(selectedText);
-          break;
-        default:
-          break;
-      }
-
-      document.execCommand("insertText", false, selectedText);
-    }
+function changeCase(type, selectedText, range) {
+  switch (type) {
+    case "toggle":
+      selectedText = toggleCase(selectedText);
+      break;
+    case "lower":
+      selectedText = selectedText.toLowerCase();
+      break;
+    case "capitalize":
+      selectedText = capitalizeWords(selectedText);
+      break;
+    case "addQuotes":
+      selectedText = addQuotes(selectedText);
+      break;
+    default:
+      break;
   }
+
+  document.execCommand("insertText", false, selectedText);
 }
 
 // Функция для изменения регистра слов
@@ -106,54 +99,19 @@ function convertToBulletList(text) {
 // Обработчик сообщений от фонового скрипта
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "toggleCase") {
-    changeCase("toggle");
+    changeContent("toggle");
   } else if (request.action === "lowerCase") {
-    changeCase("lower");
+    changeContent("lower");
   } else if (request.action === "capitalizeWords") {
-    changeCase("capitalize");
+    changeContent("capitalize");
   } else if (request.action === "addQuotes") {
-    changeCase("addQuotes");
+    changeContent("addQuotes");
   } else if (request.action === "createList") {
     changeContent("createList");
   } else if (request.action === "downloadAllImages") {
     downloadAllImages();
   }
 });
-
-// Функция для изменения контента в зависимости от действия
-function changeContent(action) {
-  const selection = window.getSelection();
-  if (selection && selection.rangeCount > 0) {
-    const range = selection.getRangeAt(0);
-    let selectedText = selection.toString();
-    if (selectedText.trim() !== "") {
-      switch (action) {
-        case "toggleCase":
-          selectedText = toggleCase(selectedText);
-          break;
-        case "lowerCase":
-          selectedText = selectedText.toLowerCase();
-          break;
-        case "capitalizeWords":
-          selectedText = capitalizeWords(selectedText);
-          break;
-        case "addQuotes":
-          selectedText = addQuotes(selectedText);
-          break;
-        case "createList":
-          selectedText = convertToBulletList(selectedText);
-          break;
-        default:
-          break;
-      }
-
-      // Заменяем содержимое выделения на преобразованный текст
-      range.deleteContents();
-      const fragment = range.createContextualFragment(selectedText);
-      range.insertNode(fragment);
-    }
-  }
-}
 
 //Функция скачивания фото
 function isValidImageUrl(url) {
