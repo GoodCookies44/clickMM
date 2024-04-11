@@ -83,11 +83,23 @@ export default function UsefulList() {
         <li>
           <h3>
             <a
-              href=" https://business.kazanexpress.ru/manual/2.seller-requirements/#_2-2-%D0%B7%D0%B0%D0%BF%D1%80%D0%B5%D1%89%D0%B5%D0%BD%D0%BD%D1%8B%D0%B8-%D0%BA-%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B5-%D1%82%D0%BE%D0%B2%D0%B0%D1%80"
+              href="https://business.kazanexpress.ru/manual/2.seller-requirements/#_2-2-%D0%B7%D0%B0%D0%BF%D1%80%D0%B5%D1%89%D0%B5%D0%BD%D0%BD%D1%8B%D0%B8-%D0%BA-%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B5-%D1%82%D0%BE%D0%B2%D0%B0%D1%80"
               target="_blank"
               rel="nofollow noopenner noreferrer"
             >
               Запрещённые к продаже товары (KazanExpress Business)
+            </a>
+          </h3>
+        </li>
+
+        <li>
+          <h3>
+            <a
+              href="https://docs.google.com/document/d/1qyYymTghihebFpa_JacU0_25w26hQqcS5M4FCLSt8R4/edit"
+              target="_blank"
+              rel="nofollow noopenner noreferrer"
+            >
+              Запрещённые к продаже товары
             </a>
           </h3>
         </li>
