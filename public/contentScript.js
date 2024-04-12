@@ -163,7 +163,9 @@ async function updateTooltipContent(tooltip, imgSrc, event) {
   img.src = imgSrc;
   await img.decode(); // Дожидаемся загрузки изображения
 
-  tooltip.textContent = `Size: ${img.naturalWidth}x${img.naturalHeight}`;
+  tooltip.textContent = `Size: ${img.naturalWidth}x${img.naturalHeight} (${(
+    img.naturalWidth / img.naturalHeight
+  ).toFixed(2)})`;
   tooltip.style.position = "absolute";
   tooltip.style.top = `${event.pageY}px`;
 
