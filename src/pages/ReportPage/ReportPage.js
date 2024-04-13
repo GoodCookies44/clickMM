@@ -103,16 +103,21 @@ export default function ReportPage() {
 
       // Для группы mkt_group отображаем только ненулевые значения
       if (groupKey === "mkt_group") {
+        let mktGroupHasValues = false;
+
         group.forEach((item) => {
           const counter = counters.find((counter) => counter.id === item.id);
           if (counter && counter.value !== 0) {
             reportText += `\n${item.text} ${counter.value}`; // Добавить значение счетчика в отчет
+            mktGroupHasValues = true;
             if (item.addEmptyLineAfter) {
               reportText += "\n";
             }
           }
         });
-        reportText += "\n";
+        if (mktGroupHasValues) {
+          reportText += "\n";
+        }
       } else {
         // Проверяем, есть ли хотя бы одно ненулевое значение в группе
         const hasNonZeroValue = group.some((item) => {
