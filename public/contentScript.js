@@ -146,9 +146,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 // Функция для создания элемента, который будет содержать информацию о размере и разрешении изображения
-function createTooltipElement(event) {
+function createTooltipElement() {
   const tooltip = document.createElement("div");
-  tooltip.style.position = "fixed";
+  tooltip.style.position = "absolute";
   tooltip.style.background = "rgba(0, 0, 0, 0.7)";
   tooltip.style.color = "#fff";
   tooltip.style.padding = "5px";
@@ -189,7 +189,6 @@ async function updateTooltipContent(tooltip, imgSrc, event) {
 
   const imgSize = createImageSizeElement(img);
   const offsetX = 15;
-  tooltip.style.position = "absolute";
   tooltip.style.left = `${event.pageX + offsetX}px`;
   tooltip.style.top = `${event.pageY}px`;
 
