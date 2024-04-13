@@ -146,7 +146,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 // Функция для создания элемента, который будет содержать информацию о размере и разрешении изображения
-function createTooltipElement() {
+function createTooltipElement(event) {
   const tooltip = document.createElement("div");
   tooltip.style.position = "fixed";
   tooltip.style.background = "rgba(0, 0, 0, 0.7)";
@@ -157,29 +157,104 @@ function createTooltipElement() {
   return tooltip;
 }
 
+// Функция для создания элемента с размерами изображения
+function createImageSizeElement(img) {
+  const imgSize = document.createElement("div");
+  imgSize.textContent = `Size: ${img.naturalWidth}x${img.naturalHeight} (${(
+    img.naturalWidth / img.naturalHeight
+  ).toFixed(2)})`;
+  imgSize.style.display = "block";
+  return imgSize;
+}
+
+// Функция для создания круга с цветом
+function createColorCircle(color) {
+  const circle = document.createElement("div");
+  circle.style.width = "20px";
+  circle.style.height = "20px";
+  circle.style.borderRadius = "50%";
+  circle.style.backgroundColor = color;
+  circle.style.marginBottom = "5px";
+  return circle;
+}
+
+// Создаем одно окно для отображения разрешения изображения
+const tooltip = createTooltipElement();
+
 // Функция для обновления содержимого окна с разрешением
 async function updateTooltipContent(tooltip, imgSrc, event) {
   const img = new Image();
   img.src = imgSrc;
   await img.decode(); // Дожидаемся загрузки изображения
 
-  tooltip.textContent = `Size: ${img.naturalWidth}x${img.naturalHeight} (${(
-    img.naturalWidth / img.naturalHeight
-  ).toFixed(2)})`;
+  const imgSize = createImageSizeElement(img);
+  const offsetX = 15;
   tooltip.style.position = "absolute";
+  tooltip.style.left = `${event.pageX + offsetX}px`;
   tooltip.style.top = `${event.pageY}px`;
 
-  // Устанавливаем left так, чтобы всплывающее окно было справа от курсора
-  const offsetX = 15;
-  tooltip.style.left = `${event.pageX + offsetX}px`;
+  tooltip.innerHTML = "";
+  tooltip.appendChild(imgSize);
 
   if (!tooltip.parentNode) {
     document.body.appendChild(tooltip);
   }
 }
 
-// Функция для обработки события наведения на элементы
-function handleHoverWithAlt(event) {
+// Функция для обновления содержимого окна с разрешением и цветом пикселя
+async function updateTooltipColor(tooltip, imgSrc, event) {
+  const img = new Image();
+  img.src = imgSrc;
+  await img.decode(); // Дожидаемся загрузки изображения
+
+  const imgSize = createImageSizeElement(img);
+  const offsetX = 15;
+  tooltip.style.left = `${event.pageX + offsetX}px`;
+  tooltip.style.top = `${event.pageY}px`;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+
+  const colorData = ctx.getImageData(event.offsetX, event.offsetY, 1, 1).data;
+  const colorHex =
+    "#" +
+    ((1 << 24) + (colorData[0] << 16) + (colorData[1] << 8) + colorData[2]).toString(16).slice(1);
+
+  const colorContainer1 = document.createElement("div");
+  colorContainer1.style.display = "flex";
+  colorContainer1.style.flexdirection = "row";
+  colorContainer1.style.alignitems = "center";
+  const colorCircle1 = createColorCircle("#efefef");
+  const colorText1 = document.createElement("span");
+  colorText1.textContent = "#efefef";
+  colorContainer1.appendChild(colorCircle1);
+  colorContainer1.appendChild(colorText1);
+
+  const colorContainer2 = document.createElement("div");
+  colorContainer2.style.display = "flex";
+  colorContainer2.style.flexdirection = "row";
+  colorContainer2.style.alignitems = "center";
+  const colorCircle2 = createColorCircle(colorHex);
+  const colorText2 = document.createElement("span");
+  colorText2.textContent = colorHex;
+  colorContainer2.appendChild(colorCircle2);
+  colorContainer2.appendChild(colorText2);
+
+  tooltip.innerHTML = "";
+  tooltip.appendChild(imgSize);
+  tooltip.appendChild(colorContainer1);
+  tooltip.appendChild(colorContainer2);
+
+  if (!tooltip.parentNode) {
+    document.body.appendChild(tooltip);
+  }
+}
+
+// Функция для обработки события наведения на элементы с показом разрешения и цвета пикселя
+function handleHover(event) {
   if (!event.altKey) {
     if (tooltip.parentNode) {
       document.body.removeChild(tooltip);
@@ -193,7 +268,12 @@ function handleHoverWithAlt(event) {
 
   if (imgElement) {
     const imgSrc = imgElement.src;
-    updateTooltipContent(tooltip, imgSrc, event);
+    // Проверяем, находимся ли мы на нужной странице
+    if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
+      updateTooltipContent(tooltip, imgSrc, event);
+    } else {
+      updateTooltipColor(tooltip, imgSrc, event);
+    }
   } else {
     if (tooltip.parentNode) {
       document.body.removeChild(tooltip);
@@ -201,8 +281,5 @@ function handleHoverWithAlt(event) {
   }
 }
 
-// Создаем одно окно для отображения разрешения изображения
-const tooltip = createTooltipElement();
-
-// Добавляем обработчик события наведения мыши на страницу
-document.addEventListener("mousemove", handleHoverWithAlt);
+// Добавляем обработчик события наведения мыши на страницу с показом разрешения и цвета пикселя
+document.addEventListener("mousemove", handleHover);
