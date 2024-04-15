@@ -53,6 +53,7 @@ export default function ReportPage() {
           text: " Нарушена маркировка в системе «Честный знак». Не переданы QR коды в ЭДО:",
           id: "MKT14",
         },
+        {text: "Искусственно завышенная цена:", id: "MKT15"},
       ],
       pp_group: [{text: "**Модерация платного продвижения:**", id: "PP", addEmptyLineBefore: true}],
       mfp_group: [

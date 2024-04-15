@@ -95,6 +95,10 @@ export default function MKTPage() {
             Нарушена маркировка в системе «Честный знак». Не переданы QR коды в ЭДО:
             <Counter id="MKT14" targetIds={["MKT", "MKT_Sum"]} />
           </li>
+          <li>
+            Искусственно завышенная цена:
+            <Counter id="MKT15" targetIds={["MKT", "MKT_Sum"]} />
+          </li>
         </ol>
       </section>
     </>
