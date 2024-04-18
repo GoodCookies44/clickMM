@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {NavLink} from "react-router-dom";
 import SettingsButton from "../SettingsButton/SettingsButton";
 import "./Header.css";
@@ -37,10 +37,38 @@ export default function Header() {
     setActiveLinks(updatedLinks);
   };
 
+  // Состояние для отслеживания активной ссылки
+  const navRef = useRef(null);
+  let scrollInterval = null;
+
+  const handleScroll = (direction) => {
+    if (navRef.current) {
+      scrollInterval = setInterval(() => {
+        if (direction === "left") {
+          navRef.current.scrollLeft -= 5;
+        } else if (direction === "right") {
+          navRef.current.scrollLeft += 5;
+        }
+      }, 18);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    clearInterval(scrollInterval);
+  };
+
   return (
     <>
       <header>
-        <nav>
+        <button
+          className="scroll-button"
+          onMouseEnter={() => handleScroll("left")}
+          onMouseLeave={handleMouseLeave}
+        >
+          {"<"}
+        </button>
+
+        <nav ref={navRef}>
           {activeLinks.map((link, index) =>
             link.active ? (
               <NavLink
@@ -65,6 +93,14 @@ export default function Header() {
             ) : null
           )}
         </nav>
+
+        <button
+          className="scroll-button"
+          onMouseEnter={() => handleScroll("right")}
+          onMouseLeave={handleMouseLeave}
+        >
+          {">"}
+        </button>
         <SettingsButton updateTabs={updateTabs} activeLinks={activeLinks} />
       </header>
     </>
