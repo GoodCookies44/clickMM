@@ -14,16 +14,16 @@ export default function DFPPage() {
         <div className="counters__container DFP">
           <div className="container__FP">
             Запросы
-            <Counter id="DFP_request" />
+            <Counter id="DFP_request" targetIds={["DFP_accepted", "DFP_rejected"]} showSum={true} />
           </div>
           <div className="bottom_container">
             <div className="container__FP ">
               Принято
-              <Counter id="DFP_accepted" targetIds={["DFP_request"]} />
+              <Counter id="DFP_accepted" />
             </div>
             <div className="container__FP">
               Отклонено
-              <Counter id="DFP_rejected" targetIds={["DFP_request"]} />
+              <Counter id="DFP_rejected" />
             </div>
           </div>
         </div>

@@ -21,19 +21,23 @@ export default function MFPPage() {
           </div>
           <div className="container__FP">
             ШК
-            <Counter id="MFP_SHK" />
+            <Counter
+              id="MFP_SHK"
+              targetIds={["MFP_accepted", "MFP_rejected", "MFP_revision"]}
+              showSum={true}
+            />
           </div>
           <div className="container__FP">
             Принято
-            <Counter id="MFP_accepted" targetIds={["MFP_SHK"]} />
+            <Counter id="MFP_accepted" />
           </div>
           <div className="container__FP">
             Отклонено
-            <Counter id="MFP_rejected" targetIds={["MFP_SHK"]} />
+            <Counter id="MFP_rejected" />
           </div>
           <div className="container__FP">
             На доработку
-            <Counter id="MFP_revision" targetIds={["MFP_SHK"]} />
+            <Counter id="MFP_revision" />
           </div>
         </div>
       </section>

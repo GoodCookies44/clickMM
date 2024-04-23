@@ -1,30 +1,21 @@
-// Модули
 import React, {useContext, useEffect, useState} from "react";
 import PropTypes from "prop-types";
-// Компоненты
 import {CounterContext} from "../Context/CounterContext";
-// Стили
 import "./Counter.css";
 
-export default function Counter({id, targetIds}) {
-  // Получаем доступ к контексту с помощью хука useContext
+export default function Counter({id, targetIds, showSum}) {
   const {counters, addCounterId, updateCounterValue} = useContext(CounterContext);
   const [isRotated, setIsRotated] = useState(false);
-
-  // Ищем значение счетчика по его id в массиве контекста
   const counter = counters.find((counter) => counter.id === id);
 
-  // Если счетчик не найден, добавляем его в массив контекста
   useEffect(() => {
     if (!counter) {
       addCounterId(id);
     }
   }, [id, counter, addCounterId]);
 
-  // Состояние счетчика
   const [count, setCount] = useState(counter ? counter.value : 0);
 
-  // Обновляем состояние счётчика при изменении его значения в контексте
   useEffect(() => {
     if (counter) {
       setCount(counter.value);
@@ -34,13 +25,26 @@ export default function Counter({id, targetIds}) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedValue, setEditedValue] = useState("");
 
-  // Функция для увеличения значения счетчика
+  const [targetCount, setTargetCount] = useState(0);
+
+  useEffect(() => {
+    if (showSum) {
+      const sum = targetIds.reduce((acc, targetId) => {
+        const targetCounter = counters.find((counter) => counter.id === targetId);
+        return acc + (targetCounter ? targetCounter.value : 0);
+      }, 0);
+      setTargetCount(sum);
+      updateCounterValue(id, sum);
+    } else {
+      setTargetCount(0);
+    }
+  }, [counters, targetIds, showSum]);
+
   const increment = () => {
     const newCount = count + 1;
     setCount(newCount);
     updateCounterValue(id, newCount);
 
-    // Проверяем наличие целевого счётчика и обновляем его значение
     if (targetIds && targetIds.length > 0) {
       targetIds.forEach((targetId) => {
         const targetCounter = counters.find((counter) => counter.id === targetId);
@@ -51,13 +55,11 @@ export default function Counter({id, targetIds}) {
     }
   };
 
-  // Функция для уменьшения значения счетчика
   const decrement = () => {
     const newCount = count - 1;
     setCount(newCount < 0 ? 0 : newCount);
     updateCounterValue(id, newCount < 0 ? 0 : newCount);
 
-    // Проверяем наличие целевого счётчика и обновляем его значение
     if (targetIds && targetIds.length > 0) {
       targetIds.forEach((targetId) => {
         const targetCounter = counters.find((counter) => counter.id === targetId);
@@ -68,20 +70,16 @@ export default function Counter({id, targetIds}) {
     }
   };
 
-  // Функция для сброса значения счетчика
   const reset = () => {
     setCount(0);
     updateCounterValue(id, 0);
-    // Запускаем анимацию поворота
     setIsRotated(true);
-
-    // Убираем класс с анимацией после завершения анимации
     setTimeout(() => setIsRotated(false), 1000);
   };
 
   const handleDoubleClick = () => {
     setIsEditing(true);
-    setEditedValue(count.toString());
+    setEditedValue(showSum ? targetCount.toString() : count.toString());
   };
 
   const handleEditChange = (event) => {
@@ -92,8 +90,15 @@ export default function Counter({id, targetIds}) {
     setIsEditing(false);
     const newValue = parseInt(editedValue);
     if (!isNaN(newValue)) {
-      setCount(newValue);
-      updateCounterValue(id, newValue);
+      if (showSum) {
+        setTargetCount(newValue);
+        targetIds.forEach((targetId) => {
+          updateCounterValue(targetId, newValue);
+        });
+      } else {
+        setCount(newValue);
+        updateCounterValue(id, newValue);
+      }
     }
   };
 
@@ -109,6 +114,8 @@ export default function Counter({id, targetIds}) {
             autoFocus
             className="custom-input"
           />
+        ) : showSum ? (
+          targetCount
         ) : (
           count
         )}
@@ -198,4 +205,5 @@ export default function Counter({id, targetIds}) {
 Counter.propTypes = {
   id: PropTypes.string.isRequired,
   targetIds: PropTypes.arrayOf(PropTypes.string),
+  showSum: PropTypes.bool,
 };
