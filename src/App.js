@@ -20,14 +20,14 @@ export default function App() {
   return (
     <Routes>
       <Route exact path={"/"} element={<Layout />}>
-        <Route index element={<MKTPage />} />
+        <Route index element={<UsefulList />} />
+        <Route path={"/MKT"} element={<MKTPage />} />
         <Route path={"/PP"} element={<PPPage />} />
         <Route path={"/MFP"} element={<MFPPage />} />
         <Route path={"/DFP"} element={<DFPPage />} />
         <Route path={"/UMF"} element={<UMFPage />} />
         <Route path={"/KP"} element={<KPPage />} />
         <Route path={"/BP"} element={<BPPage />} />
-        <Route path={"/UsefulList"} element={<UsefulList />} />
         <Route path={"/Report"} element={<ReportPage />} />
       </Route>
     </Routes>

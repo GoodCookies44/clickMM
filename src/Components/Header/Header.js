@@ -8,14 +8,14 @@ export default function Header() {
     const storedLinks = JSON.parse(localStorage.getItem("activeLinks"));
     return (
       storedLinks || [
-        {to: "/", label: "МКТ", active: false},
+        {to: "/MKT", label: "МКТ", active: false},
         {to: "/PP", label: "ПП", active: false},
         {to: "/MFP", label: "МФП", active: false},
         {to: "/DFP", label: "ДФП", active: false},
         {to: "/UMF", label: "УМФ", active: false},
         {to: "/KP", label: "КП", active: false},
         {to: "/BP", label: "БП", active: false},
-        {to: "/UsefulList", label: "Ссылки", active: false},
+        {to: "/", label: "Ссылки", active: false},
         {to: "/Report", label: "Отчёт", active: false},
       ]
     );

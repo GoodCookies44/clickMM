@@ -125,7 +125,7 @@ function isValidImageUrl(url) {
 
 function downloadAllImages() {
   const images = document.querySelectorAll(
-    ".image-table img, .Images a, .js-attachment-list a, a[class^='jss']"
+    ".image-table img, .Images a, .js-attachment-list a, a[class^='jss'], a[class^='v']"
   );
   const uniqueImages = new Set();
 
