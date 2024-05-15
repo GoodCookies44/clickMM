@@ -73,6 +73,9 @@ export default function UMFPage() {
           <li>
             <ListItem text={"Причина 10: Иные причины"} />
           </li>
+          <li>
+            <ListItem text={"Уже стоит отметка о студийных фотографиях"} />
+          </li>
         </ul>
       </section>
     </div>
