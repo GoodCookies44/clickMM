@@ -28,19 +28,6 @@ export default function UsefulList() {
         <h2>Аккаунты</h2>
         <LinkItem url={"https://admin.kazanexpress.ru/"} title={"Админка"} />
 
-        <LinkItem
-          url={
-            "https://trello.com/b/OMWvPtZB/%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81-%D0%BC%D0%BE%D0%B4%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F"
-          }
-          title={"Trelo"}
-        />
-        <h4>
-          Логин: <ListItem text="marketmoderationdepartment@gmail.com" />
-        </h4>
-        <h4>
-          Пароль: <ListItem text="3aNY-Yc5yj" />
-        </h4>
-
         <LinkItem url={"https://magnit-market.kaiten.ru/space/349342/lists"} title={"Kaiten"} />
         <h4>
           Логин: <ListItem text="moderator.om@kazanexpress.tech" />
@@ -116,22 +103,6 @@ export default function UsefulList() {
           title={"Критерии фотографий УМФ"}
         />
 
-        <h2>Графики</h2>
-
-        <LinkItem
-          url={
-            "https://docs.google.com/spreadsheets/d/19uJP8qXDdpxmBf6UGFjSTewYD54Q4YtBCo129JYPfkA/edit?usp=sharing"
-          }
-          title={"График работы"}
-        />
-
-        <LinkItem
-          url={
-            "https://docs.google.com/spreadsheets/d/1BB_NBFLc_HbStfT2_sHvdCj9Ti-NYh5Hk89w5uNAnnI/edit?usp=sharing"
-          }
-          title={"План"}
-        />
-
         <h2>Рабочие таблицы</h2>
 
         <LinkItem
@@ -190,6 +161,22 @@ export default function UsefulList() {
             "https://docs.google.com/forms/d/e/1FAIpQLSe_0msnpS70TuZG0cqN5HKx4Q4yaFmcbTS3CkyXOt3fL9qLWg/viewform"
           }
           title={"Запрос на модерацию фото (МФП №2)"}
+        />
+
+        <h2>Графики</h2>
+
+        <LinkItem
+          url={
+            "https://docs.google.com/spreadsheets/d/19uJP8qXDdpxmBf6UGFjSTewYD54Q4YtBCo129JYPfkA/edit?usp=sharing"
+          }
+          title={"График работы"}
+        />
+
+        <LinkItem
+          url={
+            "https://docs.google.com/spreadsheets/d/1BB_NBFLc_HbStfT2_sHvdCj9Ti-NYh5Hk89w5uNAnnI/edit?usp=sharing"
+          }
+          title={"План"}
         />
 
         <h2>Прочее</h2>
