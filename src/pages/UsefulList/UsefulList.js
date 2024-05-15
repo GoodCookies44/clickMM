@@ -28,7 +28,7 @@ export default function UsefulList() {
         <h2>Аккаунты</h2>
         <LinkItem url={"https://admin.kazanexpress.ru/"} title={"Админка"} />
 
-        <LinkItem url={"https://magnit-market.kaiten.ru/space/349342/lists"} title={"Kaiten"} />
+        <LinkItem url={"https://magnit-market.kaiten.ru/space/351107/lists"} title={"Kaiten"} />
         <h4>
           Логин: <ListItem text="moderator.om@kazanexpress.tech" />
         </h4>
