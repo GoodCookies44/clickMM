@@ -163,6 +163,19 @@ export default function UsefulList() {
           title={"Запрос на модерацию фото (МФП №2)"}
         />
 
+        <LinkItem
+          url={
+            "https://docs.google.com/forms/d/e/1FAIpQLSc8OPrZkL77PbP9dfxl8WdCI7INRF4tZkYm2Ceo0wM3ITsQWA/viewform"
+          }
+          title={"Запрос на модерацию фото (УМФ №1)"}
+        />
+        <LinkItem
+          url={
+            "https://docs.google.com/forms/d/e/1FAIpQLScgyAqQw0vNQu5TL3OEc-d3KZdMeO7IkX9RShRLH5TJd_GoEw/viewform"
+          }
+          title={"Запрос на модерацию фото (УМФ №2)"}
+        />
+
         <h2>Графики</h2>
 
         <LinkItem
