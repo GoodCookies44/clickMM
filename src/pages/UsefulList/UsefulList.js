@@ -65,23 +65,16 @@ export default function UsefulList() {
 
         <LinkItem
           url={
+            "https://docs.google.com/document/d/1-oyaG_R9z2Mnb2Y3VYR9zSgvzSYWtO8Ov9n0eIXkPtM/edit"
+          }
+          title={"Порядок разблокировки при вывозе товара:"}
+        />
+
+        <LinkItem
+          url={
             "https://docs.google.com/document/d/19DsYNyeAxqCHKem9nnnayeLvEWwMX2T8IQHc62b3l1Y/edit"
           }
           title={"Инструкция по работе модератора"}
-        />
-
-        <LinkItem
-          url={
-            "https://docs.google.com/document/d/15BJUl0IZugXHFFU-hYjVe9UK4B7pHV_qFKX9SjHtID8/edit#heading=h.agkb70ksq255"
-          }
-          title={"Порядок работы по МФП"}
-        />
-
-        <LinkItem
-          url={
-            "https://business.kazanexpress.ru/manual/photo-moderation/#_1-%D0%BC%D0%B0%D0%BB%D0%BE-%D1%84%D0%BE%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%B8"
-          }
-          title={"Критерии фотографий МФП"}
         />
 
         <LinkItem
@@ -90,12 +83,7 @@ export default function UsefulList() {
           }
           title={"Порядок работы по УМФ"}
         />
-        <LinkItem
-          url={
-            "https://docs.google.com/spreadsheets/d/1_usX24awN6NWMahyTMsOgVJ__WXc8M3f5sb0py_uX_Y/edit#gid=0"
-          }
-          title={"Категории для УМФ"}
-        />
+
         <LinkItem
           url={
             "https://docs.google.com/document/d/1KMH_yEn2eDWPmm5XCwzyLCCkbT764ZDYjEPO1cIRYeg/edit"
@@ -107,30 +95,9 @@ export default function UsefulList() {
 
         <LinkItem
           url={
-            "https://docs.google.com/spreadsheets/d/1IaH1z6zcInuMo6WTle3bwZ6GfFccrarMGetF9kdS1Do/edit#gid=47083152"
+            "https://docs.google.com/spreadsheets/d/1M9A1F1QkCLCNWXw7Jjb2txhQeuo8W3hzaKyx3yCXuWA/edit#gid=743757286"
           }
-          title={"Таблица МФП №1"}
-        />
-
-        <LinkItem
-          url={
-            "https://docs.google.com/spreadsheets/d/1rt8qTbC8is9wvlWgtq69fvuhW07bpjqf3Cz8H2gY3lw/edit#gid=652114021"
-          }
-          title={"Таблица МФП №2"}
-        />
-
-        <LinkItem
-          url={
-            "https://docs.google.com/spreadsheets/d/1IeFHrpChv_TB4YwrbKnIG_tag8nT0fqLMwtOC9PPtp0/edit#gid=1369042334"
-          }
-          title={"Таблица УМФ №1"}
-        />
-
-        <LinkItem
-          url={
-            "https://docs.google.com/spreadsheets/d/1KRjHA9SgUtzb-UtTvsQrld5Kl_svVym3aT5ZHsciqaw/edit#gid=1142747448"
-          }
-          title={"Таблица УМФ №2"}
+          title={"Таблица УМФ"}
         />
 
         <LinkItem
@@ -151,29 +118,9 @@ export default function UsefulList() {
 
         <LinkItem
           url={
-            "https://docs.google.com/forms/d/e/1FAIpQLSfmzJaK1KObwJQ930Bq7ehJtclW1QfNdVYeI2T_aRSZzT4Qbg/viewform"
+            "https://docs.google.com/forms/d/e/1FAIpQLSeyL4ojEf5p8luNazBbrc6fuJAYZ58Lx1ebxc1uX6rd7zZ28w/viewform"
           }
-          title={"Запрос на модерацию фото (МФП №1)"}
-        />
-
-        <LinkItem
-          url={
-            "https://docs.google.com/forms/d/e/1FAIpQLSe_0msnpS70TuZG0cqN5HKx4Q4yaFmcbTS3CkyXOt3fL9qLWg/viewform"
-          }
-          title={"Запрос на модерацию фото (МФП №2)"}
-        />
-
-        <LinkItem
-          url={
-            "https://docs.google.com/forms/d/e/1FAIpQLSc8OPrZkL77PbP9dfxl8WdCI7INRF4tZkYm2Ceo0wM3ITsQWA/viewform"
-          }
-          title={"Запрос на модерацию фото (УМФ №1)"}
-        />
-        <LinkItem
-          url={
-            "https://docs.google.com/forms/d/e/1FAIpQLScgyAqQw0vNQu5TL3OEc-d3KZdMeO7IkX9RShRLH5TJd_GoEw/viewform"
-          }
-          title={"Запрос на модерацию фото (УМФ №2)"}
+          title={"Запрос на модерацию фото (УМФ)"}
         />
 
         <h2>Графики</h2>

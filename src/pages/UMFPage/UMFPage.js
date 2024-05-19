@@ -38,6 +38,9 @@ export default function UMFPage() {
         <p>Причины отказа:</p>
         <ul>
           <li>
+            <ListItem text={"Уже стоит отметка о студийных фотографиях"} />
+          </li>
+          <li>
             <ListItem text={"Причина 1: Фотографии не соответствуют техническим требованиям"} />
           </li>
           <li>
@@ -72,9 +75,6 @@ export default function UMFPage() {
           </li>
           <li>
             <ListItem text={"Причина 10: Иные причины"} />
-          </li>
-          <li>
-            <ListItem text={"Уже стоит отметка о студийных фотографиях"} />
           </li>
         </ul>
       </section>

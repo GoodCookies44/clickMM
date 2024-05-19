@@ -55,15 +55,9 @@ export default function ReportPage() {
         },
         {text: "Искусственно завышенная цена:", id: "MKT15"},
       ],
+
       pp_group: [{text: "**Модерация платного продвижения:**", id: "PP", addEmptyLineBefore: true}],
-      mfp_group: [
-        {text: "**Модерация фото продавцов:**", id: ""},
-        {text: "Проверено запросов:", id: "MFP_request"},
-        {text: "Проверено ШК:", id: "MFP_SHK"},
-        {text: "Из них принято:", id: "MFP_accepted"},
-        {text: "Отклонено:", id: "MFP_rejected"},
-        {text: "На доработку:", id: "MFP_revision"},
-      ],
+
       umf_group: [
         {text: "**Упрощённая модерация фото:**", id: ""},
         {text: "Проверено запросов:", id: "UMF_request"},
@@ -71,6 +65,7 @@ export default function ReportPage() {
         {text: "Из них принято:", id: "UMF_accepted"},
         {text: "Отклонено:", id: "UMF_rejected"},
       ],
+
       dfp_group: [
         {
           text: "**Обработано запросов на добавление фото продавца:**",
@@ -80,10 +75,12 @@ export default function ReportPage() {
         {text: "Принято:", id: "DFP_accepted"},
         {text: "Отклонено:", id: "DFP_rejected"},
       ],
+
       kp_group: [
         {text: "**Обработано запросов в Kaiten, КП:**", id: "KP_Trello", addEmptyLineBefore: true},
         {text: "**Обработано запросов от КП (адм.):**", id: "KP_Adm"},
       ],
+
       bp_group: [
         {
           text: "**Обработано запросов в Kaiten, Бизнес:**",
@@ -128,10 +125,6 @@ export default function ReportPage() {
 
         // Если есть хотя бы одно ненулевое значение, отображаем все значения группы
         if (hasNonZeroValue) {
-          // Для группы mfp_group добавляем строку "Модерация фото продавцов"
-          if (groupKey === "mfp_group") {
-            reportText += "\n**Модерация фото продавцов:**\n";
-          }
           // Для группы umf_group добавляем строку "Модерация фото продавцов"
           if (groupKey === "umf_group") {
             reportText += "\n**Упрощённая модерация фото:**\n";

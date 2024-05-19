@@ -23,9 +23,8 @@ export default function App() {
         <Route index element={<UsefulList />} />
         <Route path={"/MKT"} element={<MKTPage />} />
         <Route path={"/PP"} element={<PPPage />} />
-        <Route path={"/MFP"} element={<MFPPage />} />
-        <Route path={"/DFP"} element={<DFPPage />} />
         <Route path={"/UMF"} element={<UMFPage />} />
+        <Route path={"/DFP"} element={<DFPPage />} />
         <Route path={"/KP"} element={<KPPage />} />
         <Route path={"/BP"} element={<BPPage />} />
         <Route path={"/Report"} element={<ReportPage />} />
