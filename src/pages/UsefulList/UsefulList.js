@@ -134,6 +134,13 @@ export default function UsefulList() {
 
         <LinkItem
           url={
+            "https://docs.google.com/spreadsheets/d/1jIcZkk4i02I97jUf80nBhousc1mzWWJ1OtaeUcE3SH8/edit#gid=0"
+          }
+          title={"График отпусков"}
+        />
+
+        <LinkItem
+          url={
             "https://docs.google.com/spreadsheets/d/1BB_NBFLc_HbStfT2_sHvdCj9Ti-NYh5Hk89w5uNAnnI/edit?usp=sharing"
           }
           title={"План"}
