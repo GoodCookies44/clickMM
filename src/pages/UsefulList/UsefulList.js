@@ -91,6 +91,11 @@ export default function UsefulList() {
           title={"Критерии фотографий УМФ"}
         />
 
+        <LinkItem
+          url={"https://business.kazanexpress.ru/manual/photo-moderation-lite/"}
+          title={"Критерии фотографий УМФ (KazanExpress Business)"}
+        />
+
         <h2>Рабочие таблицы</h2>
 
         <LinkItem
