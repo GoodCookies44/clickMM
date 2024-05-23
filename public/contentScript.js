@@ -133,10 +133,8 @@ function downloadAllImages() {
     const imageUrl = image.href || image.src;
     if (isValidImageUrl(imageUrl)) {
       const parentElement = image.closest("[data-sku]");
-      if (parentElement) {
-        const sku = parentElement.getAttribute("data-sku");
-        imagesData.push({url: imageUrl, sku: sku});
-      }
+      const sku = parentElement ? parentElement.getAttribute("data-sku") : undefined;
+      imagesData.push({url: imageUrl, sku: sku});
     }
   });
 
