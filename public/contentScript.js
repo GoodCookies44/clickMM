@@ -113,35 +113,42 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 });
 
-//Функция скачивания фото
+// Функция для проверки, является ли URL допустимым для изображения
 function isValidImageUrl(url) {
   if (typeof url !== "string") {
-    return false; // Если url не является строкой, считаем его недопустимым
+    return false;
   }
-  // Проверяем расширение файла для изображений
   const validExtensions = [".jpg", ".jpeg", ".png"];
   return validExtensions.some((ext) => url.toLowerCase().endsWith(ext));
 }
 
+// Функция для скачивания всех изображений, группируя их по папкам на основе значения атрибута data-sku родительского компонента
 function downloadAllImages() {
   const images = document.querySelectorAll(
     ".image-table img, .Images a, .js-attachment-list a, a[class^='jss'], a[class^='v']"
   );
-  const uniqueImages = new Set();
+  const imagesData = [];
 
   images.forEach((image) => {
     const imageUrl = image.href || image.src;
     if (isValidImageUrl(imageUrl)) {
-      uniqueImages.add(imageUrl);
+      const parentElement = image.closest("[data-sku]");
+      if (parentElement) {
+        const sku = parentElement.getAttribute("data-sku");
+        imagesData.push({url: imageUrl, sku: sku});
+      }
     }
   });
 
-  chrome.runtime.sendMessage({action: "downloadImages", images: Array.from(uniqueImages)});
+  chrome.runtime.sendMessage({action: "downloadImages", images: imagesData});
 }
 
+// Обработчик сообщений от фонового скрипта
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "downloadAllImages") {
     downloadAllImages();
+  } else {
+    changeContent(request.action);
   }
 });
 

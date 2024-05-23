@@ -111,27 +111,41 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       currentDate.getMinutes().toString().padStart(2, "0") +
       "." +
       currentDate.getSeconds().toString().padStart(2, "0");
-    const folderPath = formattedDate.replace(/[\/\\<>|?:*]/g, "-") + "/"; // Заменяем недопустимые символы на "-"
+    const rootFolderPath = formattedDate.replace(/[\/\\<>|?:*]/g, "-") + "/"; // Заменяем недопустимые символы на "-"
 
+    // Создаем корневую папку
     chrome.downloads.download(
       {
         url: "data:text/plain,", // Создаем заглушку для скачивания папки
-        filename: folderPath, // Создаем новую папку
+        filename: rootFolderPath, // Создаем новую папку
         conflictAction: "uniquify", // Уникальное имя папки, если такая уже существует
         saveAs: false, // Не открывать диалоговое окно "Сохранить как"
       },
       function (downloadId) {
-        images.forEach((imageUrl, index) => {
-          if (!downloadedImages.has(imageUrl)) {
-            const filename = index + 1 + imageUrl.substring(imageUrl.lastIndexOf("."));
-            chrome.downloads.download({url: imageUrl, filename: folderPath + filename});
-            downloadedImages.add(imageUrl);
+        images.forEach(({url, sku}, index) => {
+          if (!downloadedImages.has(url)) {
+            const folderPath = rootFolderPath + sku + "/";
+            const filename = index + 1 + url.substring(url.lastIndexOf("."));
+            chrome.downloads.download({
+              url: url,
+              filename: folderPath + filename,
+              conflictAction: "uniquify",
+              saveAs: false,
+            });
+            downloadedImages.add(url);
           }
         });
       }
     );
   }
 });
+
+// Функция для отправки сообщения контентному скрипту текущей вкладки
+function sendMessageToTab(message) {
+  chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, message);
+  });
+}
 
 // Функция для отправки сообщения контентному скрипту текущей вкладки
 function sendMessageToTab(message) {
