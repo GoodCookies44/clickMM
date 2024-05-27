@@ -65,6 +65,9 @@ function capitalizeWords(text) {
 // Функция для добавления кавычек в начале и конце выделенного текста
 function addQuotes(text) {
   text = text.trim();
+  if (text.startsWith("«") && text.endsWith("»")) {
+    text = text.slice(1, -1).trim();
+  }
   text = `"${text}"`;
   return text;
 }
@@ -79,7 +82,7 @@ function convertToBulletList(text) {
     let listItem = line.trim();
     // Если список не нумерованный, удаляем "-" или "•" в начале строки
     if (!/^\d/.test(listItem)) {
-      listItem = listItem.replace(/^[-―—·•●*]\s*/, ""); // Удаляем "-" или "•" и пробел после него
+      listItem = listItem.replace(/^[-–―—·•●*]\s*/, ""); // Удаляем "-" или "•" и пробел после него
     }
     // Если строка начинается с цифры или цифры с символом (например, 1., 1) или 1 ), делаем её элементом нумерованного списка
     if (/^\d+([.)]\s*|\s)/.test(listItem)) {
