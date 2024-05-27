@@ -8,9 +8,7 @@ function changeContent(action) {
       switch (action) {
         case "createList":
           const listFragment = convertToBulletList(selectedText);
-          const fragment = range.createContextualFragment(listFragment);
-          range.deleteContents();
-          range.insertNode(fragment);
+          document.execCommand("insertHTML", false, listFragment);
           break;
         default:
           changeCase(action, selectedText, range);
@@ -23,13 +21,13 @@ function changeContent(action) {
 // Функция для изменения регистра слов в выделенном тексте
 function changeCase(type, selectedText, range) {
   switch (type) {
-    case "toggle":
+    case "toggleCase":
       selectedText = toggleCase(selectedText);
       break;
-    case "lower":
+    case "lowerCase":
       selectedText = selectedText.toLowerCase();
       break;
-    case "capitalize":
+    case "capitalizeWords":
       selectedText = capitalizeWords(selectedText);
       break;
     case "addQuotes":
@@ -83,18 +81,24 @@ function convertToBulletList(text) {
     if (!/^\d/.test(listItem)) {
       listItem = listItem.replace(/^[-―—·•●*]\s*/, ""); // Удаляем "-" или "•" и пробел после него
     }
-    // Если строка начинается с цифры, делаем её элементом нумерованного списка
-    if (/^\d/.test(listItem)) {
-      listItem = listItem.replace(/^\d+\.\s*/, ""); // Удаляем номер и пробел после него
+    // Если строка начинается с цифры или цифры с символом (например, 1., 1) или 1 ), делаем её элементом нумерованного списка
+    if (/^\d+([.)]\s*|\s)/.test(listItem)) {
+      listItem = listItem.replace(/^\d+([.)]\s*|\s)/, ""); // Удаляем номер и символы после него
       return `<li>${listItem}</li>`;
     }
-    // Если строка не начинается с цифры, делаем её элементом не нумерованного списка
+    // Если строка не начинается с цифры, делаем её элементом ненумерованного списка
     return `<li>${listItem}</li>`;
   });
+
   // Создаем список в зависимости от первого символа
-  const listType = /^\d/.test(lines[0]) ? "ol" : "ul";
+  const listType = /^\d+([.)]\s*|\s)/.test(lines[0].trim()) ? "ol" : "ul";
   return `<${listType}>${listItems.join("")}</${listType}>`;
 }
+
+// Обработчик сообщений от фонового скрипта
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  changeContent(request.action);
+});
 
 // Обработчик сообщений от фонового скрипта
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
