@@ -1,6 +1,7 @@
 // Модули
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState, useRef} from "react";
 import PropTypes from "prop-types";
+import {evaluate} from "mathjs";
 // Компоненты
 import {CounterContext} from "../Context/CounterContext";
 // Стили
@@ -90,7 +91,13 @@ export default function Counter({id, targetIds}) {
 
   const handleEditBlur = () => {
     setIsEditing(false);
-    const newValue = parseInt(editedValue);
+    let newValue;
+    if (/^[\d+\-*/().\s]+$/.test(editedValue)) {
+      newValue = evaluate(editedValue);
+    } else {
+      newValue = parseFloat(editedValue);
+    }
+
     if (!isNaN(newValue)) {
       setCount(newValue);
       updateCounterValue(id, newValue);
@@ -101,8 +108,7 @@ export default function Counter({id, targetIds}) {
     <div className="counter__container">
       <div className="counter_value" onDoubleClick={handleDoubleClick}>
         {isEditing ? (
-          <input
-            type="text"
+          <textarea
             value={editedValue}
             onChange={handleEditChange}
             onBlur={handleEditBlur}
@@ -112,7 +118,7 @@ export default function Counter({id, targetIds}) {
         ) : (
           count
         )}
-      </div>{" "}
+      </div>
       <div className="button__container">
         <button onClick={increment} className="counter__button">
           {/* Иконка Плюс */}
