@@ -21,15 +21,15 @@ export default function UMFPage() {
           </div>
           <div className="container__FP">
             ШК
-            <Counter id="UMF_SHK" />
+            <Counter id="UMF_SHK" targetIds={["UMF_accepted", "UMF_rejected"]} />
           </div>
           <div className="container__FP">
             Принято
-            <Counter id="UMF_accepted" targetIds={["UMF_SHK"]} />
+            <Counter id="UMF_accepted" />
           </div>
           <div className="container__FP">
             Отклонено
-            <Counter id="UMF_rejected" targetIds={["UMF_SHK"]} />
+            <Counter id="UMF_rejected" />
           </div>
         </div>
       </section>

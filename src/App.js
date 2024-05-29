@@ -5,8 +5,6 @@ import {Outlet, Route, Routes} from "react-router-dom";
 import Header from "./components/Header/Header.js";
 import MKTPage from "./pages/MKTPage/MKTPage.js";
 import PPPage from "./pages/PPPage/PPPage.js";
-import MFPPage from "./pages/MFPPage/MFPPage.js";
-import DFPPage from "./pages/DFPPage/DFPPage.js";
 import UMFPage from "./pages/UMFPage/UMFPage.js";
 import KPPage from "./pages/KPPage/KPPage.js";
 import BPPage from "./pages/BPPage/BPPage.js";
@@ -24,7 +22,6 @@ export default function App() {
         <Route path={"/MKT"} element={<MKTPage />} />
         <Route path={"/PP"} element={<PPPage />} />
         <Route path={"/UMF"} element={<UMFPage />} />
-        <Route path={"/DFP"} element={<DFPPage />} />
         <Route path={"/KP"} element={<KPPage />} />
         <Route path={"/BP"} element={<BPPage />} />
         <Route path={"/Report"} element={<ReportPage />} />

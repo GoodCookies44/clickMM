@@ -66,16 +66,6 @@ export default function ReportPage() {
         {text: "Отклонено:", id: "UMF_rejected"},
       ],
 
-      dfp_group: [
-        {
-          text: "**Обработано запросов на добавление фото продавца:**",
-          id: "DFP_request",
-          addEmptyLineBefore: true,
-        },
-        {text: "Принято:", id: "DFP_accepted"},
-        {text: "Отклонено:", id: "DFP_rejected"},
-      ],
-
       kp_group: [
         {text: "**Обработано запросов в Kaiten, КП:**", id: "KP_Trello", addEmptyLineBefore: true},
         {text: "**Обработано запросов от КП (адм.):**", id: "KP_Adm"},

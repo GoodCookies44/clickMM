@@ -80,7 +80,7 @@
   border: none;
   outline: none;
 
-  width: 1em;
+  width: 3ch;
   height: 1em;
 
   margin: .1em;
@@ -88,6 +88,7 @@
 
   border-radius: 0.2em;
 
+  font-family: "Comfortaa", sans-serif;
   font-size: 1em;
   color: #f6f6f6;
 
@@ -98,5 +99,5 @@
   
   white-space: pre-wrap;
   word-wrap: break-word;
-  overflow: hidden;
+  overflow: hidden; 
 }

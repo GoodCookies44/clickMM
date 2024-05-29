@@ -7,33 +7,35 @@ import {CounterContext} from "../Context/CounterContext";
 // Стили
 import "./Counter.css";
 
-export default function Counter({id, targetIds}) {
+export default function Counter({id, targetIds, targetId}) {
   // Получаем доступ к контексту с помощью хука useContext
   const {counters, addCounterId, updateCounterValue} = useContext(CounterContext);
   const [isRotated, setIsRotated] = useState(false);
-
-  // Ищем значение счетчика по его id в массиве контекста
   const counter = counters.find((counter) => counter.id === id);
+  const [count, setCount] = useState(counter ? counter.value : 0);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedValue, setEditedValue] = useState("");
 
-  // Если счетчик не найден, добавляем его в массив контекста
   useEffect(() => {
+    const counter = counters.find((counter) => counter.id === id);
     if (!counter) {
       addCounterId(id);
     }
-  }, [id, counter, addCounterId]);
-
-  // Состояние счетчика
-  const [count, setCount] = useState(counter ? counter.value : 0);
-
-  // Обновляем состояние счётчика при изменении его значения в контексте
-  useEffect(() => {
-    if (counter) {
+    if (counter.value !== count) {
       setCount(counter.value);
     }
-  }, [counter]);
+  }, [counters, id, addCounterId, count]);
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedValue, setEditedValue] = useState("");
+  const calculateTargetSum = () => {
+    if (targetIds && targetIds.length > 0) {
+      const newSum = targetIds.reduce((sum, targetId) => {
+        const targetCounter = counters.find((counter) => counter.id === targetId);
+        return sum + (targetCounter ? targetCounter.value : 0);
+      }, 0);
+      updateCounterValue(id, newSum);
+      setCount(newSum);
+    }
+  };
 
   // Функция для увеличения значения счетчика
   const increment = () => {
@@ -42,14 +44,13 @@ export default function Counter({id, targetIds}) {
     updateCounterValue(id, newCount);
 
     // Проверяем наличие целевого счётчика и обновляем его значение
-    if (targetIds && targetIds.length > 0) {
-      targetIds.forEach((targetId) => {
-        const targetCounter = counters.find((counter) => counter.id === targetId);
-        if (targetCounter) {
-          updateCounterValue(targetId, targetCounter.value + 1);
-        }
-      });
+    if (targetId && targetId.length > 0) {
+      const targetCounter = counters.find((counter) => counter.id === targetId);
+      if (targetCounter) {
+        updateCounterValue(targetId, targetCounter.value + 1);
+      }
     }
+    calculateTargetSum();
   };
 
   // Функция для уменьшения значения счетчика
@@ -60,22 +61,21 @@ export default function Counter({id, targetIds}) {
 
     // Проверяем наличие целевого счётчика и обновляем его значение
     if (targetIds && targetIds.length > 0) {
-      targetIds.forEach((targetId) => {
-        const targetCounter = counters.find((counter) => counter.id === targetId);
-        if (targetCounter && targetCounter.value > 0) {
-          updateCounterValue(targetId, targetCounter.value - 1);
-        }
-      });
+      const targetCounter = counters.find((counter) => counter.id === targetId);
+      if (targetCounter && targetCounter.value > 0) {
+        updateCounterValue(targetId, targetCounter.value - 1);
+      }
     }
+    calculateTargetSum();
   };
 
   // Функция для сброса значения счетчика
   const reset = () => {
     setCount(0);
     updateCounterValue(id, 0);
+    calculateTargetSum();
     // Запускаем анимацию поворота
     setIsRotated(true);
-
     // Убираем класс с анимацией после завершения анимации
     setTimeout(() => setIsRotated(false), 1000);
   };
@@ -101,6 +101,7 @@ export default function Counter({id, targetIds}) {
     if (!isNaN(newValue)) {
       setCount(newValue);
       updateCounterValue(id, newValue);
+      calculateTargetSum();
     }
   };
 
@@ -203,5 +204,6 @@ export default function Counter({id, targetIds}) {
 
 Counter.propTypes = {
   id: PropTypes.string.isRequired,
+  targetId: PropTypes.arrayOf(PropTypes.string),
   targetIds: PropTypes.arrayOf(PropTypes.string),
 };
