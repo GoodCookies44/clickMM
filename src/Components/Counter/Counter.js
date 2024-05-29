@@ -26,7 +26,7 @@ export default function Counter({id, targetIds, targetId}) {
     }
   }, [counters, id, addCounterId, count]);
 
-  const calculateTargetSum = () => {
+    const calculateTargetSum = () => {
     if (targetIds && targetIds.length > 0) {
       const newSum = targetIds.reduce((sum, targetId) => {
         const targetCounter = counters.find((counter) => counter.id === targetId);

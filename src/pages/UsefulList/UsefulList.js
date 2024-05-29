@@ -67,7 +67,7 @@ export default function UsefulList() {
           url={
             "https://docs.google.com/document/d/1-oyaG_R9z2Mnb2Y3VYR9zSgvzSYWtO8Ov9n0eIXkPtM/edit"
           }
-          title={"Порядок разблокировки при вывозе товара:"}
+          title={"Порядок разблокировки при вывозе товара"}
         />
 
         <LinkItem
