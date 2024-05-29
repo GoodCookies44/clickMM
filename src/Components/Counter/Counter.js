@@ -16,17 +16,16 @@ export default function Counter({id, targetIds, targetId}) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedValue, setEditedValue] = useState("");
 
+  // Если счетчик не найден, добавляем его в массив контекста
   useEffect(() => {
-    const counter = counters.find((counter) => counter.id === id);
     if (!counter) {
       addCounterId(id);
-    }
-    if (counter.value !== count) {
+    } else {
       setCount(counter.value);
     }
-  }, [counters, id, addCounterId, count]);
+  }, [id, counter, addCounterId]);
 
-    const calculateTargetSum = () => {
+  const calculateTargetSum = () => {
     if (targetIds && targetIds.length > 0) {
       const newSum = targetIds.reduce((sum, targetId) => {
         const targetCounter = counters.find((counter) => counter.id === targetId);
