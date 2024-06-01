@@ -1,5 +1,5 @@
 // Модули
-import React, {useContext, useEffect, useState, useRef} from "react";
+import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import PropTypes from "prop-types";
 import {evaluate} from "mathjs";
 // Компоненты
@@ -9,79 +9,90 @@ import "./Counter.css";
 
 export default function Counter({id, targetIds, targetId}) {
   // Получаем доступ к контексту с помощью хука useContext
-  const {counters, addCounterId, updateCounterValue} = useContext(CounterContext);
+  const {counters, addCounterId, updateCounterValue, dependencies} = useContext(CounterContext);
+  const counter = counters.find((counter) => counter.id === id) || {value: 0};
+  const targetCounter = counters.find((counter) => counter.id === targetId) || {value: 0};
+
   const [isRotated, setIsRotated] = useState(false);
-  const counter = counters.find((counter) => counter.id === id);
-  const [count, setCount] = useState(counter ? counter.value : 0);
   const [isEditing, setIsEditing] = useState(false);
   const [editedValue, setEditedValue] = useState("");
+  const prevCounters = useRef(counters);
+  const updateSumTimeout = useRef(null);
 
   // Если счетчик не найден, добавляем его в массив контекста
-  useEffect(() => {
-    if (!counter) {
-      addCounterId(id);
-    } else {
-      setCount(counter.value);
-    }
-  }, [id, counter, addCounterId]);
+  if (!counters.some((counter) => counter.id === id)) {
+    addCounterId(id);
+  }
 
-  const calculateTargetSum = () => {
+  useEffect(() => {
+    if (prevCounters.current !== counters) {
+      prevCounters.current = counters;
+      if (targetIds && targetIds.length > 0) {
+        clearTimeout(updateSumTimeout.current); // Очищаем предыдущий таймаут
+        updateSumTimeout.current = setTimeout(() => {
+          const newSum = targetIds.reduce(
+            (sum, targetId) =>
+              sum + (counters.find((counter) => counter.id === targetId)?.value || 0),
+            0
+          );
+          updateCounterValue(id, newSum);
+        }, 1000);
+      }
+    }
+  }, [counters, id, targetIds, updateCounterValue]);
+
+  const calculateTargetSum = useMemo(() => {
     if (targetIds && targetIds.length > 0) {
-      const newSum = targetIds.reduce((sum, targetId) => {
+      return targetIds.reduce((sum, targetId) => {
         const targetCounter = counters.find((counter) => counter.id === targetId);
         return sum + (targetCounter ? targetCounter.value : 0);
       }, 0);
-      updateCounterValue(id, newSum);
-      setCount(newSum);
     }
-  };
+    return 0;
+  }, [counters, targetIds]);
 
   // Функция для увеличения значения счетчика
   const increment = () => {
-    const newCount = count + 1;
-    setCount(newCount);
+    const newCount = counter.value + 1;
     updateCounterValue(id, newCount);
 
-    // Проверяем наличие целевого счётчика и обновляем его значение
-    if (targetId && targetId.length > 0) {
-      const targetCounter = counters.find((counter) => counter.id === targetId);
-      if (targetCounter) {
-        updateCounterValue(targetId, targetCounter.value + 1);
-      }
+    if (targetId) {
+      const newTargetCount = targetCounter.value + 1;
+      updateCounterValue(targetId, newTargetCount);
     }
-    calculateTargetSum();
+
+    if (targetIds && targetIds.length > 0) {
+      const newSum = calculateTargetSum + 1;
+      updateCounterValue(targetId, newSum);
+    }
   };
 
   // Функция для уменьшения значения счетчика
   const decrement = () => {
-    const newCount = count - 1;
-    setCount(newCount < 0 ? 0 : newCount);
-    updateCounterValue(id, newCount < 0 ? 0 : newCount);
+    const newCount = counter.value - 1 < 0 ? 0 : counter.value - 1;
+    updateCounterValue(id, newCount);
 
-    // Проверяем наличие целевого счётчика и обновляем его значение
-    if (targetIds && targetIds.length > 0) {
-      const targetCounter = counters.find((counter) => counter.id === targetId);
-      if (targetCounter && targetCounter.value > 0) {
-        updateCounterValue(targetId, targetCounter.value - 1);
-      }
+    if (targetId) {
+      const newTargetCount = targetCounter.value - 1 < 0 ? 0 : targetCounter.value - 1;
+      updateCounterValue(targetId, newTargetCount);
     }
-    calculateTargetSum();
+
+    if (targetIds && targetIds.length > 0) {
+      const newSum = calculateTargetSum - 1 < 0 ? 0 : calculateTargetSum - 1;
+      updateCounterValue(targetId, newSum);
+    }
   };
 
   // Функция для сброса значения счетчика
   const reset = () => {
-    setCount(0);
     updateCounterValue(id, 0);
-    calculateTargetSum();
-    // Запускаем анимацию поворота
     setIsRotated(true);
-    // Убираем класс с анимацией после завершения анимации
     setTimeout(() => setIsRotated(false), 1000);
   };
 
   const handleDoubleClick = () => {
     setIsEditing(true);
-    setEditedValue(count.toString());
+    setEditedValue(counter.value.toString());
   };
 
   const handleEditChange = (event) => {
@@ -98,9 +109,7 @@ export default function Counter({id, targetIds, targetId}) {
     }
 
     if (!isNaN(newValue)) {
-      setCount(newValue);
       updateCounterValue(id, newValue);
-      calculateTargetSum();
     }
   };
 
@@ -115,8 +124,10 @@ export default function Counter({id, targetIds, targetId}) {
             autoFocus
             className="custom-input"
           />
+        ) : targetIds && targetIds.length > 0 ? (
+          calculateTargetSum
         ) : (
-          count
+          counter.value
         )}
       </div>
       <div className="button__container">
@@ -203,6 +214,6 @@ export default function Counter({id, targetIds, targetId}) {
 
 Counter.propTypes = {
   id: PropTypes.string.isRequired,
-  targetId: PropTypes.arrayOf(PropTypes.string),
+  targetId: PropTypes.string,
   targetIds: PropTypes.arrayOf(PropTypes.string),
 };

@@ -134,6 +134,7 @@ export default function ReportPage() {
     });
 
     setReport(reportText);
+    navigator.clipboard.writeText(report);
   };
 
   const copyReport = () => {
