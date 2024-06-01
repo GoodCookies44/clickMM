@@ -109,10 +109,12 @@
 }
 
 .custom-checkbox__container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  
   margin-left: .3em;
-}
-
-.custom-checkbox__container {
+  
   width: 1em;
   height: 1em;
 }

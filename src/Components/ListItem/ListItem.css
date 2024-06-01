@@ -57,3 +57,28 @@
   height: 20px;
   width: 20px;
 }
+
+.dropdown__content{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dropdown__content .custom-checkbox__container{
+  margin-right: .3em;
+}
+
+.dropdown__content .checkbox-label{
+  flex-direction: row-reverse;
+  
+  font-size: .8em;
+}
+
+.dropdown__content ul{
+  font-size: 1.3em;
+  
+  margin: .2em;
+}
+
+.FP .dropdown__content li{
+  margin:.3em 0;
+}

@@ -4,14 +4,74 @@ import PropTypes from "prop-types";
 // Стили
 import "./ListItem.css";
 
-const ListItem = ({text}) => {
+export default function ListItem({text}) {
   const [isIconChanged, setIsIconChanged] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [optionsByReason, setOptionsByReason] = useState({
+    "Причина 1: Фотографии не соответствуют техническим требованиям": [
+      "соотношение сторон не 3х4",
+      "разрешение менее 900х1200 пикселей",
+    ],
+    "Причина 2: Нет доступа к фотографиям, или они не отсортированы": [
+      "нет доступа к фотографиям, фото должны быть загружены в облако с доступом для просмотра",
+      "папки с фотографиями не отсортированы",
+    ],
+    "Причина 3: Фотографии не отражают реальный вид товара": [
+      "отсутствуют фотографии на которых товар виден полностью",
+      "в карточке имеются только фотографии с макетом или эскизом товара",
+    ],
+    "Причина 4: Фотографии не качественные": [
+      "на фото высокая зернистость",
+      "на фото высокая замыленность",
+      "фотографии сделаны на складе",
+      "фотографии сделаны домашних условиях",
+      "фотографии сделаны с плохим освещением",
+    ],
+    "Причина 5: На фотографиях имеется запрещенная символика или информация": [
+      "алкоголь, наркотики, порнография, оружие, жестокость, а также экстремистская и запрещенная законамиодательством Российской Федерации символика и информация (радужные флаги, свастика, правый сектор и т.д.)",
+    ],
+    "Причина 6: Отсутствие размытия на товарах 18+ ": [
+      "товары на которых имеется имитация интимных частей тела",
+      "на товаре или упаковке присутствуют изображения интимного характера",
+      "на товаре или упаковке присутствуют нецензурные надписи",
+    ],
+    "Причина 7: На фото товара имеется информация рекламного характера": [
+      "водяные знаки, ссылки, контакты продавца, логотипы, цены, акции, скидки, скриншоты с других маркетплейсов, данные о количестве продаж, призывы к покупке товара и другую рекламу",
+    ],
+    "Причина 10: Иные причины": [
+      "повторный запрос",
+      "в карточке товара, под данным ШК, нет отметки о студийных фотографиях, продавец сам может изменить фото, потом подать заявку на проверку фото",
+      "разрешение одной из сторон больше 5000 пикселей",
+      "вес фотографий слишком большой, мы не можем загружать фото весом более 5 Мб",
+      "цвет товара на фото от продавца отличается от цвета на студийных фотографиях",
+      "форма товара на фото от продавца отличается от формы на студийных фотографиях",
+    ],
+  });
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleCheckboxChange = (option) => {
+    const selectedIndex = selectedOptions.indexOf(option);
+    if (selectedIndex === -1) {
+      setSelectedOptions([...selectedOptions, option]);
+    } else {
+      setSelectedOptions([
+        ...selectedOptions.slice(0, selectedIndex),
+        ...selectedOptions.slice(selectedIndex + 1),
+      ]);
+    }
+  };
 
   const handleCopyText = () => {
-    // Копирование текста в буфер обмена
-    navigator.clipboard.writeText(text);
+    const selectedText =
+      selectedOptions.length > 0 ? `${text} (${selectedOptions.join(", ")})` : text;
+    navigator.clipboard.writeText(selectedText);
+    setIsOpen(false);
+    setSelectedOptions([]);
 
-    // Изменение иконки на 2 секунды
     setIsIconChanged(true);
     setTimeout(() => {
       setIsIconChanged(false);
@@ -20,7 +80,48 @@ const ListItem = ({text}) => {
 
   return (
     <div className="list__container">
-      <span>{text}</span>
+      <div className={`dropdown__content ${isOpen ? "open" : ""}`}>
+        <span onClick={toggleDropdown}>{text}</span>
+        {isOpen && optionsByReason[text] && optionsByReason[text].length > 0 && (
+          <ul>
+            {optionsByReason[text].map((option, index) => (
+              <li key={index}>
+                <label className="checkbox-label ">
+                  <input
+                    type="checkbox"
+                    className="hidden-checkbox"
+                    checked={selectedOptions.includes(option)}
+                    onChange={() => handleCheckboxChange(option)}
+                  />
+                  {option}
+                  <div className="custom-checkbox__container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                      <path
+                        className="custom-checkbox"
+                        d="M1 15V5C1 2.79086 2.79086 1 5 1H15C17.2091 1 19 2.79086 19 5V15C19 17.2091 17.2091 19 15 19H5C2.79086 19 1 17.2091 1 15Z"
+                        stroke="#F6F6F6"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      {selectedOptions.includes(option) && (
+                        <path
+                          className="custom-marker"
+                          d="M3 10L9 16L18 4"
+                          stroke="#16ff65"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      )}
+                    </svg>
+                  </div>
+                </label>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       <div className="copy__button" onClick={handleCopyText}>
         <svg
           width="20"
@@ -37,11 +138,9 @@ const ListItem = ({text}) => {
       </div>
     </div>
   );
-};
+}
 
 // Определение PropTypes
 ListItem.propTypes = {
   text: PropTypes.string.isRequired,
 };
-
-export default ListItem;
