@@ -9,7 +9,7 @@ import "./Counter.css";
 
 export default function Counter({id, targetIds, targetId}) {
   // Получаем доступ к контексту с помощью хука useContext
-  const {counters, addCounterId, updateCounterValue, dependencies} = useContext(CounterContext);
+  const {counters, addCounterId, updateCounterValue} = useContext(CounterContext);
   const counter = counters.find((counter) => counter.id === id) || {value: 0};
   const targetCounter = counters.find((counter) => counter.id === targetId) || {value: 0};
 

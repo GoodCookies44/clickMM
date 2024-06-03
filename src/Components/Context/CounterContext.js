@@ -7,14 +7,10 @@ export const CounterProvider = ({children}) => {
   // Загружаем данные из локального хранилища при загрузке компонента
   const initialCounters = JSON.parse(localStorage.getItem("counters")) || [];
   const [counters, setCounters] = useState(initialCounters);
-  const [dependencies, setDependencies] = useState({});
 
   // Функция для добавления нового идентификатора счетчика
   const addCounterId = (id, dependencies) => {
     setCounters([...counters, {id, value: 0}]);
-    if (dependencies) {
-      setDependencies({...dependencies, [id]: dependencies});
-    }
   };
 
   // Функция для обновления значения счетчика по его идентификатору
@@ -39,9 +35,7 @@ export const CounterProvider = ({children}) => {
   }, [counters]);
 
   return (
-    <CounterContext.Provider
-      value={{counters, addCounterId, updateCounterValue, resetCounters, dependencies}}
-    >
+    <CounterContext.Provider value={{counters, addCounterId, updateCounterValue, resetCounters}}>
       {children}
     </CounterContext.Provider>
   );
