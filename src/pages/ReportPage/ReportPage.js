@@ -25,6 +25,10 @@ export default function ReportPage() {
     setIsNameEntered(enteredName.trim() !== ""); // Устанавливаем флаг isNameEntered, если введено имя
   };
 
+  const copyReport = (reportText) => {
+    navigator.clipboard.writeText(reportText);
+  };
+
   const generateReport = () => {
     if (!name.trim()) {
       return;
@@ -134,12 +138,9 @@ export default function ReportPage() {
     });
 
     setReport(reportText);
-    navigator.clipboard.writeText(report);
+    copyReport(reportText);
   };
 
-  const copyReport = () => {
-    navigator.clipboard.writeText(report);
-  };
   return (
     <section className="report__section">
       <div className="label__container">
