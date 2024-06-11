@@ -50,7 +50,7 @@
   padding: .5em;
   
   color:#EAC56B;
-    
+  
   border-radius: .6em;
   background: #474747;
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.50);
@@ -65,7 +65,7 @@
 .report__button:hover {
   text-decoration: none;
   background-color: #2F2F2F; 
-    
+  
   cursor: pointer;
 }
 
@@ -80,4 +80,23 @@
   cursor: not-allowed; 
 }
 
+.custom-group{
+  display: flex;
+  flex-direction: column;
+  
+  margin-bottom: .5em
+}
 
+  .custom-group .report__input{
+  margin-bottom: .3em;
+  
+  color: #F6F6F6;
+  
+  width: 50%;
+}
+
+.custom-group .report__button{
+  display: flex;
+  
+  margin: 0.2em 0;
+}

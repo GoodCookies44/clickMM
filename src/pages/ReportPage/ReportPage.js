@@ -9,6 +9,10 @@ export default function ReportPage() {
   const [name, setName] = useState(localStorage.getItem("username") || "");
   const [isNameEntered, setIsNameEntered] = useState(false);
   const [report, setReport] = useState("");
+  const [customGroups, setCustomGroups] = useState(() => {
+    const savedGroups = localStorage.getItem("customGroups");
+    return savedGroups ? JSON.parse(savedGroups) : [];
+  });
   const currentDate = new Date().toLocaleDateString();
 
   useEffect(() => {
@@ -18,6 +22,10 @@ export default function ReportPage() {
   useEffect(() => {
     localStorage.setItem("username", name);
   }, [name]);
+
+  useEffect(() => {
+    localStorage.setItem("customGroups", JSON.stringify(customGroups));
+  }, [customGroups]);
 
   const handleNameChange = (event) => {
     const enteredName = event.target.value;
@@ -137,8 +145,31 @@ export default function ReportPage() {
       }
     });
 
+    // Добавляем пользовательские группы к отчету
+    customGroups.forEach((group, index) => {
+      reportText += `\n**УМФ ${group.name}**\n`;
+      reportText += `Запросы: ${group.requests}\n`;
+      reportText += `Принято: ${group.accepted}\n`;
+      reportText += `Отклонено: ${group.rejected}\n`;
+    });
+
     setReport(reportText);
     copyReport(reportText);
+  };
+
+  const addCustomGroup = () => {
+    setCustomGroups([...customGroups, {name: "", requests: 0, accepted: 0, rejected: 0}]);
+  };
+
+  const removeCustomGroup = (index) => {
+    setCustomGroups(customGroups.filter((_, i) => i !== index));
+  };
+
+  const handleCustomGroupChange = (index, field, value) => {
+    const updatedGroups = customGroups.map((group, i) =>
+      i === index ? {...group, [field]: value} : group
+    );
+    setCustomGroups(updatedGroups);
   };
 
   return (
@@ -164,7 +195,45 @@ export default function ReportPage() {
         <button className="report__button" onClick={copyReport} disabled={!report}>
           Копировать
         </button>
+        <button className="report__button" onClick={addCustomGroup}>
+          Добавить
+        </button>
       </div>
+      {customGroups.map((group, index) => (
+        <div key={index} className="custom-group">
+          <input
+            className="report__input"
+            type="text"
+            placeholder="Название ИП"
+            value={group.name}
+            onChange={(e) => handleCustomGroupChange(index, "name", e.target.value)}
+          />
+          <input
+            className="report__input"
+            type="number"
+            placeholder="Запросы"
+            value={group.requests}
+            onChange={(e) => handleCustomGroupChange(index, "requests", e.target.value)}
+          />
+          <input
+            className="report__input"
+            type="number"
+            placeholder="Принято"
+            value={group.accepted}
+            onChange={(e) => handleCustomGroupChange(index, "accepted", e.target.value)}
+          />
+          <input
+            className="report__input"
+            type="number"
+            placeholder="Отклонено"
+            value={group.rejected}
+            onChange={(e) => handleCustomGroupChange(index, "rejected", e.target.value)}
+          />
+          <button className="report__button" onClick={() => removeCustomGroup(index)}>
+            Удалить
+          </button>
+        </div>
+      ))}
       <pre className="report__text">{report}</pre>
     </section>
   );
