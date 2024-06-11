@@ -102,5 +102,12 @@
 }
 
 .custom-group .number{
-  width: 20%;
+  width: 26%;
 }
+
+.custom-group input[type=number]::-webkit-inner-spin-button,
+.custom-group input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+

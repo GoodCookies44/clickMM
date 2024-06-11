@@ -208,27 +208,31 @@ export default function ReportPage() {
             value={group.name}
             onChange={(e) => handleCustomGroupChange(index, "name", e.target.value)}
           />
+
           <input
             className="report__input number"
             type="number"
             placeholder="Запросы"
-            value={group.requests}
+            value={group.requests !== 0 ? group.requests : ""}
             onChange={(e) => handleCustomGroupChange(index, "requests", e.target.value)}
           />
+
           <input
             className="report__input number"
             type="number"
             placeholder="Принято"
-            value={group.accepted}
+            value={group.accepted !== 0 ? group.accepted : ""}
             onChange={(e) => handleCustomGroupChange(index, "accepted", e.target.value)}
           />
+
           <input
             className="report__input number"
             type="number"
             placeholder="Отклонено"
-            value={group.rejected}
+            value={group.rejected !== 0 ? group.rejected : ""}
             onChange={(e) => handleCustomGroupChange(index, "rejected", e.target.value)}
           />
+
           <button className="report__button" onClick={() => removeCustomGroup(index)}>
             Удалить
           </button>
