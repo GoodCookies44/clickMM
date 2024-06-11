@@ -204,7 +204,7 @@ export default function ReportPage() {
           <input
             className="report__input"
             type="text"
-            placeholder="Название ИП"
+            placeholder="Название компании"
             value={group.name}
             onChange={(e) => handleCustomGroupChange(index, "name", e.target.value)}
           />
