@@ -51,6 +51,9 @@
         "default": "Alt+2"
       },
       "description": "Добавить кавычки"
+    },
+    "createListCommand": {
+      "description": "Создать список"
     }
   },
   

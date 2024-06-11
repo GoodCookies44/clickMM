@@ -61,6 +61,9 @@ chrome.commands.onCommand.addListener(function (command) {
       case "addQuotesCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "addQuotes"});
         break;
+      case "createListCommand":
+        chrome.tabs.sendMessage(tabs[0].id, {action: "createList"});
+        break;
       default:
         break;
     }
