@@ -87,7 +87,7 @@
   margin-bottom: .5em
 }
 
-  .custom-group .report__input{
+.custom-group .report__input{
   margin-bottom: .3em;
   
   color: #F6F6F6;
@@ -99,4 +99,8 @@
   display: flex;
   
   margin: 0.2em 0;
+}
+
+.custom-group .number{
+  width: 20%;
 }
