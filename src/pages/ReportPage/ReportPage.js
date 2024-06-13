@@ -33,10 +33,6 @@ export default function ReportPage() {
     setIsNameEntered(enteredName.trim() !== ""); // Устанавливаем флаг isNameEntered, если введено имя
   };
 
-  const copyReport = (reportText) => {
-    navigator.clipboard.writeText(reportText);
-  };
-
   const generateReport = () => {
     if (!name.trim()) {
       return;
@@ -172,6 +168,10 @@ export default function ReportPage() {
     setCustomGroups(updatedGroups);
   };
 
+  const copyReport = (reportText) => {
+    navigator.clipboard.writeText(reportText);
+  };
+
   return (
     <section className="report__section">
       <div className="label__container">
@@ -192,7 +192,7 @@ export default function ReportPage() {
         <button className="report__button" onClick={generateReport} disabled={!isNameEntered}>
           Создать
         </button>
-        <button className="report__button" onClick={copyReport} disabled={!report}>
+        <button className="report__button" onClick={() => copyReport(report)} disabled={!report}>
           Копировать
         </button>
         <button className="report__button" onClick={addCustomGroup}>
