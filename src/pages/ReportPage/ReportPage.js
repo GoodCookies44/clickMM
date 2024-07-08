@@ -143,10 +143,7 @@ export default function ReportPage() {
 
     // Добавляем пользовательские группы к отчету
     customGroups.forEach((group, index) => {
-      reportText += `\n**УМФ ${group.name}**\n`;
-      reportText += `Запросы: ${group.requests}\n`;
-      reportText += `Принято: ${group.accepted}\n`;
-      reportText += `Отклонено: ${group.rejected}\n`;
+      reportText += `\n**УМФ ${group.name}**: ${group.requests}\n`;
     });
 
     setReport(reportText);
@@ -154,7 +151,7 @@ export default function ReportPage() {
   };
 
   const addCustomGroup = () => {
-    setCustomGroups([...customGroups, {name: "", requests: 0, accepted: 0, rejected: 0}]);
+    setCustomGroups([...customGroups, {name: "", requests: 0}]);
   };
 
   const removeCustomGroup = (index) => {
@@ -215,22 +212,6 @@ export default function ReportPage() {
             placeholder="Запросы"
             value={group.requests !== 0 ? group.requests : ""}
             onChange={(e) => handleCustomGroupChange(index, "requests", e.target.value)}
-          />
-
-          <input
-            className="report__input number"
-            type="number"
-            placeholder="Принято"
-            value={group.accepted !== 0 ? group.accepted : ""}
-            onChange={(e) => handleCustomGroupChange(index, "accepted", e.target.value)}
-          />
-
-          <input
-            className="report__input number"
-            type="number"
-            placeholder="Отклонено"
-            value={group.rejected !== 0 ? group.rejected : ""}
-            onChange={(e) => handleCustomGroupChange(index, "rejected", e.target.value)}
           />
 
           <button className="report__button" onClick={() => removeCustomGroup(index)}>
