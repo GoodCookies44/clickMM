@@ -1,5 +1,56 @@
 chrome.sidePanel.setPanelBehavior({openPanelOnActionClick: true});
 
+let isContentScriptReady = {};
+
+// Обработчик сообщений от контентного скрипта
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "contentScriptReady") {
+    isContentScriptReady[sender.tab.id] = true;
+    console.log("Content script is ready in tab " + sender.tab.id);
+  } else if (message.type === "toggleImageChecking") {
+    const {isEnabled} = message;
+    chrome.storage.local.set({isImageCheckEnabled: isEnabled}, () => {
+      chrome.tabs.query({}, (tabs) => {
+        tabs.forEach((tab) => {
+          if (isContentScriptReady[tab.id]) {
+            chrome.tabs.sendMessage(tab.id, {type: "imageCheckingStatus", isEnabled});
+          }
+        });
+      });
+    });
+  } else if (message.type === "toggleSquareImageChecking") {
+    const {isEnabled} = message;
+    chrome.storage.local.set({isSquareImageCheckEnabled: isEnabled}, () => {
+      chrome.tabs.query({}, (tabs) => {
+        tabs.forEach((tab) => {
+          if (isContentScriptReady[tab.id]) {
+            chrome.tabs.sendMessage(tab.id, {type: "squareImageCheckingStatus", isEnabled});
+          }
+        });
+      });
+    });
+  }
+});
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === "complete") {
+    chrome.storage.local.get(["isImageCheckEnabled", "isSquareImageCheckEnabled"], (result) => {
+      const isImageCheckEnabled = result.isImageCheckEnabled;
+      const isSquareImageCheckEnabled = result.isSquareImageCheckEnabled;
+      if (isContentScriptReady[tabId]) {
+        chrome.tabs.sendMessage(tabId, {
+          type: "imageCheckingStatus",
+          isEnabled: isImageCheckEnabled,
+        });
+        chrome.tabs.sendMessage(tabId, {
+          type: "squareImageCheckingStatus",
+          isEnabled: isSquareImageCheckEnabled,
+        });
+      }
+    });
+  }
+});
+
 let contextMenuCreated = false;
 
 // Создаем контекстное меню при установке расширения

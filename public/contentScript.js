@@ -1,3 +1,6 @@
+// Отправка сообщения о готовности контентного скрипта
+chrome.runtime.sendMessage({type: "contentScriptReady"});
+
 // Функция для изменения контента в зависимости от действия
 function changeContent(action) {
   const selection = window.getSelection();
@@ -294,3 +297,85 @@ function handleHover(event) {
 
 // Добавляем обработчик события наведения мыши на страницу с показом разрешения и цвета пикселя
 document.addEventListener("mousemove", handleHover);
+
+// Функция автоматической проверки фото на соотношение сторон и разрешение
+let isImageCheckEnabled = false;
+let isSquareImageCheckEnabled = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+  chrome.storage.local.get(["isImageCheckEnabled", "isSquareImageCheckEnabled"], (result) => {
+    isImageCheckEnabled = result.isImageCheckEnabled;
+    isSquareImageCheckEnabled = result.isSquareImageCheckEnabled;
+    checkImagesOnPage();
+  });
+});
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "imageCheckingStatus") {
+    isImageCheckEnabled = message.isEnabled;
+    checkImagesOnPage();
+  } else if (message.type === "squareImageCheckingStatus") {
+    isSquareImageCheckEnabled = message.isEnabled;
+    checkImagesOnPage();
+  }
+});
+
+function checkImagesOnPage() {
+  const currentUrl = window.location.href;
+  if (!currentUrl.startsWith("https://admin.kazanexpress.ru/kazanexpress/product/")) {
+    return;
+  }
+
+  const images = document.querySelectorAll(".image-table .image-table-item img");
+
+  images.forEach((img) => {
+    const width = img.naturalWidth;
+    const height = img.naturalHeight;
+    const aspectRatio = (width / height).toFixed(2);
+
+    let boxShadow = "0px 0px 10px .1px rgba(209, 10, 10, 0.9)";
+
+    if (
+      isImageCheckEnabled &&
+      aspectRatio === "0.75" &&
+      width >= 900 &&
+      width <= 3750 &&
+      height >= 1200 &&
+      height <= 5000
+    ) {
+      boxShadow = "0px 0px 10px .1px rgba(21, 181, 0, 0.9)";
+    }
+
+    if (isSquareImageCheckEnabled && aspectRatio === "1.00" && width >= 500 && height >= 500) {
+      boxShadow = "0px 0px 10px .1px rgba(21, 181, 0, 0.9)";
+    }
+
+    img.style.boxShadow = boxShadow;
+
+    let sizeLabel = img.parentElement.querySelector(".size-label");
+    if (!sizeLabel) {
+      sizeLabel = document.createElement("div");
+      sizeLabel.className = "size-label";
+      sizeLabel.style.position = "absolute";
+      sizeLabel.style.bottom = "5px";
+      sizeLabel.style.left = "5px";
+      sizeLabel.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+      sizeLabel.style.color = "white";
+      sizeLabel.style.padding = "2px 5px";
+      img.parentElement.style.position = "relative";
+      img.parentElement.appendChild(sizeLabel);
+    }
+    sizeLabel.textContent = `${width}x${height} (${aspectRatio})`;
+  });
+
+  // Удаление теней и разрешений, если оба переключателя выключены
+  if (!isImageCheckEnabled && !isSquareImageCheckEnabled) {
+    images.forEach((img) => {
+      img.style.boxShadow = "";
+      const sizeLabel = img.parentElement.querySelector(".size-label");
+      if (sizeLabel) {
+        img.parentElement.removeChild(sizeLabel);
+      }
+    });
+  }
+}

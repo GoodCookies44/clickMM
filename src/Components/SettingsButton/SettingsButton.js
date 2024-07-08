@@ -5,15 +5,22 @@ import PropTypes from "prop-types";
 // Компоненты
 import ResetCountersButton from "../ResetCountersButton/ResetCountersButton";
 import {CounterContext} from "../Context/CounterContext";
+import {SettingsContext} from "../Context/SettingsContext";
 // Стили
 import "./SettingsButton.css";
+import Switch from "../Switch/Switch";
 
 export default function SettingsButton({updateTabs, activeLinks}) {
   const {counters} = useContext(CounterContext);
+
+  const {isImageCheckEnabled, toggleImageCheck, isSquareImageCheckEnabled, toggleSquareImageCheck} =
+    useContext(SettingsContext);
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const allCounterIds = counters.map((counter) => counter.id);
   const [isListOpen, setIsListOpen] = useState({
     activeTabs: false,
+    imageCheck: false,
   });
   const openModal = () => {
     setModalIsOpen(true);
@@ -68,6 +75,7 @@ export default function SettingsButton({updateTabs, activeLinks}) {
           <h3>Сброс всех счётчиков</h3>
           <ResetCountersButton counterIds={allCounterIds} />
         </div>
+
         <div className="paragraph__container">
           <h3 onClick={() => toggleList("activeTabs")}>
             Активные вкладки
@@ -118,6 +126,42 @@ export default function SettingsButton({updateTabs, activeLinks}) {
                 </label>
               </li>
             ))}
+          </ul>
+        </div>
+
+        <div className="paragraph__container">
+          <h3 onClick={() => toggleList("imageCheck")}>
+            Проверка фото
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`arrow-icon ${isListOpen.imageCheck ? "open" : ""}`}
+              width="8"
+              height="14"
+              viewBox="0 0 8 14"
+              strokeWidth="2"
+              fill="none"
+            >
+              <path d="M7 1L1 7L7 13" stroke="#F6F6F6" />
+            </svg>
+          </h3>
+          <ul className={`slide-down ${isListOpen.imageCheck ? "open" : ""}`}>
+            <li>
+              <Switch
+                id="squareImageCheckSwitch"
+                checked={isSquareImageCheckEnabled}
+                onChange={toggleSquareImageCheck}
+              />
+              <label htmlFor="squareImageCheckSwitch">Проверка фото 1х1</label>
+            </li>
+
+            <li>
+              <Switch
+                id="imageCheckSwitch"
+                checked={isImageCheckEnabled}
+                onChange={toggleImageCheck}
+              />
+              <label htmlFor="imageCheckSwitch">Проверка фото 3х4</label>
+            </li>
           </ul>
         </div>
       </Modal>

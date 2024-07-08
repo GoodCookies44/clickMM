@@ -11,6 +11,7 @@ import BPPage from "./pages/BPPage/BPPage.js";
 import UsefulList from "./pages/UsefulList/UsefulList.js";
 import ReportPage from "./pages/ReportPage/ReportPage.js";
 import {CounterProvider} from "./components/Context/CounterContext.js";
+import {SettingsProvider} from "./components/Context/SettingsContext.js";
 // Стили
 import "./App.css";
 
@@ -34,10 +35,12 @@ function Layout() {
   return (
     <div className="App">
       <CounterProvider>
-        <Header />
-        <main>
-          <Outlet />
-        </main>
+        <SettingsProvider>
+          <Header />
+          <main>
+            <Outlet />
+          </main>
+        </SettingsProvider>
       </CounterProvider>
     </div>
   );
