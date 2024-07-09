@@ -11,6 +11,9 @@ export const SettingsProvider = ({children}) => {
   const [isSquareImageCheckEnabled, setSquareImageCheckEnabled] = useState(
     JSON.parse(localStorage.getItem("isSquareImageCheckEnabled")) || false
   );
+  const [isCheckboxFunctionEnabled, setCheckboxFunctionEnabled] = useState(
+    JSON.parse(localStorage.getItem("isCheckboxFunctionEnabled")) || false
+  );
 
   useEffect(() => {
     localStorage.setItem("isImageCheckEnabled", JSON.stringify(isImageCheckEnabled));
@@ -25,6 +28,14 @@ export const SettingsProvider = ({children}) => {
     });
   }, [isSquareImageCheckEnabled]);
 
+  useEffect(() => {
+    localStorage.setItem("isCheckboxFunctionEnabled", JSON.stringify(isCheckboxFunctionEnabled));
+    chrome.runtime.sendMessage({
+      type: "toggleCheckboxFunction",
+      isEnabled: isCheckboxFunctionEnabled,
+    });
+  }, [isCheckboxFunctionEnabled]);
+
   return (
     <SettingsContext.Provider
       value={{
@@ -32,6 +43,8 @@ export const SettingsProvider = ({children}) => {
         toggleImageCheck: () => setImageCheckEnabled(!isImageCheckEnabled),
         isSquareImageCheckEnabled,
         toggleSquareImageCheck: () => setSquareImageCheckEnabled(!isSquareImageCheckEnabled),
+        isCheckboxFunctionEnabled,
+        toggleCheckboxFunction: () => setCheckboxFunctionEnabled(!isCheckboxFunctionEnabled),
       }}
     >
       {children}

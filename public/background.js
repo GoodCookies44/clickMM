@@ -51,6 +51,19 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 });
 
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.sync.set({enableCheckboxFunction: false});
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === "toggleCheckboxFunction") {
+    chrome.storage.sync.set({enableCheckboxFunction: request.isEnabled}, () => {
+      sendResponse({status: "success"});
+    });
+    return true;
+  }
+});
+
 let contextMenuCreated = false;
 
 // Создаем контекстное меню при установке расширения

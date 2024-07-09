@@ -13,8 +13,14 @@ import Switch from "../Switch/Switch";
 export default function SettingsButton({updateTabs, activeLinks}) {
   const {counters} = useContext(CounterContext);
 
-  const {isImageCheckEnabled, toggleImageCheck, isSquareImageCheckEnabled, toggleSquareImageCheck} =
-    useContext(SettingsContext);
+  const {
+    isImageCheckEnabled,
+    toggleImageCheck,
+    isSquareImageCheckEnabled,
+    toggleSquareImageCheck,
+    isCheckboxFunctionEnabled,
+    toggleCheckboxFunction,
+  } = useContext(SettingsContext);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const allCounterIds = counters.map((counter) => counter.id);
@@ -161,6 +167,15 @@ export default function SettingsButton({updateTabs, activeLinks}) {
                 onChange={toggleImageCheck}
               />
               <label htmlFor="imageCheckSwitch">Проверка фото 3х4</label>
+            </li>
+
+            <li>
+              <Switch
+                id="CheckboxFunction"
+                checked={isCheckboxFunctionEnabled}
+                onChange={toggleCheckboxFunction}
+              />
+              <label htmlFor="imageCheckSwitch">Авто галочки</label>
             </li>
           </ul>
         </div>

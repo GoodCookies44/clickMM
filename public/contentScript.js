@@ -379,3 +379,31 @@ function checkImagesOnPage() {
     });
   }
 }
+
+//Функция для автоматической проставки галочек
+chrome.storage.sync.get(["enableCheckboxFunction"], (result) => {
+  if (
+    result.enableCheckboxFunction &&
+    window.location.href.startsWith("https://admin.kazanexpress.ru/kazanexpress/product/")
+  ) {
+    const newStudioFlagCheckbox = document.querySelector(
+      'input[type="checkbox"][name="new_studio_flag"]'
+    );
+
+    if (newStudioFlagCheckbox) {
+      newStudioFlagCheckbox.addEventListener("change", (event) => {
+        if (event.target.checked) {
+          const hasStudioPhotoCheckbox = document.querySelector(
+            'input[type="checkbox"][name="has_studio_photo"]'
+          );
+          const hasVerticalPhotoCheckbox = document.querySelector(
+            'input[type="checkbox"][name="has_vertical_photo"]'
+          );
+
+          if (hasStudioPhotoCheckbox) hasStudioPhotoCheckbox.checked = true;
+          if (hasVerticalPhotoCheckbox) hasVerticalPhotoCheckbox.checked = true;
+        }
+      });
+    }
+  }
+});
