@@ -175,7 +175,7 @@ export default function SettingsButton({updateTabs, activeLinks}) {
                 checked={isCheckboxFunctionEnabled}
                 onChange={toggleCheckboxFunction}
               />
-              <label htmlFor="imageCheckSwitch">Авто галочки</label>
+              <label htmlFor="CheckboxFunction">Авто галочки</label>
             </li>
           </ul>
         </div>
