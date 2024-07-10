@@ -6,7 +6,6 @@ let isContentScriptReady = {};
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "contentScriptReady") {
     isContentScriptReady[sender.tab.id] = true;
-    console.log("Content script is ready in tab " + sender.tab.id);
   } else if (message.type === "toggleImageChecking") {
     const {isEnabled} = message;
     chrome.storage.local.set({isImageCheckEnabled: isEnabled}, () => {
@@ -127,6 +126,9 @@ chrome.commands.onCommand.addListener(function (command) {
         break;
       case "createListCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "createList"});
+        break;
+      case "checkImagesCommand":
+        chrome.tabs.sendMessage(tabs[0].id, {action: "checkImages"});
         break;
       default:
         break;

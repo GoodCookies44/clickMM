@@ -71,6 +71,7 @@ function addQuotes(text) {
   if (text.startsWith("«") && text.endsWith("»")) {
     text = text.slice(1, -1).trim();
   }
+  text = toggleCase(text);
   text = `"${text}"`;
   return text;
 }
@@ -120,6 +121,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     changeContent("createList");
   } else if (request.action === "downloadAllImages") {
     downloadAllImages();
+  } else if (request.action === "checkImages") {
+    checkImagesOnPage();
   }
 });
 
@@ -295,7 +298,7 @@ function handleHover(event) {
   }
 }
 
-// Добавляем обработчик события наведения мыши на страницу с показом разрешения и цвета пикселя
+// Обработчик события наведения мыши на страницу с показом разрешения и цвета пикселя
 document.addEventListener("mousemove", handleHover);
 
 // Функция автоматической проверки фото на соотношение сторон и разрешение
@@ -361,7 +364,8 @@ function checkImagesOnPage() {
       sizeLabel.style.left = "5px";
       sizeLabel.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
       sizeLabel.style.color = "white";
-      sizeLabel.style.padding = "2px 5px";
+      sizeLabel.style.padding = "2px 2px";
+      sizeLabel.style.pointerEvents = "none";
       img.parentElement.style.position = "relative";
       img.parentElement.appendChild(sizeLabel);
     }

@@ -151,7 +151,7 @@ export default function ReportPage() {
   };
 
   const addCustomGroup = () => {
-    setCustomGroups([...customGroups, {name: "", requests: 0}]);
+    setCustomGroups([{name: "", requests: 0}, ...customGroups]);
   };
 
   const removeCustomGroup = (index) => {

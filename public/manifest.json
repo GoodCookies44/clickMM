@@ -54,6 +54,9 @@
     },
     "createListCommand": {
       "description": "Создать список"
+    },
+    "checkImagesCommand": {
+      "description": "Проверить фото"
     }
   },
   
