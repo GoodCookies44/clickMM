@@ -420,9 +420,12 @@ function getSelectedText() {
     window.location.pathname.includes("/spreadsheets");
 
   // Проверяем, является ли активный элемент частью Google Таблиц
-  if (isGoogleSheets && activeElement) {
-    const selectedText = (activeElement.innerText || activeElement.textContent).trim();
-    return selectedText.split(/[, ]/)[0].trim(); // Используем только первую часть текста до запятой или пробела
+  if (isGoogleSheets) {
+    const selectedCell = document.querySelector(".cell-input");
+    if (selectedCell) {
+      const selectedText = selectedCell.innerText || selectedCell.textContent;
+      return selectedText.split(/[, ]/)[0].trim(); // Используем только первую часть текста до запятой или пробела
+    }
   }
 
   // В остальных случаях пытаемся получить выделенный текст
