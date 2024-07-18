@@ -158,6 +158,10 @@ export default function ReportPage() {
     setCustomGroups(customGroups.filter((_, i) => i !== index));
   };
 
+  const removeAllCustomGroups = () => {
+    setCustomGroups([]);
+  };
+
   const handleCustomGroupChange = (index, field, value) => {
     const updatedGroups = customGroups.map((group, i) =>
       i === index ? {...group, [field]: value} : group
@@ -194,6 +198,9 @@ export default function ReportPage() {
         </button>
         <button className="report__button" onClick={addCustomGroup}>
           Добавить
+        </button>
+        <button className="report__button" onClick={removeAllCustomGroups}>
+          Удалить
         </button>
       </div>
       {customGroups.map((group, index) => (
