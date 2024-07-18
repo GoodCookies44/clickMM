@@ -16,6 +16,7 @@ export default function Counter({id, targetIds, targetId}) {
   const [isRotated, setIsRotated] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedValue, setEditedValue] = useState("");
+  const inputRef = useRef(null);
   const prevCounters = useRef(counters);
   const updateSumTimeout = useRef(null);
 
@@ -93,6 +94,11 @@ export default function Counter({id, targetIds, targetId}) {
   const handleDoubleClick = () => {
     setIsEditing(true);
     setEditedValue(counter.value.toString());
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.select();
+      }
+    }, 0);
   };
 
   const handleEditChange = (event) => {
@@ -113,14 +119,22 @@ export default function Counter({id, targetIds, targetId}) {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleEditBlur();
+    }
+  };
+
   return (
     <div className="counter__container">
       <div className="counter_value" onDoubleClick={handleDoubleClick}>
         {isEditing ? (
           <textarea
+            ref={inputRef}
             value={editedValue}
             onChange={handleEditChange}
             onBlur={handleEditBlur}
+            onKeyDown={handleKeyPress}
             autoFocus
             className="custom-input"
           />
