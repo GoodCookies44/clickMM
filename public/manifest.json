@@ -57,6 +57,9 @@
     },
     "checkImagesCommand": {
       "description": "Проверить фото"
+    },
+    "openLinkCommand": {
+      "description": "Открыть ссылку с ШК"
     }
   },
   

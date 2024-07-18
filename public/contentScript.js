@@ -411,3 +411,48 @@ chrome.storage.sync.get(["enableCheckboxFunction"], (result) => {
     }
   }
 });
+
+// Функция для получения выделенного текста
+function getSelectedText() {
+  const activeElement = document.activeElement;
+  const isGoogleSheets =
+    window.location.hostname === "docs.google.com" &&
+    window.location.pathname.includes("/spreadsheets");
+
+  // Проверяем, является ли активный элемент частью Google Таблиц
+  if (isGoogleSheets && activeElement) {
+    const selectedText = (activeElement.innerText || activeElement.textContent).trim();
+    return selectedText.split(/[, ]/)[0].trim(); // Используем только первую часть текста до запятой или пробела
+  }
+
+  // В остальных случаях пытаемся получить выделенный текст
+  const selection = window.getSelection();
+  if (selection && selection.rangeCount > 0) {
+    const selectedText = selection.toString().trim();
+    if (selectedText) {
+      // Разделяем текст по запятой или пробелу и возвращаем первую часть
+      const firstPart = selectedText.split(/[, ]/)[0];
+      return firstPart.trim();
+    }
+  }
+  return "";
+}
+
+function copyToClipboard(text) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textarea);
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "getSelectedText") {
+    const selectedText = getSelectedText();
+    if (selectedText) {
+      copyToClipboard(selectedText);
+    }
+    chrome.runtime.sendMessage({action: "sendSelectedText", text: selectedText});
+  }
+});

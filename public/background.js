@@ -28,6 +28,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         });
       });
     });
+  } else if (message.type === "openLink") {
+    handleSelectedText(message.selectedText);
   }
 });
 
@@ -104,6 +106,12 @@ chrome.runtime.onInstalled.addListener(function () {
       contexts: ["selection"],
     });
 
+    chrome.contextMenus.create({
+      id: "openLink",
+      title: "Открыть ссылку с ШК",
+      contexts: ["selection"],
+    });
+
     contextMenuCreated = true;
   }
 });
@@ -129,6 +137,8 @@ chrome.commands.onCommand.addListener(function (command) {
         break;
       case "checkImagesCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "checkImages"});
+      case "openLinkCommand":
+        chrome.tabs.sendMessage(tabs[0].id, {action: "getSelectedText"});
         break;
       default:
         break;
@@ -158,8 +168,22 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     case "createList":
       sendMessageToTab({action: "createList"});
       break;
+    case "openLink":
+      sendMessageToTab({action: "getSelectedText"});
+      break;
     default:
       break;
+  }
+});
+
+//Функция открытия ссылки с ШК
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "sendSelectedText") {
+    const selectedText = message.text.trim();
+    if (!isNaN(selectedText) && selectedText !== "") {
+      const url = `https://admin.kazanexpress.ru/kazanexpress/product/?search_field=sku__barcode&search_value=${selectedText}`;
+      chrome.tabs.create({url: url, active: false});
+    }
   }
 });
 
