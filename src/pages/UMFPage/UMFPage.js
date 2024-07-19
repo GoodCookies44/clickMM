@@ -6,6 +6,7 @@ import ListItem from "../../components/ListItem/ListItem";
 import ResetCountersButton from "../../components/ResetCountersButton/ResetCountersButton";
 // Стили
 import "./UMFPage.css";
+import Notepad from "../../components/Notepad/Notepad";
 
 export default function UMFPage() {
   return (
@@ -32,6 +33,10 @@ export default function UMFPage() {
             <Counter id="UMF_rejected" />
           </div>
         </div>
+      </section>
+
+      <section className="notepad__section">
+        <Notepad />
       </section>
 
       <section className="list__section FP">

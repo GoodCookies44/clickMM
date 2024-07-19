@@ -6,7 +6,10 @@ export const CounterContext = createContext();
 export const CounterProvider = ({children}) => {
   // Загружаем данные из локального хранилища при загрузке компонента
   const initialCounters = JSON.parse(localStorage.getItem("counters")) || [];
+  const initialNotepadContent = localStorage.getItem("notepadContent") || "";
+
   const [counters, setCounters] = useState(initialCounters);
+  const [notepadContent, setNotepadContent] = useState(initialNotepadContent);
 
   // Функция для добавления нового идентификатора счетчика
   const addCounterId = (id, dependencies) => {
@@ -29,13 +32,31 @@ export const CounterProvider = ({children}) => {
     );
   };
 
-  // Сохраняем данные в локальное хранилище при изменении counters
+  // Функция для сохранения содержимого блокнота
+  const saveNotepadContent = (content) => {
+    setNotepadContent(content);
+  };
+
+  // Сохраняем данные в локальное хранилище при изменении counters или notepadContent
   useEffect(() => {
     localStorage.setItem("counters", JSON.stringify(counters));
   }, [counters]);
 
+  useEffect(() => {
+    localStorage.setItem("notepadContent", notepadContent);
+  }, [notepadContent]);
+
   return (
-    <CounterContext.Provider value={{counters, addCounterId, updateCounterValue, resetCounters}}>
+    <CounterContext.Provider
+      value={{
+        counters,
+        notepadContent,
+        addCounterId,
+        updateCounterValue,
+        resetCounters,
+        saveNotepadContent,
+      }}
+    >
       {children}
     </CounterContext.Provider>
   );

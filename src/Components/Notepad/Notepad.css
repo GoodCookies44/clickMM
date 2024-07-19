@@ -1,0 +1,45 @@
+.notepad__textarea {
+  width: 95%;
+
+  margin: 0.1em 0;
+  padding: 0.5em;
+
+  font-size: 1em;
+
+  color: #eac56b;
+  background-color: #474747;
+
+  resize: vertical;
+
+  border: none;
+  border-radius: 1em;
+
+  box-shadow: inset 1px 1px 2px 0px rgba(80, 80, 80, 0.3),
+    inset -1px -1px 2px 0px rgba(62, 62, 62, 0.5), -3px 3px 6px 0px rgba(62, 62, 62, 0.2),
+    3px -3px 6px 0px rgba(62, 62, 62, 0.2), -3px -3px 6px 0px rgba(80, 80, 80, 0.9),
+    3px 3px 8px 0px rgba(62, 62, 62, 0.9);
+
+  text-shadow: 5px 5px 10px #00000080;
+}
+
+.notepad__button {
+  margin: 0;
+  padding: 0;
+
+  color: #eac56b;
+
+  font-size: 1em;
+  font-weight: 600;
+
+  user-select: none;
+
+  border-bottom: 2px solid transparent;
+
+  transition: border-bottom 0.5s ease;
+
+  text-shadow: 5px 5px 10px #00000080;
+}
+
+.notepad__button:hover {
+  border-bottom: 2px solid #707070;
+}
