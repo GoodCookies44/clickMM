@@ -383,13 +383,28 @@ chrome.storage.sync.get(["enableCheckboxFunction"], (result) => {
     result.enableCheckboxFunction &&
     window.location.href.startsWith("https://admin.kazanexpress.ru/kazanexpress/product/")
   ) {
-    const newStudioFlagCheckbox = document.querySelector(
-      'input[type="checkbox"][name="new_studio_flag"]'
-    );
+    const updateCheckboxes = () => {
+      const newStudioFlagCheckboxes = document.querySelectorAll(
+        'input[type="checkbox"][name="new_studio_flag"]'
+      );
 
-    if (newStudioFlagCheckbox) {
-      newStudioFlagCheckbox.addEventListener("change", (event) => {
-        if (event.target.checked) {
+      newStudioFlagCheckboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", (event) => {
+          if (event.target.checked) {
+            const hasStudioPhotoCheckbox = document.querySelector(
+              'input[type="checkbox"][name="has_studio_photo"]'
+            );
+            const hasVerticalPhotoCheckbox = document.querySelector(
+              'input[type="checkbox"][name="has_vertical_photo"]'
+            );
+
+            if (hasStudioPhotoCheckbox) hasStudioPhotoCheckbox.checked = true;
+            if (hasVerticalPhotoCheckbox) hasVerticalPhotoCheckbox.checked = true;
+          }
+        });
+
+        // Проверяем текущее состояние чекбокса при его появлении
+        if (checkbox.checked) {
           const hasStudioPhotoCheckbox = document.querySelector(
             'input[type="checkbox"][name="has_studio_photo"]'
           );
@@ -401,7 +416,18 @@ chrome.storage.sync.get(["enableCheckboxFunction"], (result) => {
           if (hasVerticalPhotoCheckbox) hasVerticalPhotoCheckbox.checked = true;
         }
       });
-    }
+    };
+
+    // Наблюдатель за изменениями в DOM
+    const observer = new MutationObserver(updateCheckboxes);
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    // Первоначальный вызов функции для установки слушателей на уже существующие чекбоксы
+    updateCheckboxes();
   }
 });
 
