@@ -338,18 +338,11 @@ function checkImagesOnPage() {
 
     let boxShadow = "0px 0px 10px .1px rgba(209, 10, 10, 0.9)";
 
-    if (
-      isImageCheckEnabled &&
-      aspectRatio === "0.75" &&
-      width >= 900 &&
-      width <= 3750 &&
-      height >= 1200 &&
-      height <= 5000
-    ) {
+    if (isImageCheckEnabled && aspectRatio === "0.75" && width >= 900 && height >= 1200) {
       boxShadow = "0px 0px 10px .1px rgba(21, 181, 0, 0.9)";
     }
 
-    if (isSquareImageCheckEnabled && aspectRatio === "1.00" && width >= 500 && height >= 500) {
+    if (isSquareImageCheckEnabled && aspectRatio === "1.00" && width >= 400 && height >= 400) {
       boxShadow = "0px 0px 10px .1px rgba(21, 181, 0, 0.9)";
     }
 
