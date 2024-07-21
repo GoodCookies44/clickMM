@@ -181,8 +181,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "sendSelectedText") {
     const selectedText = message.text.trim();
     if (!isNaN(selectedText) && selectedText !== "") {
-      const url = `https://admin.kazanexpress.ru/kazanexpress/product/?search_field=sku__barcode&search_value=${selectedText}`;
-      chrome.tabs.create({url: url, active: false});
+      if (selectedText.length < 10) {
+        // Если выделено меньше 10 цифр, открываем другую ссылку
+        const url = `https://admin.kazanexpress.ru/kazanexpress/product/${selectedText}/change/`;
+        chrome.tabs.create({url: url, active: false});
+      } else {
+        // Если выделено 10 или более цифр, открываем основную ссылку
+        const url = `https://admin.kazanexpress.ru/kazanexpress/product/?search_field=sku__barcode&search_value=${selectedText}`;
+        chrome.tabs.create({url: url, active: false});
+      }
     }
   }
 });
