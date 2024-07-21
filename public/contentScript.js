@@ -68,11 +68,22 @@ function capitalizeWords(text) {
 // Функция для добавления кавычек в начале и конце выделенного текста
 function addQuotes(text) {
   text = text.trim();
+
+  // Убираем кавычки если они есть
   if (text.startsWith("«") && text.endsWith("»")) {
+    // Если текст в кавычках « », заменяем их на обычные кавычки и меняем регистр
     text = text.slice(1, -1).trim();
+    text = toggleCase(text);
+    text = `"${text}"`;
+  } else if (text.startsWith('"') && text.endsWith('"')) {
+    // Если текст в обычных кавычках, просто убираем их
+    text = text.slice(1, -1).trim();
+  } else {
+    // Если текст без кавычек, добавляем обычные кавычки и меняем регистр
+    text = toggleCase(text);
+    text = `"${text}"`;
   }
-  text = toggleCase(text);
-  text = `"${text}"`;
+
   return text;
 }
 
