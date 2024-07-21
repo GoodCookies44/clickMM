@@ -4,7 +4,10 @@
   margin: 0.1em 0;
   padding: 0.5em;
 
-  font-size: 1em;
+  font-size: 0.9em;
+
+  overflow: hidden;
+  white-space: pre-wrap;
 
   color: #eac56b;
   background-color: #474747;
