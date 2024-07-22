@@ -107,6 +107,13 @@ export default function UsefulList() {
 
         <LinkItem
           url={
+            "https://docs.google.com/spreadsheets/d/1P0df-lvT2yneg1QnDeBoJbh2MgcFaEiOUmo-gCPpA90/edit?gid=0#gid=0"
+          }
+          title={"Таблица массового УМФ от селлеров"}
+        />
+
+        <LinkItem
+          url={
             "https://docs.google.com/spreadsheets/d/1WXSpN7R0OgvDLD6EyP9jnjYxXAXpTfdOonEcLpcEbHw/edit#gid=957078154"
           }
           title={"Таблица ОНГ"}
