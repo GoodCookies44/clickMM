@@ -484,8 +484,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "getSelectedText") {
     const selectedText = getSelectedText();
     if (selectedText) {
-      copyToClipboard(selectedText);
+      if (selectedText.length > 10) {
+        copyToClipboard(selectedText);
+      }
+      chrome.runtime.sendMessage({action: "sendSelectedText", text: selectedText});
     }
-    chrome.runtime.sendMessage({action: "sendSelectedText", text: selectedText});
   }
 });
