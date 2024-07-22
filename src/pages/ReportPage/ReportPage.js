@@ -130,7 +130,11 @@ export default function ReportPage() {
 
           group.forEach((item) => {
             const counter = counters.find((counter) => counter.id === item.id);
-            if (counter && (item.id !== "BP_Kont" || counter.value !== 0)) {
+            if (
+              counter &&
+              (item.id !== "BP_Kont" || counter.value !== 0) &&
+              (item.id !== "KP_Trello" || counter.value !== 0)
+            ) {
               if (item.addEmptyLineBefore) {
                 reportText += "\n";
               }
