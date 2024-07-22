@@ -59,7 +59,7 @@
       "description": "Проверить фото"
     },
     "openLinkCommand": {
-      "description": "Открыть ссылку с ШК"
+      "description": "Открыть ссылку с ШК или ID"
     }
   },
   

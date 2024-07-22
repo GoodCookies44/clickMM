@@ -108,7 +108,7 @@ chrome.runtime.onInstalled.addListener(function () {
 
     chrome.contextMenus.create({
       id: "openLink",
-      title: "Открыть ссылку с ШК",
+      title: "Открыть ссылку с ШК или ID",
       contexts: ["selection"],
     });
 
