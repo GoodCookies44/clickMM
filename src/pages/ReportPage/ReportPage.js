@@ -147,7 +147,7 @@ export default function ReportPage() {
 
     // Добавляем пользовательские группы к отчету
     customGroups.forEach((group, index) => {
-      reportText += `\n**УМФ ${group.name}**: ${group.requests}\n`;
+      reportText += `\n**УМФ ${group.name}**: ${group.requests}`;
     });
 
     setReport(reportText);
