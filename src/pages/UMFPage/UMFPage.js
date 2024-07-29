@@ -3,10 +3,10 @@ import React from "react";
 // Компоненты
 import Counter from "../../components/Counter/Counter";
 import ListItem from "../../components/ListItem/ListItem";
+import Notepad from "../../components/Notepad/Notepad";
 import ResetCountersButton from "../../components/ResetCountersButton/ResetCountersButton";
 // Стили
 import "./UMFPage.css";
-import Notepad from "../../components/Notepad/Notepad";
 
 export default function UMFPage() {
   return (
