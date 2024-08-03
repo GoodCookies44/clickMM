@@ -60,6 +60,9 @@
     },
     "openLinkCommand": {
       "description": "Открыть ссылку с ШК или ID"
+    },
+    "insertArrowCommand": {
+      "description": "Вставить стрелочку"
     }
   },
   

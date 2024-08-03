@@ -43,6 +43,17 @@ function changeCase(type, selectedText, range) {
   document.execCommand("insertText", false, selectedText);
 }
 
+// Обработчик сообщений от фона
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "insertArrow") {
+    insertArrow();
+  }
+});
+
+function insertArrow() {
+  document.execCommand("insertText", false, " -> ");
+}
+
 // Функция для изменения регистра слов
 function toggleCase(text) {
   const words = text.split(" ");

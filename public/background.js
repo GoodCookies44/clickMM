@@ -140,6 +140,9 @@ chrome.commands.onCommand.addListener(function (command) {
       case "openLinkCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "getSelectedText"});
         break;
+      case "insertArrowCommand":
+        chrome.tabs.sendMessage(tabs[0].id, {action: "insertArrow"});
+        break;
       default:
         break;
     }

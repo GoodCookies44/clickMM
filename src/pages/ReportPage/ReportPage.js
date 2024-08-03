@@ -8,6 +8,9 @@ export default function ReportPage() {
   const {counters} = useContext(CounterContext); // Подставьте ваш контекст с данными
   const [name, setName] = useState(localStorage.getItem("username") || "");
   const [isNameEntered, setIsNameEntered] = useState(false);
+  const [hiddenButton, setHiddenButton] = useState(false);
+  const [isTextareaVisible, setIsTextareaVisible] = useState(false);
+  const [dailyReport, setDailyReport] = useState("");
   const [report, setReport] = useState("");
   const [customGroups, setCustomGroups] = useState(() => {
     const savedGroups = localStorage.getItem("customGroups");
@@ -24,6 +27,14 @@ export default function ReportPage() {
   }, [name]);
 
   useEffect(() => {
+    if (name === "Антон") {
+      setHiddenButton(true);
+    } else {
+      setHiddenButton(false);
+    }
+  }, [name]);
+
+  useEffect(() => {
     localStorage.setItem("customGroups", JSON.stringify(customGroups));
   }, [customGroups]);
 
@@ -31,6 +42,90 @@ export default function ReportPage() {
     const enteredName = event.target.value;
     setName(enteredName);
     setIsNameEntered(enteredName.trim() !== ""); // Устанавливаем флаг isNameEntered, если введено имя
+  };
+
+  const fetchReportData = async () => {
+    try {
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbw5kcr10u3Rvc9QBM01eA1bUuV-jPhUH0YmR4R1gfUOv7-bz4BXolv7T1X0CE07Ahm6/exec"
+      );
+      const data = await response.json();
+      return data.users;
+    } catch (error) {
+      console.error("Ошибка при получении данных:", error);
+      return [];
+    }
+  };
+
+  const handleDailyReport = async () => {
+    const users = await fetchReportData();
+    const today = new Date().toLocaleDateString();
+    const tomorrow = new Date(Date.now() + 86400000).toLocaleDateString(); // Завтра
+
+    // Найти индекс объекта с сегодняшней датой
+    const todayIndex = users.findIndex((user) => {
+      const userDate = new Date(user.Date).toLocaleDateString();
+      return userDate === today;
+    });
+
+    if (todayIndex === -1) {
+      return;
+    }
+
+    // Найти индекс объекта с завтрашней датой
+    const tomorrowIndex = users.findIndex((user) => {
+      const userDate = new Date(user.Date).toLocaleDateString();
+      return userDate === tomorrow;
+    });
+
+    // Если объект с завтрашней датой не найден, устанавливаем endIndex в конец массива
+    const endIndex = tomorrowIndex === -1 ? users.length : tomorrowIndex;
+
+    // Собрать объекты от сегодняшней даты до завтрашней
+    const filteredData = [];
+    for (let i = todayIndex; i < endIndex; i++) {
+      const user = users[i];
+      if (i === todayIndex || user.Date === "") {
+        filteredData.push(user);
+        console.log(filteredData);
+      }
+    }
+
+    // Формирование отчета
+    let reportText = `#отчет${name} ${currentDate}\n\n`;
+
+    let currentCategory = "";
+    let isFirstCategory = true;
+    let itemIndex = 1;
+
+    filteredData.forEach((user, index) => {
+      if (user.Category && user.Category !== currentCategory) {
+        if (!isFirstCategory) {
+          reportText += `\n`;
+        }
+        reportText += `**Категории из ${user.Category}:**\n`;
+        currentCategory = user.Category;
+        isFirstCategory = false;
+        itemIndex = 1;
+      }
+
+      const unnecessaryText = user.Unnecessary ? `, лишнее: ${user.Unnecessary}` : "";
+      reportText += `${itemIndex}. ${user.Subcategory} (было: ${user.Before}, стало: ${user.After}${unnecessaryText})\n`;
+      itemIndex++;
+    });
+
+    if (!isFirstCategory) {
+      reportText += `\n`;
+    }
+
+    reportText += `**Обработано запросов от смежных отделов:**\n`;
+    reportText += `\n**Обработано строк в таблице с выгрузкой некорректных категорий:**\n`;
+    reportText += `\n**Внесено** _ **предложение по категории** ""\n`;
+    reportText += `**Выполнено** _ **предложение по категории** ""\n`;
+
+    setDailyReport(reportText);
+    setIsTextareaVisible(true);
+    copyReport(reportText);
   };
 
   const generateReport = () => {
@@ -173,7 +268,10 @@ export default function ReportPage() {
     setCustomGroups(updatedGroups);
   };
 
-  const copyReport = (reportText) => {
+  const copyReport = (text) => {
+    const reportText = text || dailyReport;
+    if (!reportText) return;
+
     navigator.clipboard.writeText(reportText);
   };
 
@@ -193,11 +291,16 @@ export default function ReportPage() {
           />
         </label>
       </div>
+
       <div className="button__container">
         <button className="report__button" onClick={generateReport} disabled={!isNameEntered}>
           Создать
         </button>
-        <button className="report__button" onClick={() => copyReport(report)} disabled={!report}>
+        <button
+          className="report__button"
+          onClick={() => copyReport(report)}
+          disabled={!report && !dailyReport}
+        >
           Копировать
         </button>
         <button className="report__button" onClick={addCustomGroup}>
@@ -207,6 +310,16 @@ export default function ReportPage() {
           Удалить
         </button>
       </div>
+
+      {hiddenButton && (
+        <div className="hidden__button">
+          <button className="report__button" onClick={handleDailyReport}>
+            Дневной отчёт
+          </button>
+          <button className="report__button">Недельный отчёт</button>
+        </div>
+      )}
+
       {customGroups.map((group, index) => (
         <div key={index} className="custom-group">
           <input
@@ -230,7 +343,16 @@ export default function ReportPage() {
           </button>
         </div>
       ))}
+
       <pre className="report__text">{report}</pre>
+
+      {isTextareaVisible && (
+        <div>
+          <div className="notepad__textarea" contenteditable="true">
+            {dailyReport}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
