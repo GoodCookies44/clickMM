@@ -35,6 +35,43 @@ export default function UsefulList() {
         <h4>
           Пароль: <ListItem text="Jd%2eovS" />
         </h4>
+        <h3>Аккаунт Отдела модерации</h3>
+        <h4>
+          Логин: <ListItem text="marketmoderationdepartment@gmail.com" />
+        </h4>
+        <h4>
+          Пароль: <ListItem text="3aNY-Yc5yj" />
+        </h4>
+
+        <h2>Рабочие таблицы</h2>
+
+        <LinkItem
+          url={
+            "https://docs.google.com/spreadsheets/d/1M9A1F1QkCLCNWXw7Jjb2txhQeuo8W3hzaKyx3yCXuWA/edit#gid=743757286"
+          }
+          title={"Таблица УМФ"}
+        />
+
+        <LinkItem
+          url={
+            "https://docs.google.com/spreadsheets/d/1P0df-lvT2yneg1QnDeBoJbh2MgcFaEiOUmo-gCPpA90/edit?gid=0#gid=0"
+          }
+          title={"Таблица массового УМФ от селлеров"}
+        />
+
+        <LinkItem
+          url={
+            "https://docs.google.com/spreadsheets/d/1WXSpN7R0OgvDLD6EyP9jnjYxXAXpTfdOonEcLpcEbHw/edit#gid=957078154"
+          }
+          title={"Таблица ОНГ"}
+        />
+
+        <LinkItem
+          url={
+            "https://docs.google.com/spreadsheets/d/1yNYoSKsCGJqHQWjUFoVm9b1hYWXlVOm-ttCngzq9FAM/edit#gid=60749704"
+          }
+          title={"Таблица с заявками на блюр"}
+        />
 
         <h2>Инструкции</h2>
 
@@ -94,36 +131,6 @@ export default function UsefulList() {
         <LinkItem
           url={"https://business.kazanexpress.ru/manual/photo-moderation-lite/"}
           title={"Критерии фотографий УМФ (KazanExpress Business)"}
-        />
-
-        <h2>Рабочие таблицы</h2>
-
-        <LinkItem
-          url={
-            "https://docs.google.com/spreadsheets/d/1M9A1F1QkCLCNWXw7Jjb2txhQeuo8W3hzaKyx3yCXuWA/edit#gid=743757286"
-          }
-          title={"Таблица УМФ"}
-        />
-
-        <LinkItem
-          url={
-            "https://docs.google.com/spreadsheets/d/1P0df-lvT2yneg1QnDeBoJbh2MgcFaEiOUmo-gCPpA90/edit?gid=0#gid=0"
-          }
-          title={"Таблица массового УМФ от селлеров"}
-        />
-
-        <LinkItem
-          url={
-            "https://docs.google.com/spreadsheets/d/1WXSpN7R0OgvDLD6EyP9jnjYxXAXpTfdOonEcLpcEbHw/edit#gid=957078154"
-          }
-          title={"Таблица ОНГ"}
-        />
-
-        <LinkItem
-          url={
-            "https://docs.google.com/spreadsheets/d/1yNYoSKsCGJqHQWjUFoVm9b1hYWXlVOm-ttCngzq9FAM/edit#gid=60749704"
-          }
-          title={"Таблица с заявками на блюр"}
         />
 
         <h2>Формы</h2>
