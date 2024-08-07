@@ -87,7 +87,6 @@ export default function ReportPage() {
       const user = users[i];
       if (i === todayIndex || user.Date === "") {
         filteredData.push(user);
-        console.log(filteredData);
       }
     }
 
