@@ -63,32 +63,28 @@ export default function ReportPage() {
     const tomorrow = new Date(Date.now() + 86400000).toLocaleDateString(); // Завтра
 
     // Найти индекс объекта с сегодняшней датой
-    const todayIndex = users.findIndex((user) => {
-      const userDate = new Date(user.Date).toLocaleDateString();
-      return userDate === today;
-    });
+    const todayIndex = users.findIndex(
+      (user) => new Date(user.Date).toLocaleDateString() === today
+    );
 
-    if (todayIndex === -1) {
-      return;
-    }
+    if (todayIndex === -1) return;
 
-    // Найти индекс объекта с завтрашней датой
-    const tomorrowIndex = users.findIndex((user) => {
-      const userDate = new Date(user.Date).toLocaleDateString();
-      return userDate === tomorrow;
-    });
+    // Найти индекс объекта с завтрашней датой и с категорией "По итогам недели" после `todayIndex`
+    const afterTodayUsers = users.slice(todayIndex + 1);
 
-    // Если объект с завтрашней датой не найден, устанавливаем endIndex в конец массива
-    const endIndex = tomorrowIndex === -1 ? users.length : tomorrowIndex;
+    const tomorrowIndex = afterTodayUsers.findIndex(
+      (user) => new Date(user.Date).toLocaleDateString() === tomorrow
+    );
+    const categoryIndex = afterTodayUsers.findIndex((user) => user.Category === "По итогам недели");
 
-    // Собрать объекты от сегодняшней даты до завтрашней
-    const filteredData = [];
-    for (let i = todayIndex; i < endIndex; i++) {
-      const user = users[i];
-      if (i === todayIndex || user.Date === "") {
-        filteredData.push(user);
-      }
-    }
+    // Найти минимальный индекс из найденных
+    const endIndex = Math.min(
+      tomorrowIndex === -1 ? users.length : tomorrowIndex + todayIndex + 1,
+      categoryIndex === -1 ? users.length : categoryIndex + todayIndex + 1
+    );
+
+    // Собрать объекты от `todayIndex` до `endIndex`, включая объект с сегодняшней датой
+    const filteredData = users.slice(todayIndex, endIndex);
 
     // Формирование отчета
     let reportText = `#отчет${name} ${currentDate}\n\n`;
@@ -124,7 +120,6 @@ export default function ReportPage() {
 
     setDailyReport(reportText);
     setIsTextareaVisible(true);
-    copyReport(reportText);
   };
 
   const generateReport = () => {
