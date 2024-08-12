@@ -1,22 +1,27 @@
 // Модули
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
+// Компоненты
 import {CounterContext} from "../../components/Context/CounterContext";
 //Стили
 import "./ReportPage.css";
 
 export default function ReportPage() {
-  const {counters} = useContext(CounterContext); // Подставьте ваш контекст с данными
+  const {counters} = useContext(CounterContext);
   const [name, setName] = useState(localStorage.getItem("username") || "");
   const [isNameEntered, setIsNameEntered] = useState(false);
   const [hiddenButton, setHiddenButton] = useState(false);
-  const [isTextareaVisible, setIsTextareaVisible] = useState(false);
+  const [currentReport, setCurrentReport] = useState(null);
   const [dailyReport, setDailyReport] = useState("");
+  const [weeklyReport, setWeeklyReport] = useState("");
   const [report, setReport] = useState("");
   const [customGroups, setCustomGroups] = useState(() => {
     const savedGroups = localStorage.getItem("customGroups");
     return savedGroups ? JSON.parse(savedGroups) : [];
   });
+  const [totalRequests, setTotalRequests] = useState(0);
   const currentDate = new Date().toLocaleDateString();
+  const dailyRef = useRef(null);
+  const weeklyRef = useRef(null);
 
   useEffect(() => {
     setIsNameEntered(name.trim() !== "");
@@ -27,15 +32,13 @@ export default function ReportPage() {
   }, [name]);
 
   useEffect(() => {
-    if (name === "Антон") {
-      setHiddenButton(true);
-    } else {
-      setHiddenButton(false);
-    }
+    localStorage.setItem("username", name);
+    setHiddenButton(name === "Антон");
   }, [name]);
 
   useEffect(() => {
     localStorage.setItem("customGroups", JSON.stringify(customGroups));
+    updateTotalRequests();
   }, [customGroups]);
 
   const handleNameChange = (event) => {
@@ -57,7 +60,7 @@ export default function ReportPage() {
     }
   };
 
-  const handleDailyReport = async () => {
+  const generateDailyReport = async () => {
     const users = await fetchReportData();
     const today = new Date().toLocaleDateString();
     const tomorrow = new Date(Date.now() + 86400000).toLocaleDateString(); // Завтра
@@ -113,13 +116,56 @@ export default function ReportPage() {
       reportText += `\n`;
     }
 
-    reportText += `**Обработано запросов от смежных отделов:**\n`;
-    reportText += `\n**Обработано строк в таблице с выгрузкой некорректных категорий:**\n`;
-    reportText += `\n**Внесено** _ **предложение по категории** ""\n`;
-    reportText += `**Выполнено** _ **предложение по категории** ""\n`;
+    reportText += `**Обработано запросов от смежных отделов:** _\n`;
+    reportText += `\n**Обработано строк в таблице с выгрузкой некорректных категорий:** _\n`;
+    reportText += `\n**Внесено предложений:** _ **по категории** ""\n`;
+    reportText += `**Выполнено предложений:** _ **по категории** ""\n`;
 
     setDailyReport(reportText);
-    setIsTextareaVisible(true);
+    setCurrentReport("daily");
+    setWeeklyReport("");
+  };
+
+  const generateWeeklyReport = () => {
+    const weeklyData = weeklyRef.current?.innerText.trim();
+
+    if (weeklyData) {
+      const lines = weeklyData.split("\n").filter((line) => line.trim() !== "");
+      const categories = {};
+
+      lines.forEach((line) => {
+        const parts = line.split("->").map((part) => part.trim());
+        const level1 = parts[0];
+        const level2 = parts.slice(1, -1).join(" -> ");
+        const lastCategory = parts[parts.length - 1].replace(/\d+$/, "").trim();
+
+        categories[level1] = categories[level1] || {};
+        categories[level1][level2] = categories[level1][level2] || [];
+        categories[level1][level2].push(lastCategory);
+      });
+
+      let reportText = `#отчёт Асессор по категориям _-_\n\n`;
+
+      Object.keys(categories).forEach((level1) => {
+        reportText += `**Категории из ${level1}:**\n`;
+        Object.keys(categories[level1]).forEach((level2) => {
+          const lastCategories = categories[level1][level2].join(" / ");
+          reportText += `- ${level2} -> ${lastCategories}.\n`;
+        });
+        reportText += "\n";
+      });
+
+      reportText += `**_ карточек, _ категорий**\n`;
+      reportText += `**Внесено предложений:**\n`;
+      reportText += `**Выполнено предложений:**\n`;
+      reportText += `**Обработано запросов:**\n`;
+
+      setWeeklyReport(reportText);
+      setCurrentReport("weekly");
+      setDailyReport("");
+    } else if (!weeklyData && !weeklyReport) {
+      setCurrentReport("weekly");
+    }
   };
 
   const generateReport = () => {
@@ -262,11 +308,17 @@ export default function ReportPage() {
     setCustomGroups(updatedGroups);
   };
 
-  const copyReport = (text) => {
-    const reportText = text || dailyReport;
-    if (!reportText) return;
+  const updateTotalRequests = () => {
+    const total = customGroups.reduce((sum, group) => {
+      const requests = parseFloat(group.requests) || 0;
+      return sum + requests;
+    }, 0);
+    setTotalRequests(total);
+  };
 
-    navigator.clipboard.writeText(reportText);
+  const copyReport = () => {
+    const combinedReport = [report, dailyReport, weeklyReport].filter(Boolean).join("\n\n---\n\n");
+    navigator.clipboard.writeText(combinedReport);
   };
 
   return (
@@ -293,7 +345,7 @@ export default function ReportPage() {
         <button
           className="report__button"
           onClick={() => copyReport(report)}
-          disabled={!report && !dailyReport}
+          disabled={!report && !dailyReport && !weeklyReport}
         >
           Копировать
         </button>
@@ -304,13 +356,20 @@ export default function ReportPage() {
           Удалить
         </button>
       </div>
+      {customGroups.length > 0 && (
+        <div className="label__container">
+          <label className="report__label">Сумма запросов: {totalRequests}</label>
+        </div>
+      )}
 
       {hiddenButton && (
         <div className="hidden__button">
-          <button className="report__button" onClick={handleDailyReport}>
+          <button className="report__button" onClick={generateDailyReport}>
             Дневной отчёт
           </button>
-          <button className="report__button">Недельный отчёт</button>
+          <button className="report__button" onClick={generateWeeklyReport}>
+            Недельный отчёт
+          </button>
         </div>
       )}
 
@@ -340,11 +399,15 @@ export default function ReportPage() {
 
       <pre className="report__text">{report}</pre>
 
-      {isTextareaVisible && (
-        <div>
-          <div className="notepad__textarea" contenteditable="true">
-            {dailyReport}
-          </div>
+      {currentReport === "daily" && (
+        <div className="notepad__textarea" contentEditable="true" ref={dailyRef}>
+          {dailyReport}
+        </div>
+      )}
+
+      {currentReport === "weekly" && (
+        <div className="notepad__textarea" contentEditable="true" ref={weeklyRef}>
+          {weeklyReport}
         </div>
       )}
     </section>
