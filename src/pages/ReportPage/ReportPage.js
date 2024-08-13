@@ -356,11 +356,6 @@ export default function ReportPage() {
           Удалить
         </button>
       </div>
-      {customGroups.length > 0 && (
-        <div className="label__container">
-          <label className="report__label">Сумма запросов: {totalRequests}</label>
-        </div>
-      )}
 
       {hiddenButton && (
         <div className="hidden__button">
@@ -370,6 +365,12 @@ export default function ReportPage() {
           <button className="report__button" onClick={generateWeeklyReport}>
             Недельный отчёт
           </button>
+        </div>
+      )}
+
+      {customGroups.length > 0 && (
+        <div className="label__container">
+          <label className="report__label">Сумма запросов: {totalRequests}</label>
         </div>
       )}
 

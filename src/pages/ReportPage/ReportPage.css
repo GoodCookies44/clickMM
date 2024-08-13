@@ -100,6 +100,7 @@
 .hidden__button {
   display: flex;
   gap: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .custom-group {
