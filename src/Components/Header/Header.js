@@ -15,6 +15,7 @@ export default function Header() {
         {to: "/BP", label: "БП", active: false},
         {to: "/", label: "Ссылки", active: false},
         {to: "/Report", label: "Отчёт", active: false},
+        {to: "/CategoryPage", label: "Категории", active: false},
         // {to: "/Sheet", label: "Таблица", active: false},
       ]
     );

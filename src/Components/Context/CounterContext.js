@@ -7,9 +7,14 @@ export const CounterProvider = ({children}) => {
   // Загружаем данные из локального хранилища при загрузке компонента
   const initialCounters = JSON.parse(localStorage.getItem("counters")) || [];
   const initialNotepadContent = localStorage.getItem("notepadContent") || "";
+  const initialCategoryNames = JSON.parse(localStorage.getItem("categoryNames")) || {
+    CategoryName_submit: "",
+    CategoryName_accepted: "",
+  };
 
   const [counters, setCounters] = useState(initialCounters);
   const [notepadContent, setNotepadContent] = useState(initialNotepadContent);
+  const [categoryNames, setCategoryNames] = useState(initialCategoryNames);
 
   // Функция для добавления нового идентификатора счетчика
   const addCounterId = (id, dependencies) => {
@@ -37,6 +42,14 @@ export const CounterProvider = ({children}) => {
     setNotepadContent(content);
   };
 
+  // Функция для обновления значений инпутов по их идентификаторам
+  const updateCategoryName = (id, value) => {
+    setCategoryNames((prevCategoryNames) => ({
+      ...prevCategoryNames,
+      [id]: value,
+    }));
+  };
+
   // Сохраняем данные в локальное хранилище при изменении counters или notepadContent
   useEffect(() => {
     localStorage.setItem("counters", JSON.stringify(counters));
@@ -46,15 +59,21 @@ export const CounterProvider = ({children}) => {
     localStorage.setItem("notepadContent", notepadContent);
   }, [notepadContent]);
 
+  useEffect(() => {
+    localStorage.setItem("categoryNames", JSON.stringify(categoryNames));
+  }, [categoryNames]);
+
   return (
     <CounterContext.Provider
       value={{
         counters,
         notepadContent,
+        categoryNames,
         addCounterId,
         updateCounterValue,
         resetCounters,
         saveNotepadContent,
+        updateCategoryName,
       }}
     >
       {children}

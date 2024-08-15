@@ -116,10 +116,31 @@ export default function ReportPage() {
       reportText += `\n`;
     }
 
-    reportText += `**Обработано запросов от смежных отделов:** _\n`;
-    reportText += `\n**Обработано строк в таблице с выгрузкой некорректных категорий:** _\n`;
-    reportText += `\n**Внесено предложений:** _ **по категории** ""\n`;
-    reportText += `**Выполнено предложений:** _ **по категории** ""\n`;
+    // Получаем и обрабатываем данные из localStorage
+    const {CategoryName_submit = "", CategoryName_accepted = ""} =
+      JSON.parse(localStorage.getItem("categoryNames")) || {};
+
+    const formatCategories = (categories) =>
+      categories
+        .split(",")
+        .map((name) => `"${name.trim()}"`)
+        .join(", ");
+
+    // Извлечение значений счётчиков
+    const getCounterValue = (id) => counters.find((counter) => counter.id === id)?.value || 0;
+
+    reportText += `\n**Обработано запросов от смежных отделов:** ${getCounterValue(
+      "Category_processed"
+    )}\n`;
+    reportText += `\n**Обработано строк в таблице с выгрузкой некорректных категорий:** ${getCounterValue(
+      "Lines_processed"
+    )}\n`;
+    reportText += `\n**Внесено предложений:** ${getCounterValue(
+      "Category_submit"
+    )} **по категории** ${formatCategories(CategoryName_submit)}\n`;
+    reportText += `**Выполнено предложений:** ${getCounterValue(
+      "Category_accepted"
+    )} **по категории** ${formatCategories(CategoryName_accepted)}\n`;
 
     setDailyReport(reportText);
     setCurrentReport("daily");

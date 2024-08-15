@@ -1,0 +1,8 @@
+#CategoryName_submit,
+#CategoryName_accepted {
+  margin: 0.1em 0 0.7em;
+}
+
+.container__FP:last-of-type {
+  width: 53%;
+}
