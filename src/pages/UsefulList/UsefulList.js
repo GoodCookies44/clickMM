@@ -55,15 +55,15 @@ export default function UsefulList() {
             />
             <LinkItem
               url={
-                "https://docs.google.com/spreadsheets/d/1qllK1yzZ07rPpzZ4EZwBO5S7tYJ-d3q8z6I_EcqOnoQ/"
+                "https://docs.google.com/spreadsheets/d/12bOTIk_-4dU9P7yBIDIAudOAUMNpi0L7dw09EjLLs1o/edit?gid=1864526814#gid=1864526814"
               }
-              title={"Отчёт"}
+              title={"План"}
             />
             <LinkItem
               url={
-                "https://docs.google.com/document/d/19vJrL2C-nguTUhRlVuJSS_biq97AL5kAvoJdsgEDJes/edit"
+                "https://docs.google.com/spreadsheets/d/1qllK1yzZ07rPpzZ4EZwBO5S7tYJ-d3q8z6I_EcqOnoQ/"
               }
-              title={"План"}
+              title={"Отчёт"}
             />
             <LinkItem
               url={
