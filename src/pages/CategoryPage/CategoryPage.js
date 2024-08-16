@@ -21,6 +21,7 @@ export default function CategoryPage() {
         <ResetCountersButton
           counterIds={[
             "Category_processed",
+            "Lines_processed",
             "Category_submit",
             "Category_accepted",
             "CategoryName_submit",
