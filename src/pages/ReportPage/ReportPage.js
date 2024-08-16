@@ -126,23 +126,33 @@ export default function ReportPage() {
         .map((name) => `"${name.trim()}"`)
         .join(", ");
 
-    // Извлечение значений счётчиков
-    const getCounterValue = (id) => counters.find((counter) => counter.id === id)?.value || 0;
+    const getCategoryText = (categories) =>
+      categories.includes(",") ? "**по категориям:**" : "**по категории:**";
 
-    reportText += `\n**Обработано запросов от смежных отделов:** ${getCounterValue(
-      "Category_processed"
-    )}\n`;
-    reportText += `\n**Обработано строк в таблице с выгрузкой некорректных категорий:** ${getCounterValue(
-      "Lines_processed"
-    )}\n`;
-    reportText += `\n**Внесено предложений:** ${getCounterValue(
-      "Category_submit"
-    )} **по категории** ${formatCategories(CategoryName_submit)}\n`;
-    reportText += `**Выполнено предложений:** ${getCounterValue(
-      "Category_accepted"
-    )} **по категории** ${formatCategories(CategoryName_accepted)}\n`;
+    const appendToReport = (label, counterId, categories, addNewLine = true) => {
+      const counterValue = counters.find((counter) => counter.id === counterId)?.value || 0;
+      if (counterValue && counterValue !== " " && counterValue !== 0) {
+        const formattedCategories = categories
+          ? `${getCategoryText(categories)} ${formatCategories(categories)}`
+          : "";
+        if (addNewLine) {
+          reportText += `\n`;
+        }
+        reportText += `**${label}:** ${counterValue} ${formattedCategories}\n`;
+      }
+    };
 
-    setDailyReport(reportText);
+    appendToReport("Обработано запросов от смежных отделов", "Category_processed", "", false);
+    appendToReport(
+      "Обработано строк в таблице с выгрузкой некорректных категорий",
+      "Lines_processed",
+      "",
+      true
+    );
+    appendToReport("Внесено предложений", "Category_submit", CategoryName_submit, true);
+    appendToReport("Выполнено предложений", "Category_accepted", CategoryName_accepted, false);
+
+    setDailyReport(reportText.trim()); // Удаляем лишние пробелы или переносы строк в конце отчета
     setCurrentReport("daily");
     setWeeklyReport("");
   };
