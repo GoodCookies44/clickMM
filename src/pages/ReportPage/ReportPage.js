@@ -186,7 +186,7 @@ export default function ReportPage() {
         reportText += "\n";
       });
 
-      reportText += `**_ карточек, _ категорий**\n`;
+      reportText += `_ **карточек,** _ **категорий**\n`;
       reportText += `**Внесено предложений:**\n`;
       reportText += `**Выполнено предложений:**\n`;
       reportText += `**Обработано запросов:**\n`;
