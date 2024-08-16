@@ -1,5 +1,5 @@
 //Модули
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 // Компоненты
 import Counter from "../../components/Counter/Counter";
 import ResetCountersButton from "../../components/ResetCountersButton/ResetCountersButton";
@@ -24,9 +24,8 @@ export default function CategoryPage() {
             "Lines_processed",
             "Category_submit",
             "Category_accepted",
-            "CategoryName_submit",
-            "CategoryName_accepted",
           ]}
+          textareaIds={["CategoryName_submit", "CategoryName_accepted"]}
         />
         <div className="counters__container">
           <div className="container__FP">
@@ -47,7 +46,7 @@ export default function CategoryPage() {
             value={categoryNames.CategoryName_submit}
             onChange={handleInputChange}
           />
-          <div className="container__FP">
+          <div className="container__FP" id="category">
             Выполнено предложений
             <Counter id="Category_accepted" />
           </div>

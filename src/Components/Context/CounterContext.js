@@ -50,6 +50,13 @@ export const CounterProvider = ({children}) => {
     }));
   };
 
+  // Функция для удаления значений инпутов по их идентификаторам
+  const resetCategoryName = (keys) => {
+    keys.forEach((key) => {
+      updateCategoryName(key, "");
+    });
+  };
+
   // Сохраняем данные в локальное хранилище при изменении counters или notepadContent
   useEffect(() => {
     localStorage.setItem("counters", JSON.stringify(counters));
@@ -74,6 +81,7 @@ export const CounterProvider = ({children}) => {
         resetCounters,
         saveNotepadContent,
         updateCategoryName,
+        resetCategoryName,
       }}
     >
       {children}
