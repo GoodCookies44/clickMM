@@ -4,6 +4,14 @@ import SettingsButton from "../SettingsButton/SettingsButton";
 import "./Header.css";
 
 export default function Header() {
+  const [showLink, setShowLink] = useState(false);
+  const [name, setName] = useState(localStorage.getItem("username") || "");
+
+  useEffect(() => {
+    localStorage.setItem("username", name);
+    setShowLink(name === "Антон");
+  }, [name]);
+
   const [activeLinks, setActiveLinks] = useState(() => {
     const storedLinks = JSON.parse(localStorage.getItem("activeLinks"));
     return (
@@ -14,9 +22,9 @@ export default function Header() {
         {to: "/KP", label: "КП", active: false},
         {to: "/BP", label: "БП", active: false},
         {to: "/", label: "Ссылки", active: false},
+        {to: "/Sheet", label: "Таблица", active: false},
         {to: "/Report", label: "Отчёт", active: false},
-        {to: "/CategoryPage", label: "Категории", active: false},
-        // {to: "/Sheet", label: "Таблица", active: false},
+        // {to: "/CategoryPage", label: "Категории", active: false},
       ]
     );
   });
@@ -69,6 +77,12 @@ export default function Header() {
         </button>
 
         <nav ref={navRef}>
+          {showLink && (
+            <NavLink to="/CategoryPage" className="link header__link">
+              Категории
+            </NavLink>
+          )}
+
           {activeLinks.map((link, index) =>
             link.active ? (
               <NavLink
