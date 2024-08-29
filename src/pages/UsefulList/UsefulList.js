@@ -46,7 +46,7 @@ export default function UsefulList() {
 
         <h2>Рабочие таблицы</h2>
         {username === "Антон" && (
-          <div>
+          <>
             <LinkItem
               url={
                 "https://docs.google.com/spreadsheets/d/1KrqTTjbf9aoqXIVOhAvkfebCsrvX_CQo8as16lWYEtU/"
@@ -73,7 +73,7 @@ export default function UsefulList() {
             />
             <LinkItem
               url={
-                "https://docs.google.com/spreadsheets/d/1Q0fU3OcAv7UGQa7wBKfx6vxkBAKWFhsAL6uEjoLPWtE/edit?gid=1459894447#gid=1459894447"
+                "https://docs.google.com/spreadsheets/d/1Q0fU3OcAv7UGQa7wBKfx6vxkBAKWFhsAL6uEjoLPWtE"
               }
               title={"KPI"}
             />
@@ -87,13 +87,8 @@ export default function UsefulList() {
               }
               title={"Запросы от КД"}
             />
-            <LinkItem
-              url={
-                "https://docs.google.com/spreadsheets/d/1c2SwGJFlaPcxKGe76yU_u_vPWxYAFF1h3BDwNdlpoOI/edit?pli=1&gid=0#gid=0 "
-              }
-              title={"Черновик фильтров"}
-            />
-          </div>
+            <br />
+          </>
         )}
         <LinkItem
           url={
