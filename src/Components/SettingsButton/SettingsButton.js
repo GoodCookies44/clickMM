@@ -77,7 +77,7 @@ export default function SettingsButton({updateTabs, activeLinks}) {
         overlayClassName="modal-overlay"
       >
         <h2>Настройки</h2>
-        <div className="paragraph__container">
+        <div className="paragraph__container inline">
           <h3>Сброс всех счётчиков</h3>
           <ResetCountersButton counterIds={allCounterIds} />
         </div>

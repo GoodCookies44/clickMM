@@ -47,7 +47,7 @@
 
 .sheet__iframe {
   width: 100%;
-  height: 85vh;
+  height: 81vh;
 
   border: none;
   border-radius: 1em;
@@ -58,4 +58,13 @@
     3px 3px 8px 0px rgba(62, 62, 62, 0.9);
 
   text-shadow: 5px 5px 10px #00000080;
+}
+
+.list__section .inline {
+  flex-direction: row;
+  align-items: center;
+}
+
+.sheet__container .sheet {
+  align-self: flex-start;
 }
