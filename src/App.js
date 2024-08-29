@@ -11,7 +11,7 @@ import BPPage from "./pages/BPPage/BPPage.js";
 import UsefulList from "./pages/UsefulList/UsefulList.js";
 import ReportPage from "./pages/ReportPage/ReportPage.js";
 import CategoryPage from "./pages/CategoryPage/CategoryPage.js";
-// import SheetPage from "./pages/SheetPage/SheetPage.js";
+import SheetPage from "./pages/SheetPage/SheetPage.js";
 import {CounterProvider} from "./components/Context/CounterContext.js";
 import {SettingsProvider} from "./components/Context/SettingsContext.js";
 // Стили
@@ -29,7 +29,7 @@ export default function App() {
         <Route path={"/BP"} element={<BPPage />} />
         <Route path={"/Report"} element={<ReportPage />} />
         <Route path={"/CategoryPage"} element={<CategoryPage />} />
-        {/* <Route path={"/Sheet"} element={<SheetPage />} /> */}
+        <Route path={"/Sheet"} element={<SheetPage />} />
       </Route>
     </Routes>
   );

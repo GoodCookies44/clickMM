@@ -22,7 +22,7 @@ export default function UsefulList() {
   const [username] = useState(localStorage.getItem("username") || "");
 
   return (
-    <div className="useful__list">
+    <section className="useful__list">
       <ul>
         <h3>Пароль Wi-fi:</h3>
         <ListItem text="Kaz334SS" />
@@ -201,7 +201,7 @@ export default function UsefulList() {
           title={"Сайт для поиска размеров экрана телефонов"}
         />
       </ul>
-    </div>
+    </section>
   );
 }
 
