@@ -1,5 +1,5 @@
 // Модули
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 // Компоненты
 import ListItem from "../../components/ListItem/ListItem";
 // Стили
@@ -8,6 +8,9 @@ import "./SheetPage.css";
 export default function SheetPage() {
   const [TableUrl, setTableUrl] = useState("");
   const [ListVisible, setListVisible] = useState(false);
+  const [iframeHeight, setIframeHeight] = useState(400);
+  const iframeRef = useRef(null);
+  const isResizingRef = useRef(false);
 
   const toggleListVisibility = () => {
     setListVisible((prevState) => !prevState);
@@ -17,6 +20,33 @@ export default function SheetPage() {
   const handleInputChange = (event) => {
     setTableUrl(event.target.value);
   };
+
+  const startResizing = (e) => {
+    isResizingRef.current = true;
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", stopResizing);
+  };
+
+  const handleMouseMove = (e) => {
+    if (isResizingRef.current && iframeRef.current) {
+      const containerRect = iframeRef.current.parentElement.getBoundingClientRect();
+      const newHeight = e.clientY - containerRect.top;
+      setIframeHeight(newHeight);
+    }
+  };
+
+  const stopResizing = () => {
+    isResizingRef.current = false;
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", stopResizing);
+  };
+
+  useEffect(() => {
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", stopResizing);
+    };
+  }, []);
 
   return (
     <>
@@ -31,7 +61,16 @@ export default function SheetPage() {
 
         {TableUrl && (
           <>
-            <iframe className="sheet__iframe" src={TableUrl} title="Google Sheet"></iframe>
+            <div style={{position: "relative", width: "100%"}}>
+              <iframe
+                ref={iframeRef}
+                className="sheet__iframe"
+                src={TableUrl}
+                title="Google Sheet"
+                style={{height: `${iframeHeight}px`}}
+              ></iframe>
+              <div className="iframe__resizer" onMouseDown={startResizing}></div>
+            </div>
           </>
         )}
       </section>
