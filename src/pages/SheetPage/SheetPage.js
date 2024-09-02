@@ -1,14 +1,14 @@
 // Модули
-import React, {useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 // Компоненты
 import ListItem from "../../components/ListItem/ListItem";
+import {CounterContext} from "../../components/Context/CounterContext";
 // Стили
 import "./SheetPage.css";
 
 export default function SheetPage() {
-  const [TableUrl, setTableUrl] = useState("");
+  const {TableUrl, saveTableUrl, iframeHeight, updateIframeHeight} = useContext(CounterContext);
   const [ListVisible, setListVisible] = useState(false);
-  const [iframeHeight, setIframeHeight] = useState(400);
   const iframeRef = useRef(null);
   const isResizingRef = useRef(false);
 
@@ -18,7 +18,8 @@ export default function SheetPage() {
 
   // Функция для обновления URL в состоянии
   const handleInputChange = (event) => {
-    setTableUrl(event.target.value);
+    const newUrl = event.target.value;
+    saveTableUrl(newUrl);
   };
 
   const startResizing = (e) => {
@@ -31,7 +32,8 @@ export default function SheetPage() {
     if (isResizingRef.current && iframeRef.current) {
       const containerRect = iframeRef.current.parentElement.getBoundingClientRect();
       const newHeight = e.clientY - containerRect.top;
-      setIframeHeight(newHeight);
+      const minHeight = window.innerHeight * 0.5;
+      updateIframeHeight(Math.max(newHeight, minHeight));
     }
   };
 
