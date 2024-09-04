@@ -68,12 +68,14 @@
   right: 0;
   bottom: 0;
 
+  padding: 0.3em;
+
   width: 1em;
   height: 1em;
 
   cursor: n-resize;
 
-  background-color: #eac56b;
+  background-color: #474747;
   border-radius: 50%;
 }
 
