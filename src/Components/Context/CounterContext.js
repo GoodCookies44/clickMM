@@ -64,9 +64,11 @@ export const CounterProvider = ({children}) => {
 
   // Функция для удаления значений инпутов по их идентификаторам
   const resetCategoryName = (keys) => {
-    keys.forEach((key) => {
-      updateCategoryName(key, "");
-    });
+    if (Array.isArray(keys) && keys.length > 0) {
+      keys.forEach((key) => {
+        updateCategoryName(key, "");
+      });
+    }
   };
 
   // Функция для обновления значения высоты iframe

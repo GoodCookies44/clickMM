@@ -355,16 +355,7 @@ export default function ReportPage() {
 
   const copyReport = (reportText) => {
     if (reportText) {
-      navigator.clipboard
-        .writeText(reportText)
-        .then(() => {
-          console.log("Report copied to clipboard successfully!");
-        })
-        .catch((err) => {
-          console.error("Failed to copy the report: ", err);
-        });
-    } else {
-      console.error("No report text available to copy.");
+      navigator.clipboard.writeText(reportText).catch(() => {});
     }
   };
 
