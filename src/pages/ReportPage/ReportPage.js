@@ -152,9 +152,10 @@ export default function ReportPage() {
     appendToReport("Внесено предложений", "Category_submit", CategoryName_submit, true);
     appendToReport("Выполнено предложений", "Category_accepted", CategoryName_accepted, false);
 
-    setDailyReport(reportText.trim()); // Удаляем лишние пробелы или переносы строк в конце отчета
+    setDailyReport(reportText);
     setCurrentReport("daily");
     setWeeklyReport("");
+    copyReport(reportText);
   };
 
   const generateWeeklyReport = () => {
@@ -192,6 +193,7 @@ export default function ReportPage() {
       reportText += `**Обработано запросов:**\n`;
 
       setWeeklyReport(reportText);
+      copyReport(reportText);
       setCurrentReport("weekly");
       setDailyReport("");
     } else if (!weeklyData && !weeklyReport) {
@@ -316,6 +318,10 @@ export default function ReportPage() {
       reportText += `\n**УМФ ${group.name}**: ${group.requests}`;
     });
 
+    if (customGroups.length > 1) {
+      reportText += `\n\n**Сумма массового УМФ:** ${totalRequests}`;
+    }
+
     setReport(reportText);
     copyReport(reportText);
   };
@@ -347,9 +353,19 @@ export default function ReportPage() {
     setTotalRequests(total);
   };
 
-  const copyReport = () => {
-    const combinedReport = [report, dailyReport, weeklyReport].filter(Boolean).join("\n\n---\n\n");
-    navigator.clipboard.writeText(combinedReport);
+  const copyReport = (reportText) => {
+    if (reportText) {
+      navigator.clipboard
+        .writeText(reportText)
+        .then(() => {
+          console.log("Report copied to clipboard successfully!");
+        })
+        .catch((err) => {
+          console.error("Failed to copy the report: ", err);
+        });
+    } else {
+      console.error("No report text available to copy.");
+    }
   };
 
   return (
@@ -399,7 +415,7 @@ export default function ReportPage() {
         </div>
       )}
 
-      {customGroups.length > 0 && (
+      {customGroups.length > 1 && (
         <div className="label__container">
           <label className="report__label">Сумма запросов: {totalRequests}</label>
         </div>
