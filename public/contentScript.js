@@ -50,10 +50,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-function insertArrow() {
-  document.execCommand("insertText", false, " -> ");
-}
-
 // Функция для изменения регистра слов
 function toggleCase(text) {
   const words = text.split(" ");
@@ -500,5 +496,41 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
       chrome.runtime.sendMessage({action: "sendSelectedText", text: selectedText});
     }
+  }
+});
+
+//Вставка стрелочек
+function insertArrow() {
+  const selection = window.getSelection();
+  let textToInsert = " -> ";
+
+  if (selection && selection.rangeCount > 0) {
+    let selectedText = selection.toString().trim();
+
+    if (selectedText) {
+      // Разделяем выделенный текст на слова и модифицируем
+      let words = selectedText.split(/\s+/);
+      textToInsert = words
+        .map((word, index) => (index === 0 || !/^[A-ZА-Я]/.test(word) ? word : `-> ${word}`))
+        .join(" ");
+    }
+  }
+
+  // Вставляем модифицированный или стандартный текст (стрелочка)
+  document.execCommand("insertText", false, textToInsert);
+}
+
+// Функция для скроллинга до элемента
+function scrollToElementById(elementId) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.scrollIntoView({behavior: "smooth", block: "center"});
+  }
+}
+
+// Обработчик сообщений от background.js
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === "scrollToElement") {
+    scrollToElementById(request.elementId);
   }
 });

@@ -143,6 +143,12 @@ chrome.commands.onCommand.addListener(function (command) {
       case "insertArrowCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "insertArrow"});
         break;
+      case "scrollToElementCommand":
+        chrome.tabs.sendMessage(tabs[0].id, {
+          action: "scrollToElement",
+          elementId: "select2-id_category-container",
+        });
+        break;
       default:
         break;
     }

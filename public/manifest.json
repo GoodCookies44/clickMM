@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Click MM",
-  "version": "1.20",
+  "version": "1.21",
   
   "background": {
     "service_worker": "background.js"
@@ -63,6 +63,9 @@
     },
     "insertArrowCommand": {
       "description": "Вставить стрелочку"
+    },
+    "scrollToElementCommand": {
+      "description": "Скрол до выбора категории"
     }
   },
   
