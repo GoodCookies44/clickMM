@@ -50,7 +50,7 @@ export default function ReportPage() {
   const fetchReportData = async () => {
     try {
       const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbw5kcr10u3Rvc9QBM01eA1bUuV-jPhUH0YmR4R1gfUOv7-bz4BXolv7T1X0CE07Ahm6/exec"
+        "https://script.google.com/macros/s/AKfycbxzFT09oEe2Y6Q5pXhtK3zM8OQb8nGjiksJINK5eam5oWVIu1XtOv_uK_D1KV6q6r0/exec"
       );
       const data = await response.json();
       return data.users;
