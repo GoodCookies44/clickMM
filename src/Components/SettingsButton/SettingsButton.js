@@ -79,7 +79,10 @@ export default function SettingsButton({updateTabs, activeLinks}) {
         <h2>Настройки</h2>
         <div className="paragraph__container inline">
           <h3>Сброс всех счётчиков</h3>
-          <ResetCountersButton counterIds={allCounterIds} />
+          <ResetCountersButton
+            counterIds={allCounterIds}
+            textareaIds={["CategoryName_submit", "CategoryName_accepted"]}
+          />
         </div>
 
         <div className="paragraph__container">
