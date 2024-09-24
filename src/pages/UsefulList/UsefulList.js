@@ -83,6 +83,12 @@ export default function UsefulList() {
             />
             <LinkItem
               url={
+                "https://docs.google.com/spreadsheets/d/1JAqq_eO2PWO-XrqDWB4lUTsxd5auXhh4xNSwD64cOAo/edit?gid=0#gid=0"
+              }
+              title={"Запросы от Асессора по фильтрам"}
+            />
+            <LinkItem
+              url={
                 "https://docs.google.com/spreadsheets/d/1BB7dOuYf5Mi5y_VdQAoQdmJQUSP65lN3vU_jsa2uLhQ/edit?gid=0#gid=0"
               }
               title={"Запросы от КД"}
@@ -199,6 +205,13 @@ export default function UsefulList() {
         <LinkItem
           url={"https://www.devicespecifications.com/ru"}
           title={"Сайт для поиска размеров экрана телефонов"}
+        />
+
+        <LinkItem
+          url={
+            "https://calendar.google.com/calendar/u/0?cid=ZTkwZmEwYjkzNDU1Y2RmZmM3OTc1ODU0ZmZlZjc3NGM5NzRhY2MwYjczNzRjM2UzYjVlN2NmMTVjNzk5ZjdhY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+          }
+          title={"Ссылка на календарь с Днями Рождения"}
         />
       </ul>
     </section>
