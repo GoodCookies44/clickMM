@@ -76,6 +76,12 @@ export default function Header() {
             </NavLink>
           )}
 
+          {(username === "Дарья" || username === "Никита") && (
+            <NavLink to="/KaitenPage" className="link header__link">
+              Кайтен
+            </NavLink>
+          )}
+
           {activeLinks.map((link, index) =>
             link.active ? (
               <NavLink

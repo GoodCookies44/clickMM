@@ -1,5 +1,5 @@
 //Модули
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
 // Компоненты
 import Counter from "../../components/Counter/Counter";
 import ResetCountersButton from "../../components/ResetCountersButton/ResetCountersButton";
