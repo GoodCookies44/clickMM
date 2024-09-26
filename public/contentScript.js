@@ -499,25 +499,27 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-//Вставка стрелочек
+// Вставка стрелочек
 function insertArrow() {
   const selection = window.getSelection();
-  let textToInsert = " -> ";
+  if (!selection || selection.rangeCount === 0) return;
 
-  if (selection && selection.rangeCount > 0) {
-    let selectedText = selection.toString().trim();
+  let selectedText = selection.toString().trim();
+  if (!selectedText) return;
 
-    if (selectedText) {
-      // Разделяем выделенный текст на слова и модифицируем
-      let words = selectedText.split(/\s+/);
-      textToInsert = words
-        .map((word, index) => (index === 0 || !/^[A-ZА-Я]/.test(word) ? word : `-> ${word}`))
-        .join(" ");
-    }
+  // Если текст содержит " /", заменяем все вхождения " /" на " -> "
+  if (selectedText.includes("/")) {
+    selectedText = selectedText.replace(/\s*\/\s*/g, " -> ");
+  } else {
+    // Иначе, применяем логику с заглавными буквами, начиная со второго слова
+    let words = selectedText.split(/\s+/);
+    selectedText = words
+      .map((word, index) => (index === 0 || !/^[A-ZА-Я]/.test(word) ? word : `-> ${word}`))
+      .join(" ");
   }
 
-  // Вставляем модифицированный или стандартный текст (стрелочка)
-  document.execCommand("insertText", false, textToInsert);
+  // Вставляем модифицированный текст
+  document.execCommand("insertText", false, selectedText);
 }
 
 // Функция для скроллинга до элемента
