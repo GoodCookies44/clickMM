@@ -66,6 +66,9 @@
     },
     "scrollToElementCommand": {
       "description": "Скрол до выбора категории"
+    },
+    "saveCardCommand": {
+      "description": "Сохранить карточку и закрыть вкладку"
     }
   },
   

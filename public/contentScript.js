@@ -536,3 +536,26 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     scrollToElementById(request.elementId);
   }
 });
+
+// Функция для нажатия кнопки "Сохранить" и отслеживания изменений URL
+function saveCard() {
+  const urlPattern = /^https:\/\/admin\.kazanexpress\.ru\/kazanexpress\/product\/\d+\/change\//;
+
+  // Проверяем, совпадает ли текущий URL с нужным шаблоном
+  if (urlPattern.test(window.location.href)) {
+    // Находим кнопку "Сохранить" и нажимаем её
+    const saveButton = document.querySelector(
+      'input[type="submit"][value="Сохранить"].button-green[name="_save"]'
+    );
+    if (saveButton) {
+      saveButton.click();
+    }
+  }
+}
+
+// Обработчик сообщений от background.js
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "saveCard") {
+    saveCard();
+  }
+});

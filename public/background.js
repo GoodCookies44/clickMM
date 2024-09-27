@@ -149,6 +149,9 @@ chrome.commands.onCommand.addListener(function (command) {
           elementId: "select2-id_category-container",
         });
         break;
+      case "saveCardCommand":
+        chrome.tabs.sendMessage(tabs[0].id, {action: "saveCard"});
+        break;
       default:
         break;
     }
