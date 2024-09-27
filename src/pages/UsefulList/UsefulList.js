@@ -55,7 +55,7 @@ export default function UsefulList() {
             />
             <LinkItem
               url={
-                "https://docs.google.com/spreadsheets/d/12bOTIk_-4dU9P7yBIDIAudOAUMNpi0L7dw09EjLLs1o/edit?gid=1864526814#gid=1864526814"
+                "https://docs.google.com/spreadsheets/d/12bOTIk_-4dU9P7yBIDIAudOAUMNpi0L7dw09EjLLs1o/"
               }
               title={"План"}
             />
@@ -67,7 +67,7 @@ export default function UsefulList() {
             />
             <LinkItem
               url={
-                "https://docs.google.com/spreadsheets/d/1BjyeoWvFgrwte0OYizJruUgX_h2QL6FGk6Dh2-tN9wY/edit?gid=267250902#gid=267250902"
+                "https://docs.google.com/spreadsheets/d/1BjyeoWvFgrwte0OYizJruUgX_h2QL6FGk6Dh2-tN9wY/"
               }
               title={"Выгрузка товаров с некорректными категориями"}
             />
@@ -83,13 +83,13 @@ export default function UsefulList() {
             />
             <LinkItem
               url={
-                "https://docs.google.com/spreadsheets/d/1JAqq_eO2PWO-XrqDWB4lUTsxd5auXhh4xNSwD64cOAo/edit?gid=0#gid=0"
+                "https://docs.google.com/spreadsheets/d/1JAqq_eO2PWO-XrqDWB4lUTsxd5auXhh4xNSwD64cOAo/"
               }
               title={"Запросы от Асессора по фильтрам"}
             />
             <LinkItem
               url={
-                "https://docs.google.com/spreadsheets/d/1BB7dOuYf5Mi5y_VdQAoQdmJQUSP65lN3vU_jsa2uLhQ/edit?gid=0#gid=0"
+                "https://docs.google.com/spreadsheets/d/1BB7dOuYf5Mi5y_VdQAoQdmJQUSP65lN3vU_jsa2uLhQ/"
               }
               title={"Запросы от КД"}
             />
@@ -98,25 +98,25 @@ export default function UsefulList() {
         )}
         <LinkItem
           url={
-            "https://docs.google.com/spreadsheets/d/1M9A1F1QkCLCNWXw7Jjb2txhQeuo8W3hzaKyx3yCXuWA/edit#gid=743757286"
+            "https://docs.google.com/spreadsheets/d/1M9A1F1QkCLCNWXw7Jjb2txhQeuo8W3hzaKyx3yCXuWA/"
           }
           title={"Таблица УМФ"}
         />
         <LinkItem
           url={
-            "https://docs.google.com/spreadsheets/d/1P0df-lvT2yneg1QnDeBoJbh2MgcFaEiOUmo-gCPpA90/edit?gid=0#gid=0"
+            "https://docs.google.com/spreadsheets/d/1P0df-lvT2yneg1QnDeBoJbh2MgcFaEiOUmo-gCPpA90/"
           }
           title={"Таблица массового УМФ от селлеров"}
         />
         <LinkItem
           url={
-            "https://docs.google.com/spreadsheets/d/1WXSpN7R0OgvDLD6EyP9jnjYxXAXpTfdOonEcLpcEbHw/edit#gid=957078154"
+            "https://docs.google.com/spreadsheets/d/1WXSpN7R0OgvDLD6EyP9jnjYxXAXpTfdOonEcLpcEbHw/"
           }
           title={"Таблица ОНГ"}
         />
         <LinkItem
           url={
-            "https://docs.google.com/spreadsheets/d/1yNYoSKsCGJqHQWjUFoVm9b1hYWXlVOm-ttCngzq9FAM/edit#gid=60749704"
+            "https://docs.google.com/spreadsheets/d/1yNYoSKsCGJqHQWjUFoVm9b1hYWXlVOm-ttCngzq9FAM/"
           }
           title={"Таблица с заявками на блюр"}
         />
@@ -139,64 +139,64 @@ export default function UsefulList() {
           title={"Запрещённые к продаже товары (KazanExpress Business)"}
         />
         <LinkItem
-          url={
-            "https://docs.google.com/document/d/1qyYymTghihebFpa_JacU0_25w26hQqcS5M4FCLSt8R4/edit"
-          }
+          url={"https://docs.google.com/document/d/1qyYymTghihebFpa_JacU0_25w26hQqcS5M4FCLSt8R4/"}
           title={"Запрещённые к продаже товары"}
         />
         <LinkItem
-          url={
-            "https://docs.google.com/document/d/1-oyaG_R9z2Mnb2Y3VYR9zSgvzSYWtO8Ov9n0eIXkPtM/edit"
-          }
+          url={"https://docs.google.com/document/d/1-oyaG_R9z2Mnb2Y3VYR9zSgvzSYWtO8Ov9n0eIXkPtM/"}
           title={"Порядок разблокировки при вывозе товара"}
         />
         <LinkItem
-          url={
-            "https://docs.google.com/document/d/19DsYNyeAxqCHKem9nnnayeLvEWwMX2T8IQHc62b3l1Y/edit"
-          }
+          url={"https://docs.google.com/document/d/19DsYNyeAxqCHKem9nnnayeLvEWwMX2T8IQHc62b3l1Y/"}
           title={"Инструкция по работе модератора"}
         />
         <LinkItem
-          url={
-            "https://docs.google.com/document/d/11ma-uLytSlroAyng0SDuNWz-OY0NGOuE6Zz6Z19ISu4/edit"
-          }
+          url={"https://docs.google.com/document/d/11ma-uLytSlroAyng0SDuNWz-OY0NGOuE6Zz6Z19ISu4/"}
           title={"Порядок работы по УМФ"}
         />
         <LinkItem
-          url={
-            "https://docs.google.com/document/d/1KMH_yEn2eDWPmm5XCwzyLCCkbT764ZDYjEPO1cIRYeg/edit"
-          }
+          url={"https://docs.google.com/document/d/1KMH_yEn2eDWPmm5XCwzyLCCkbT764ZDYjEPO1cIRYeg/"}
           title={"Критерии фотографий УМФ"}
         />
         <LinkItem
           url={"https://business.kazanexpress.ru/manual/photo-moderation-lite/"}
           title={"Критерии фотографий УМФ (KazanExpress Business)"}
         />
+        <LinkItem
+          url={"https://docs.google.com/document/d/1fM5-GB8ZGifjzDWb5S1X8V8Yq_1ReIxfzvXXiNOzzbg/"}
+          title={"Инструкция по заполнению шаблона на проверку фото"}
+        />
 
-        <h2>Формы</h2>
+        <h2>Шаблоны</h2>
         <LinkItem
           url={
-            "https://docs.google.com/forms/d/e/1FAIpQLSeyL4ojEf5p8luNazBbrc6fuJAYZ58Lx1ebxc1uX6rd7zZ28w/viewform"
+            "https://docs.google.com/spreadsheets/d/13C9Ch1TQpnsjVyLi4TpaoDGO1Y87KUxUBbbho3fAknI/"
           }
-          title={"Запрос на модерацию фото (УМФ)"}
+          title={"Шаблон на модерацию фото (УМФ)"}
+        />
+        <LinkItem
+          url={
+            "https://docs.google.com/spreadsheets/d/1JVoG9NpVjs3nXDiWgwdqmWkaEqljrMh1VPmVHXqnNNg/"
+          }
+          title={"Шаблон на массовую модерацию фото"}
         />
 
         <h2>Графики</h2>
         <LinkItem
           url={
-            "https://docs.google.com/spreadsheets/d/19uJP8qXDdpxmBf6UGFjSTewYD54Q4YtBCo129JYPfkA/edit?usp=sharing"
+            "https://docs.google.com/spreadsheets/d/19uJP8qXDdpxmBf6UGFjSTewYD54Q4YtBCo129JYPfkA/"
           }
           title={"График работы"}
         />
         <LinkItem
           url={
-            "https://docs.google.com/spreadsheets/d/1jIcZkk4i02I97jUf80nBhousc1mzWWJ1OtaeUcE3SH8/edit#gid=0"
+            "https://docs.google.com/spreadsheets/d/1jIcZkk4i02I97jUf80nBhousc1mzWWJ1OtaeUcE3SH8/"
           }
           title={"График отпусков"}
         />
         <LinkItem
           url={
-            "https://docs.google.com/spreadsheets/d/1BB_NBFLc_HbStfT2_sHvdCj9Ti-NYh5Hk89w5uNAnnI/edit?usp=sharing"
+            "https://docs.google.com/spreadsheets/d/1P65IkBz3B1HVULGp2j9tnnqG98QO5vje6-4ab_sY8iI/"
           }
           title={"План"}
         />
