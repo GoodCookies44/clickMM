@@ -232,7 +232,10 @@ export default function ReportPage() {
         {text: "Искусственно завышенная цена:", id: "MKT15"},
       ],
 
-      pp_group: [{text: "**Модерация платного продвижения:**", id: "PP", addEmptyLineBefore: true}],
+      pp_group: [
+        {text: "**Модерация платного продвижения:**", id: "PP", addEmptyLineBefore: true},
+        {text: "**Отклонено:**", id: "PP_rejected"},
+      ],
 
       umf_group: [
         {text: "**Упрощённая модерация фото:**", id: ""},

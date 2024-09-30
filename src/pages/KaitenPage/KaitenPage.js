@@ -13,23 +13,23 @@ export default function KaitenPage() {
       />
       <div className="counters__container">
         <div className="container__FP">
-          Запросы от КП (адм.):
+          КП(адм.)
           <Counter id="KP_Adm" />
         </div>
         <div className="container__FP">
-          Запросы в Kaiten, КП:
+          Kaiten, КП
           <Counter id="KP_Trello" />
         </div>
         <div className="container__FP">
-          Запросы в Kaiten, Бизнес:
+          Kaiten, Бизнес
           <Counter id="BP_Business" />
         </div>
         <div className="container__FP">
-          Запросы в Kaiten, ОКК:
+          Kaiten, ОКК
           <Counter id="BP_OKK" />
         </div>
         <div className="container__FP">
-          Контрафакт:
+          Контрафакт
           <Counter id="BP_Kont" />
         </div>
       </div>

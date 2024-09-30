@@ -11,11 +11,11 @@ export default function KPPage() {
         <ResetCountersButton counterIds={["KP_Trello", "KP_Adm"]} />
         <div className="counters__container">
           <div className="counter__container">
-            Запросы в Kaiten:
+            Запросы в Kaiten
             <Counter id="KP_Trello" />
           </div>
           <div className="counter__container">
-            Запросы от КП (адм.):
+            Запросы от КП (адм.)
             <Counter id="KP_Adm" />
           </div>
         </div>
