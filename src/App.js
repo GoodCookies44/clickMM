@@ -28,9 +28,9 @@ export default function App() {
         <Route path={"/UMF"} element={<UMFPage />} />
         <Route path={"/KP"} element={<KPPage />} />
         <Route path={"/BP"} element={<BPPage />} />
+        <Route path={"/Kaiten"} element={<KaitenPage />} />
         <Route path={"/Report"} element={<ReportPage />} />
-        <Route path={"/CategoryPage"} element={<CategoryPage />} />
-        <Route path={"/KaitenPage"} element={<KaitenPage />} />
+        <Route path={"/Category"} element={<CategoryPage />} />
         <Route path={"/Sheet"} element={<SheetPage />} />
       </Route>
     </Routes>

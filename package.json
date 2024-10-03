@@ -1,6 +1,6 @@
 {
   "name": "clickmm",
-  "version": "1.21",
+  "version": "1.22",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

@@ -206,7 +206,7 @@ export default function ReportPage() {
       return;
     }
 
-    let reportText = `#отчет${name} ${currentDate}\n`;
+    let reportText = `/#отчет${name} ${currentDate}\n`;
 
     const groups = {
       mkt_group: [
@@ -257,6 +257,7 @@ export default function ReportPage() {
           addEmptyLineBefore: true,
         },
         {text: "**Обработано запросов в Kaiten, ОКК:**", id: "BP_OKK"},
+        {text: "**Обработано запросов в Kaiten, КД:**", id: "BP_KD"},
         {
           text: "**Проверены контрафактные товары, текстовые разделы товаров изменены**",
           id: "BP_Kont",

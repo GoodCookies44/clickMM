@@ -15,6 +15,7 @@ export default function Header() {
         {to: "/UMF", label: "УМФ", active: false},
         {to: "/KP", label: "КП", active: false},
         {to: "/BP", label: "БП", active: false},
+        {to: "/Kaiten", label: "Кайтен", active: false},
         {to: "/", label: "Ссылки", active: false},
         {to: "/Sheet", label: "Таблица", active: false},
         {to: "/Report", label: "Отчёт", active: false},
@@ -71,14 +72,8 @@ export default function Header() {
 
         <nav ref={navRef}>
           {username === "Антон" && (
-            <NavLink to="/CategoryPage" className="link header__link">
+            <NavLink to="/Category" className="link header__link">
               Категории
-            </NavLink>
-          )}
-
-          {(username === "Дарья" || username === "Никита") && (
-            <NavLink to="/KaitenPage" className="link header__link">
-              Кайтен
             </NavLink>
           )}
 
