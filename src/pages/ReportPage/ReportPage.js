@@ -150,7 +150,7 @@ export default function ReportPage() {
       true
     );
     appendToReport("Внесено предложений", "Category_submit", CategoryName_submit, true);
-    appendToReport("Выполнено предложений", "Category_accepted", CategoryName_accepted, false);
+    appendToReport("Выполнено предложений", "Category_accepted", CategoryName_accepted, true);
 
     setDailyReport(reportText);
     setCurrentReport("daily");
