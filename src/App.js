@@ -13,6 +13,7 @@ import ReportPage from "./pages/ReportPage/ReportPage.js";
 import CategoryPage from "./pages/CategoryPage/CategoryPage.js";
 import KaitenPage from "./pages/KaitenPage/KaitenPage.js";
 import SheetPage from "./pages/SheetPage/SheetPage.js";
+import KaitenAPIPage from "./pages/KaitenAPIPage/KaitenAPIPage.js";
 import {CounterProvider} from "./components/Context/CounterContext.js";
 import {SettingsProvider} from "./components/Context/SettingsContext.js";
 // Стили
@@ -32,6 +33,7 @@ export default function App() {
         <Route path={"/Report"} element={<ReportPage />} />
         <Route path={"/Category"} element={<CategoryPage />} />
         <Route path={"/Sheet"} element={<SheetPage />} />
+        <Route path={"/KaitenAPI"} element={<KaitenAPIPage />} />
       </Route>
     </Routes>
   );
