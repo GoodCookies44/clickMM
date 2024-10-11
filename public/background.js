@@ -5,7 +5,11 @@ let isContentScriptReady = {};
 // Обработчик сообщений от контентного скрипта
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "contentScriptReady") {
-    isContentScriptReady[sender.tab.id] = true;
+    if (sender.tab && sender.tab.id) {
+      isContentScriptReady[sender.tab.id] = true;
+    } else {
+      console.error("sender.tab не определён или не содержит id");
+    }
   } else if (message.type === "toggleImageChecking") {
     const {isEnabled} = message;
     chrome.storage.local.set({isImageCheckEnabled: isEnabled}, () => {
@@ -262,7 +266,6 @@ function sendMessageToTab(message) {
 // Google Sheet API
 const CLIENT_ID = "899506669224-e3ee96lkktlocp3pbp0pi5mr7t6gg8t6.apps.googleusercontent.com";
 const SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
-let accessToken = null; // Храним токен, чтобы избежать повторных запросов на авторизацию
 
 // Функция для создания URL авторизации
 function createAuthUrl() {
@@ -274,24 +277,38 @@ function createAuthUrl() {
 }
 
 // Получение токена
-function getToken() {
+async function getToken() {
   return new Promise((resolve, reject) => {
-    if (accessToken) {
-      // Если токен уже есть, возвращаем его
-      resolve(accessToken);
-    } else {
-      const authUrl = createAuthUrl();
-      chrome.identity.launchWebAuthFlow({url: authUrl, interactive: true}, (redirectUrl) => {
-        if (chrome.runtime.lastError || !redirectUrl) {
-          reject(new Error(chrome.runtime.lastError.message));
-          return;
-        }
+    // Проверяем, есть ли токен в chrome.storage
+    chrome.storage.local.get(["accessToken", "tokenExpiry"], async (result) => {
+      const now = new Date().getTime();
 
-        const params = new URLSearchParams(new URL(redirectUrl).hash.substring(1));
-        accessToken = params.get("access_token"); // Сохраняем токен для последующего использования
-        resolve(accessToken);
-      });
-    }
+      // Если токен существует и еще не истек
+      if (result.accessToken && result.tokenExpiry > now) {
+        resolve(result.accessToken);
+      } else {
+        const authUrl = createAuthUrl();
+        chrome.identity.launchWebAuthFlow(
+          {url: authUrl, interactive: true},
+          async (redirectUrl) => {
+            if (chrome.runtime.lastError || !redirectUrl) {
+              reject(new Error(chrome.runtime.lastError.message));
+              return;
+            }
+
+            const params = new URLSearchParams(new URL(redirectUrl).hash.substring(1));
+            const accessToken = params.get("access_token");
+            const expiresIn = parseInt(params.get("expires_in"), 10);
+            const tokenExpiry = now + expiresIn * 1000; // Вычисляем время истечения токена
+
+            // Сохраняем токен и его время истечения в chrome.storage
+            chrome.storage.local.set({accessToken, tokenExpiry});
+
+            resolve(accessToken);
+          }
+        );
+      }
+    });
   });
 }
 
@@ -299,7 +316,6 @@ function getToken() {
 async function fetchGoogleSheetsData(spreadsheetId, sheetName) {
   try {
     const token = await getToken();
-    console.log("Полученный токен:", token); // Отладка токена
 
     const response = await fetch(
       `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}`,
@@ -310,8 +326,6 @@ async function fetchGoogleSheetsData(spreadsheetId, sheetName) {
         },
       }
     );
-
-    console.log("Ответ от API:", response); // Отладка ответа
 
     if (!response.ok) {
       const errorDetails = await response.text();

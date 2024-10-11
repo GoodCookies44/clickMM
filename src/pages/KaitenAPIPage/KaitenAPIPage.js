@@ -1,14 +1,19 @@
 /* eslint-disable */
+//Модули
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+// Компоненты
+import Loading from "../../components/Loading/Loading";
+// Стили
 import "./KaitenAPIPage.css";
 
 export default function KaitenAPIPage() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sheets, setSheets] = useState([]); // Для хранения списка листов
-  const [selectedSheet, setSelectedSheet] = useState(""); // Для выбранного листа
-  const spreadsheetId = "1keq2u2w8GqeqVaQwh2d1PdN7I7Hjn_26STu8OgrPk30"; // Замените на свой ID таблицы
+  const [sheets, setSheets] = useState([]);
+  const [selectedSheet, setSelectedSheet] = useState("");
+  const [isListOpen, setIsListOpen] = useState(false);
+  const spreadsheetId = "1keq2u2w8GqeqVaQwh2d1PdN7I7Hjn_26STu8OgrPk30";
 
   // Функция для получения списка листов
   const fetchSpreadsheetSheets = () => {
@@ -20,7 +25,7 @@ export default function KaitenAPIPage() {
       (response) => {
         if (response.success) {
           setSheets(response.sheets);
-          setSelectedSheet(response.sheets[0]); // Выбираем первый лист по умолчанию
+          setSelectedSheet(response.sheets[0]);
         } else {
           console.error("Ошибка при получении листов:", response.error);
         }
@@ -98,25 +103,42 @@ export default function KaitenAPIPage() {
     }
   }, [selectedSheet]);
 
+  const toggleList = () => {
+    setIsListOpen(!isListOpen);
+  };
+
+  const handleSheetSelect = (sheet) => {
+    setSelectedSheet(sheet);
+    setIsListOpen(false); // Закрываем список после выбора
+  };
+
   if (loading) {
-    return <div className="kaiten-api-page">Загрузка...</div>;
+    return <Loading />;
   }
 
   return (
-    <div className="kaiten-api-page">
-      <h1>Полученные данные</h1>
-      <label htmlFor="sheetSelect">Выберите лист:</label>
-      <select
-        id="sheetSelect"
-        value={selectedSheet}
-        onChange={(e) => setSelectedSheet(e.target.value)} // Обновляем выбранный лист
-      >
-        {sheets.map((sheet, index) => (
-          <option key={index} value={sheet}>
-            {sheet}
-          </option>
-        ))}
-      </select>
+    <section className="table__section">
+      <div className="selector__container">
+        <label className="label__selector" htmlFor="sheetSelect" onClick={toggleList}>
+          Выберите лист:
+        </label>
+
+        <div className="custom__selector">
+          <div className="selected__sheet" onClick={toggleList}>
+            {selectedSheet || "Выберите лист"}
+          </div>
+          {isListOpen && (
+            <ul className="sheet-list">
+              {sheets.map((sheet, index) => (
+                <li key={index} onClick={() => handleSheetSelect(sheet)}>
+                  {sheet}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
       <ul>
         {users.map((user, index) => (
           <li key={index}>
@@ -126,7 +148,7 @@ export default function KaitenAPIPage() {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
 /* eslint-enable */

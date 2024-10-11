@@ -1,3 +1,73 @@
-.kaiten-api-page {
-  margin-top: 100px;
+.table__section {
+  padding: 3.5em 0.5em 0.5em;
+}
+
+.selector__container {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+
+  margin: 0;
+
+  text-shadow: 5px 5px 10px #00000080;
+}
+
+.label__selector {
+  font-weight: 600;
+
+  color: #eac56b;
+  text-shadow: 5px 5px 10px #00000080;
+}
+
+.custom__selector {
+  border: 1px solid #ccc; /* Замените на нужный стиль */
+  border-radius: 4px; /* Скругление углов */
+  cursor: pointer;
+}
+
+.selected__sheet {
+  color: #f6f6f6;
+}
+
+.selected__sheet::after {
+  content: "";
+  display: block;
+
+  width: 100%;
+  height: 0.1em;
+
+  background-color: #2f2f2f;
+}
+
+.selected__sheet:hover::before {
+  background-color: #eac56b;
+}
+
+.sheet-list {
+  position: absolute;
+  background-color: white; /* Цвет фона списка */
+  border: 1px solid #ccc; /* Цвет границы */
+  border-radius: 4px; /* Скругление углов */
+  margin: 0;
+  padding: 0;
+  list-style-type: none; /* Убираем маркеры */
+  z-index: 1; /* Слой над другими элементами */
+}
+
+.sheet-list li {
+  padding: 10px; /* Отступы для элементов списка */
+  cursor: pointer;
+}
+
+.sheet-list li:hover {
+  background-color: #f0f0f0; /* Цвет фона при наведении */
+}
+
+.arrow-icon {
+  cursor: pointer; /* Курсор для иконки */
+  transition: transform 0.3s ease; /* Плавный поворот */
+}
+
+.arrow-icon.open {
+  transform: rotate(-90deg); /* Поворот иконки на 90 градусов */
 }
