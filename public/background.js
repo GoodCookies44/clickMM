@@ -258,3 +258,102 @@ function sendMessageToTab(message) {
     chrome.tabs.sendMessage(tabs[0].id, message);
   });
 }
+
+//Google Sheet API
+const CLIENT_ID = "899506669224-e3ee96lkktlocp3pbp0pi5mr7t6gg8t6.apps.googleusercontent.com";
+const SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
+
+// Функция для создания URL авторизации
+function createAuthUrl() {
+  const redirectUri = chrome.identity.getRedirectURL();
+  const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
+    redirectUri
+  )}&response_type=token&scope=${encodeURIComponent(SCOPES)}&include_granted_scopes=true`;
+  return authUrl;
+}
+
+// Получение токена
+function getToken() {
+  return new Promise((resolve, reject) => {
+    const authUrl = createAuthUrl();
+
+    chrome.identity.launchWebAuthFlow({url: authUrl, interactive: true}, (redirectUrl) => {
+      if (chrome.runtime.lastError || !redirectUrl) {
+        reject(new Error(chrome.runtime.lastError.message));
+        return;
+      }
+
+      const params = new URLSearchParams(new URL(redirectUrl).hash.substring(1));
+      const accessToken = params.get("access_token");
+      resolve(accessToken);
+    });
+  });
+}
+
+// Получение данных из Google Sheets
+async function fetchGoogleSheetsData(spreadsheetId) {
+  try {
+    const token = await getToken();
+    console.log("Полученный токен:", token); // Отладка токена
+
+    const response = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Рассылка`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log("Ответ от API:", response); // Отладка ответа
+
+    if (!response.ok) {
+      const errorDetails = await response.text();
+      throw new Error(`Ошибка при получении данных: ${response.status} ${errorDetails}`);
+    }
+
+    const data = await response.json();
+    console.log("Данные из таблицы:", data); // Отладка данных
+
+    // Проверка, есть ли данные и возвращение без заголовков
+    return data.values ? data.values.slice(1) : []; // Удаляем первую строку (заголовки)
+  } catch (error) {
+    console.error("Ошибка в fetchGoogleSheetsData:", error);
+    throw error; // Пробрасываем ошибку дальше
+  }
+}
+
+//Получение списка листов в таблице
+async function getSpreadsheetSheets(spreadsheetId, auth) {
+  const response = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets.properties.title`,
+    {
+      headers: {
+        Authorization: `Bearer ${auth}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Ошибка при получении листов");
+  }
+
+  const data = await response.json();
+  return data.sheets.map((sheet) => sheet.properties.title);
+}
+
+// Обработка сообщений от контентного скрипта
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "fetchGoogleSheetsData") {
+    fetchGoogleSheetsData(request.spreadsheetId)
+      .then((data) => {
+        sendResponse({success: true, data: data});
+      })
+      .catch((error) => {
+        console.error("Ошибка:", error);
+        sendResponse({success: false, error: error.message});
+      });
+    return true; // Возвращаем true, чтобы обработать асинхронный ответ
+  }
+});
