@@ -6,14 +6,37 @@ import "./KaitenAPIPage.css";
 export default function KaitenAPIPage() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sheets, setSheets] = useState([]); // Для хранения списка листов
+  const [selectedSheet, setSelectedSheet] = useState(""); // Для выбранного листа
   const spreadsheetId = "1keq2u2w8GqeqVaQwh2d1PdN7I7Hjn_26STu8OgrPk30"; // Замените на свой ID таблицы
+
+  // Функция для получения списка листов
+  const fetchSpreadsheetSheets = () => {
+    chrome.runtime.sendMessage(
+      {
+        action: "getSpreadsheetSheets",
+        spreadsheetId: spreadsheetId,
+      },
+      (response) => {
+        if (response.success) {
+          setSheets(response.sheets);
+          setSelectedSheet(response.sheets[0]); // Выбираем первый лист по умолчанию
+        } else {
+          console.error("Ошибка при получении листов:", response.error);
+        }
+      }
+    );
+  };
 
   // Функция для получения данных из Google Sheets
   const fetchReportData = () => {
+    if (!selectedSheet) return; // Если лист не выбран, выходим
+
     chrome.runtime.sendMessage(
       {
         action: "fetchGoogleSheetsData",
         spreadsheetId: spreadsheetId,
+        sheetName: selectedSheet, // Передаем имя выбранного листа
       },
       (response) => {
         if (response.success) {
@@ -63,10 +86,17 @@ export default function KaitenAPIPage() {
     }
   };
 
-  // Вызов функции для получения данных при монтировании компонента
+  // Вызов функции для получения списка листов при монтировании компонента
   useEffect(() => {
-    fetchReportData();
+    fetchSpreadsheetSheets();
   }, []);
+
+  // Вызов функции для получения данных из выбранного листа при изменении выбранного листа
+  useEffect(() => {
+    if (selectedSheet) {
+      fetchReportData();
+    }
+  }, [selectedSheet]);
 
   if (loading) {
     return <div className="kaiten-api-page">Загрузка...</div>;
@@ -75,6 +105,18 @@ export default function KaitenAPIPage() {
   return (
     <div className="kaiten-api-page">
       <h1>Полученные данные</h1>
+      <label htmlFor="sheetSelect">Выберите лист:</label>
+      <select
+        id="sheetSelect"
+        value={selectedSheet}
+        onChange={(e) => setSelectedSheet(e.target.value)} // Обновляем выбранный лист
+      >
+        {sheets.map((sheet, index) => (
+          <option key={index} value={sheet}>
+            {sheet}
+          </option>
+        ))}
+      </select>
       <ul>
         {users.map((user, index) => (
           <li key={index}>
