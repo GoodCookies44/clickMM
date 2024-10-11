@@ -128,7 +128,7 @@ export default function KaitenAPIPage() {
             {selectedSheet || "Выберите лист"}
           </div>
           {isListOpen && (
-            <ul className="sheet-list">
+            <ul className="sheet__list">
               {sheets.map((sheet, index) => (
                 <li key={index} onClick={() => handleSheetSelect(sheet)}>
                   {sheet}
