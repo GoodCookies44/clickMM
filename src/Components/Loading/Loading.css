@@ -1,0 +1,19 @@
+.download__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 3.5em 0.5em 0.5em;
+
+  font-size: 2em;
+  font-weight: 700;
+
+  color: #eac56b;
+  text-shadow: 5px 5px 10px #00000080;
+
+  user-select: none;
+}
+
+.download__container h2 {
+  width: 11ch;
+}

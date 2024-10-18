@@ -1,9 +1,5 @@
 header {
   height: 2.8em;
-  width: 100vw;
-
-  margin: 0;
-  padding: 0 0.5em;
 
   background: #474747;
   border-radius: 0px 0px 1em 1em;
@@ -55,6 +51,7 @@ nav {
   transition: linear 0.5s;
 
   user-select: none;
+  text-wrap: nowrap;
 }
 
 .header__link.active {

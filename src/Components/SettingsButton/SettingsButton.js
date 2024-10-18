@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Модули
 import React, {useContext, useState} from "react";
 import Modal from "react-modal";
@@ -48,6 +49,16 @@ export default function SettingsButton({updateTabs, activeLinks}) {
     setIsListOpen({...isListOpen, [listName]: !isListOpen[listName]});
   };
 
+  function openInNewTab() {
+    chrome.tabs.create(
+      {
+        url: chrome.runtime.getURL("index.html"),
+      },
+      function () {
+        window.close();
+      }
+    );
+  }
   return (
     <>
       <button className="settings__button" onClick={openModal}>
@@ -83,6 +94,10 @@ export default function SettingsButton({updateTabs, activeLinks}) {
             counterIds={allCounterIds}
             textareaIds={["CategoryName_submit", "CategoryName_accepted"]}
           />
+        </div>
+
+        <div className="paragraph__container" onClick={() => openInNewTab()}>
+          <h3>Открыть во вкладке</h3>
         </div>
 
         <div className="paragraph__container">
@@ -171,15 +186,6 @@ export default function SettingsButton({updateTabs, activeLinks}) {
               />
               <label htmlFor="imageCheckSwitch">Проверка фото 3х4</label>
             </li>
-
-            <li>
-              <Switch
-                id="CheckboxFunction"
-                checked={isCheckboxFunctionEnabled}
-                onChange={toggleCheckboxFunction}
-              />
-              <label htmlFor="CheckboxFunction">Авто галочки</label>
-            </li>
           </ul>
         </div>
       </Modal>
@@ -191,3 +197,4 @@ SettingsButton.propTypes = {
   updateTabs: PropTypes.func.isRequired,
   activeLinks: PropTypes.array.isRequired,
 };
+/* eslint-enable */

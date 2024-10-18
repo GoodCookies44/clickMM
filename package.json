@@ -1,13 +1,15 @@
 {
-  "name": "clickmm",
-  "version": "1.23",
+  "name": "clickmmps",
+  "version": "1.01",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.7",
     "express": "^4.19.2",
     "follow-redirects": "^1.15.6",
+    "gapi-script": "^1.2.0",
     "mathjs": "^12.4.2",
     "nth-check": "^2.1.1",
     "postcss": "^8.4.38",

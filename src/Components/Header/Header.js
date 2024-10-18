@@ -4,20 +4,15 @@ import SettingsButton from "../SettingsButton/SettingsButton";
 import "./Header.css";
 
 export default function Header() {
-  const [username] = useState(localStorage.getItem("username") || "");
-
   const [activeLinks, setActiveLinks] = useState(() => {
     const storedLinks = JSON.parse(localStorage.getItem("activeLinks"));
     return (
       storedLinks || [
-        {to: "/MKT", label: "МКТ", active: false},
-        {to: "/PP", label: "ПП", active: false},
-        {to: "/UMF", label: "УМФ", active: false},
-        {to: "/KP", label: "КП", active: false},
-        {to: "/BP", label: "БП", active: false},
-        {to: "/Kaiten", label: "Кайтен", active: false},
-        {to: "/", label: "Ссылки", active: false},
-        {to: "/Sheet", label: "Таблица", active: false},
+        {to: "/", label: "Категорийка", active: false},
+        {to: "/PMPage", label: "ПМ/БП", active: false},
+        {to: "/PaidPage", label: "Платная съёмка", active: false},
+        {to: "/AdditionalPage", label: "Доп. услуги", active: false},
+        {to: "/KaitenAPI", label: "Кайтен API", active: false},
         {to: "/Report", label: "Отчёт", active: false},
       ]
     );
@@ -71,12 +66,6 @@ export default function Header() {
         </button>
 
         <nav ref={navRef}>
-          {username === "Антон" && (
-            <NavLink to="/Category" className="link header__link">
-              Категории
-            </NavLink>
-          )}
-
           {activeLinks.map((link, index) =>
             link.active ? (
               <NavLink

@@ -3,16 +3,12 @@ import React from "react";
 import {Outlet, Route, Routes} from "react-router-dom";
 // Компоненты
 import Header from "./components/Header/Header.js";
-import MKTPage from "./pages/MKTPage/MKTPage.js";
-import PPPage from "./pages/PPPage/PPPage.js";
-import UMFPage from "./pages/UMFPage/UMFPage.js";
-import KPPage from "./pages/KPPage/KPPage.js";
-import BPPage from "./pages/BPPage/BPPage.js";
-import UsefulList from "./pages/UsefulList/UsefulList.js";
+import CategoricalPage from "./pages/CategoricalPage/CategoricalPage.js";
+import PMPage from "./pages/PMPage/PMPage.js";
+import PaidPage from "./pages/PaidPage/PaidPage.js";
+import AdditionalPage from "./pages/AdditionalPage/AdditionalPage.js";
+import KaitenAPIPage from "./pages/KaitenAPIPage/KaitenAPIPage.js";
 import ReportPage from "./pages/ReportPage/ReportPage.js";
-import CategoryPage from "./pages/CategoryPage/CategoryPage.js";
-import KaitenPage from "./pages/KaitenPage/KaitenPage.js";
-import SheetPage from "./pages/SheetPage/SheetPage.js";
 import {CounterProvider} from "./components/Context/CounterContext.js";
 import {SettingsProvider} from "./components/Context/SettingsContext.js";
 // Стили
@@ -22,16 +18,12 @@ export default function App() {
   return (
     <Routes>
       <Route exact path={"/"} element={<Layout />}>
-        <Route index element={<UsefulList />} />
-        <Route path={"/MKT"} element={<MKTPage />} />
-        <Route path={"/PP"} element={<PPPage />} />
-        <Route path={"/UMF"} element={<UMFPage />} />
-        <Route path={"/KP"} element={<KPPage />} />
-        <Route path={"/BP"} element={<BPPage />} />
-        <Route path={"/Kaiten"} element={<KaitenPage />} />
-        <Route path={"/Report"} element={<ReportPage />} />
-        <Route path={"/Category"} element={<CategoryPage />} />
-        <Route path={"/Sheet"} element={<SheetPage />} />
+        <Route index element={<CategoricalPage />} />
+        <Route path={"/PMPage"} element={<PMPage />} />
+        <Route path={"/PaidPage"} element={<PaidPage />} />
+        <Route path={"/AdditionalPage"} element={<AdditionalPage />} />
+        <Route path={"/KaitenAPI"} element={<KaitenAPIPage />} />
+        <Route path={"/Report"} element={<ReportPage />} />;
       </Route>
     </Routes>
   );
