@@ -80,30 +80,45 @@ export default function KaitenAPIPage() {
       version: "Свой вариант",
       comment: "Комментарий",
     },
-    vr: {
+    yov: {
       service: "Опишите услугу",
       barcode: "Штрихкоды",
       comment: "Комментарий",
     },
   };
 
+  const getTags = (task) => {
+    const tags = [];
+    if (task.moc === "Электронная почта") {
+      tags.push("Почта");
+    } else if (task.moc === "Telegram") {
+      tags.push("Telegram");
+    } else if (task.moc === "What's app") {
+      tags.push("What's app");
+    }
+
+    return tags;
+  };
+
   const taskData = {
+    getTags: (task) => getTags(task),
+
     tz: (task) => ({
-      description: `ИП продавца: ${task.id}\nШтрихкод: ${task.other.barcode}\nВид услуги: ${
-        task.task
-      }\nТЗ:\n Ссылка на референсы: ${task.other.link || "Нет комментария"}\n Комментарий: ${
-        task.other.comment || "Нет комментария"
-      }`,
+      description: `**ИП продавца:** ${task.id}\n**Штрихкод:** ${
+        task.other.barcode
+      }\n**Вид услуги:** ${task.task}\n**ТЗ:**\n **Ссылка на референсы:** ${
+        task.other.link || "Нет комментария"
+      }\n **Комментарий:** ${task.other.comment || "Нет комментария"}`,
 
       boardId: 988999,
 
-      tag_name: "Съемка по ТЗ",
+      tag_name: ["Съемка по ТЗ", "What's app"],
     }),
 
     mcs: (task) => ({
-      description: `ИП продавца: ${task.id}\nШтрихкод: ${task.other.barcode}\nВид услуги: ${
-        task.task
-      }\nТЗ:\n ${task.other.comment || "Нет комментария"}`,
+      description: `**ИП продавца:** ${task.id}\n**Штрихкод:** ${
+        task.other.barcode
+      }\n**Вид услуги:** ${task.task}\n**ТЗ:**\n ${task.other.comment || "Нет комментария"}`,
 
       boardId: 989444,
 
@@ -111,9 +126,9 @@ export default function KaitenAPIPage() {
     }),
 
     sp: (task) => ({
-      description: `ИП продавца: ${task.id}\nШтрихкод: ${task.other.barcode}\nВид услуги: ${
-        task.task
-      }\nТЗ:\n ${task.other.comment || "Нет комментария"}`,
+      description: `**ИП продавца:** ${task.id}\n**Штрихкод:** ${
+        task.other.barcode
+      }\n**Вид услуги:** ${task.task}\n**ТЗ:**\n ${task.other.comment || "Нет комментария"}`,
 
       boardId: 989010,
 
@@ -121,18 +136,18 @@ export default function KaitenAPIPage() {
     }),
 
     rc: (task) => ({
-      description: `ИП продавца: ${task.id}\nШтрихкод: ${task.other.barcode}\nВид услуги: ${
-        task.task
-      }\nТЗ:\n ${task.other.comment || "Нет комментария"}`,
+      description: `**ИП продавца:** ${task.id}\n**Штрихкод:** ${
+        task.other.barcode
+      }\n**Вид услуги:** ${task.task}\n**ТЗ:**\n ${task.other.comment || "Нет комментария"}`,
       boardId: 989446,
 
       tag_name: "Rich-content",
     }),
 
     vw: (task) => ({
-      description: `ИП продавца: ${task.id}\nШтрихкод: ${task.other.barcode}\nВид услуги: ${
-        task.task
-      }\nТЗ:\n ${task.other.comment || "Нет комментария"}`,
+      description: `**ИП продавца:** ${task.id}\n**Штрихкод:** ${
+        task.other.barcode
+      }\n**Вид услуги:** ${task.task}\n**ТЗ:**\n ${task.other.comment || "Нет комментария"}`,
 
       boardId: 989009,
 
@@ -140,9 +155,9 @@ export default function KaitenAPIPage() {
     }),
 
     video: (task) => ({
-      description: `ИП продавца: ${task.id}\nШтрихкод: ${task.other.barcode}\nВид услуги: ${
-        task.task
-      }\nТЗ:\n ${task.other.comment || "Нет комментария"}`,
+      description: `**ИП продавца:** ${task.id}\n**Штрихкод:** ${
+        task.other.barcode
+      }\n**Вид услуги:** ${task.task}\n**ТЗ:**\n ${task.other.comment || "Нет комментария"}`,
 
       boardId: 997368,
 
@@ -150,9 +165,9 @@ export default function KaitenAPIPage() {
     }),
 
     vr: (task) => ({
-      description: `ИП продавца: ${task.id}\nШтрихкод: ${task.other.barcode}\nВид услуги: ${
-        task.task
-      }\nТЗ:\n ${task.other.comment || "Нет комментария"}`,
+      description: `**ИП продавца:** ${task.id}\n**Штрихкод:** ${
+        task.other.barcode
+      }\n**Вид услуги:** ${task.task}\n**ТЗ:**\n ${task.other.comment || "Нет комментария"}`,
 
       boardId: 997368,
 
@@ -183,11 +198,11 @@ export default function KaitenAPIPage() {
     }),
 
     yov: (task) => ({
-      description: `ИП продавца: ${task.id}\nШтрихкод: ${task.other.barcode}\nВид услуги: ${
-        task.task
-      }\nТЗ:\n Опишите услугу: ${task.other.service || "Нет комментария"}\nКомментарий: ${
-        task.other.comment || "Нет комментария"
-      }`,
+      description: `**ИП продавца:** ${task.id}\n**Штрихкод:** ${
+        task.other.barcode
+      }\n**Вид услуги:** ${task.task}\n**ТЗ:**\n **Опишите услугу:** ${
+        task.other.service || "Нет комментария"
+      }\n**Комментарий:** ${task.other.comment || "Нет комментария"}`,
 
       boardId: 989447,
 
@@ -203,9 +218,9 @@ export default function KaitenAPIPage() {
   }, []);
 
   const formatTaskDescription = (task) => {
-    const header = `ИП продавца: ${task.id}\nШтрихкод: ${
+    const header = `**ИП продавца:** ${task.id}\n**Штрихкод:** ${
       task.other.barcode || "Нет данных"
-    }\nВид услуги: ${task.task}\nТЗ:\n`;
+    }\n**Вид услуги:** ${task.task}\n**ТЗ:**\n`;
 
     const body = Object.entries(task.other)
       .filter(([otherKey]) => otherKey !== "barcode") // Исключаем barcode из списка
@@ -213,7 +228,7 @@ export default function KaitenAPIPage() {
         const label = taskLabels[task.type]?.[otherKey] || otherKey;
 
         if (otherValue) {
-          return `${label}: ${otherValue || "Нет данных"}`;
+          return `**${label}:** ${otherValue || "Нет данных"}`;
         }
       })
       .join("\n");
@@ -504,6 +519,7 @@ export default function KaitenAPIPage() {
     }
 
     const cardData = taskData[taskType](task);
+    const tags = taskData.getTags(task);
 
     // Опции для запроса на создание карточки
     const createOptions = {
@@ -519,6 +535,8 @@ export default function KaitenAPIPage() {
         board_id: cardData.boardId,
         description: cardData.description,
         position: 2,
+        size_text: getSlidesOrBarcodes(task),
+        due_date: task.date,
       },
     };
 
@@ -527,23 +545,16 @@ export default function KaitenAPIPage() {
       const createResponse = await axios.request(createOptions);
       const cardId = createResponse.data.id; // Получаем id созданной карточки
 
-      // Опции для запроса на добавление тега
-      const addTagOptions = {
-        method: "POST",
-        url: `https://magnit-market.kaiten.ru/api/latest/cards/${cardId}/tags`,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${tokenKaiten}`,
-        },
-        data: {
-          name: cardData.tag_name,
-        },
-      };
+      // Добавляем основной тег
+      const mainTag = cardData.tag_name;
+      await addTag(cardId, mainTag);
 
-      // Добавление тега к карточке
-      await axios.request(addTagOptions);
+      // Добавление дополнительных тегов
+      for (const tag of tags) {
+        await addTag(cardId, tag);
+      }
 
+      // Уведомление о создании карточки
       setNotifications((prev) => ({
         ...prev,
         [`${task.id}_${task.task}`]: "Карточка успешно создана!",
@@ -580,6 +591,28 @@ export default function KaitenAPIPage() {
         }
       }
     );
+  };
+
+  //Добавление тегов в карточку
+  const addTag = async (cardId, tag) => {
+    const addTagOptions = {
+      method: "POST",
+      url: `https://magnit-market.kaiten.ru/api/latest/cards/${cardId}/tags`,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${tokenKaiten}`,
+      },
+      data: {
+        name: tag,
+      },
+    };
+
+    try {
+      await axios(addTagOptions);
+    } catch (error) {
+      console.error(`Ошибка при добавлении тега "${tag}":`, error);
+    }
   };
 
   // Вызов функции для получения списка листов при монтировании компонента
@@ -645,6 +678,41 @@ export default function KaitenAPIPage() {
     const [dayB, monthB, yearB] = b.split(".").map(Number);
     return new Date(yearB + 2000, monthB - 1, dayB) - new Date(yearA + 2000, monthA - 1, dayA);
   });
+
+  const getSlidesOrBarcodes = (task) => {
+    const getSlideText = (slides) => {
+      // Извлекаем только числа из строки, если они есть
+      const slidesNumber = parseInt(slides.match(/\d+/)?.[0] || 0, 10);
+
+      const lastDigit = slidesNumber % 10;
+      const lastTwoDigits = slidesNumber % 100;
+
+      // Проверка на числа, оканчивающиеся на 11-14
+      if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+        return `${slidesNumber} слайдов`;
+      }
+
+      // Для остальных случаев используем только последнюю цифру
+      if (lastDigit === 1) {
+        return `${slidesNumber} слайд`;
+      } else if (lastDigit >= 2 && lastDigit <= 4) {
+        return `${slidesNumber} слайда`;
+      } else {
+        return `${slidesNumber} слайдов`;
+      }
+    };
+
+    if (task.other.slides) {
+      return getSlideText(task.other.slides);
+    } else if (task.other.barcode) {
+      const barcodes = task.other.barcode.split(/[\s,\.]+/).filter((code) => /^\d+$/.test(code));
+
+      const barcodeCount = barcodes.length;
+      return `${barcodeCount} ШК`;
+    } else {
+      return "";
+    }
+  };
 
   if (loading) {
     return <Loading />;

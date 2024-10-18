@@ -133,7 +133,7 @@ body.body__custom::-webkit-scrollbar-thumb:hover {
 
 .task__list {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   align-items: flex-start;
   gap: 1.5em;
 
