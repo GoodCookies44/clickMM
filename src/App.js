@@ -6,8 +6,8 @@ import Header from "./components/Header/Header.js";
 import MKTPage from "./pages/MKTPage/MKTPage.js";
 import PPPage from "./pages/PPPage/PPPage.js";
 import UMFPage from "./pages/UMFPage/UMFPage.js";
-import KPPage from "./pages/KPPage/KPPage.js";
-import BPPage from "./pages/BPPage/BPPage.js";
+// import KPPage from "./pages/KPPage/KPPage.js";
+// import BPPage from "./pages/BPPage/BPPage.js";
 import UsefulList from "./pages/UsefulList/UsefulList.js";
 import ReportPage from "./pages/ReportPage/ReportPage.js";
 import CategoryPage from "./pages/CategoryPage/CategoryPage.js";
@@ -26,8 +26,8 @@ export default function App() {
         <Route path={"/MKT"} element={<MKTPage />} />
         <Route path={"/PP"} element={<PPPage />} />
         <Route path={"/UMF"} element={<UMFPage />} />
-        <Route path={"/KP"} element={<KPPage />} />
-        <Route path={"/BP"} element={<BPPage />} />
+        {/* <Route path={"/KP"} element={<KPPage />} />
+        <Route path={"/BP"} element={<BPPage />} /> */}
         <Route path={"/Kaiten"} element={<KaitenPage />} />
         <Route path={"/Report"} element={<ReportPage />} />
         <Route path={"/Category"} element={<CategoryPage />} />
