@@ -19,6 +19,7 @@ export default function Header() {
         {to: "/", label: "Ссылки", active: false},
         {to: "/Sheet", label: "Таблица", active: false},
         {to: "/Report", label: "Отчёт", active: false},
+        {to: "/CardChecker", label: "Проверка", active: false},
       ]
     );
   });

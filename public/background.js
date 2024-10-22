@@ -258,3 +258,26 @@ function sendMessageToTab(message) {
     chrome.tabs.sendMessage(tabs[0].id, message);
   });
 }
+
+//Проверка карточек в категории
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "checkCards") {
+    // Получаем эталонные карточки из localStorage
+    const referenceCards = JSON.parse(localStorage.getItem("referenceCards")) || [];
+
+    // Настройки Fuse.js для нечёткого поиска по названию
+    const fuse = new Fuse(referenceCards, {
+      keys: ["name"], // Сравниваем по названию карточки
+      threshold: 0.4, // Чем ниже порог, тем строже совпадение (0.4 — среднее)
+    });
+
+    const nonMatchingCards = request.cards.filter((card) => {
+      const result = fuse.search(card.name);
+      return result.length === 0; // Если не нашлось совпадений, добавляем карточку
+    });
+
+    // Отправляем обратно карточки, которые не прошли проверку
+    sendResponse(nonMatchingCards);
+    return true; // Указываем, что мы асинхронно отправим ответ
+  }
+});

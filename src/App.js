@@ -1,6 +1,7 @@
 // Модули
 import React from "react";
 import {Outlet, Route, Routes} from "react-router-dom";
+import Fuse from "fuse.js";
 // Компоненты
 import Header from "./components/Header/Header.js";
 import MKTPage from "./pages/MKTPage/MKTPage.js";
@@ -15,6 +16,7 @@ import KaitenPage from "./pages/KaitenPage/KaitenPage.js";
 import SheetPage from "./pages/SheetPage/SheetPage.js";
 import {CounterProvider} from "./components/Context/CounterContext.js";
 import {SettingsProvider} from "./components/Context/SettingsContext.js";
+import CardChecker from "./pages/CardChecker/CardChecker.js";
 // Стили
 import "./App.css";
 
@@ -32,6 +34,7 @@ export default function App() {
         <Route path={"/Report"} element={<ReportPage />} />
         <Route path={"/Category"} element={<CategoryPage />} />
         <Route path={"/Sheet"} element={<SheetPage />} />
+        <Route path={"/CardChecker"} element={<CardChecker />} />
       </Route>
     </Routes>
   );
