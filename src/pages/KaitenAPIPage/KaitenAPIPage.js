@@ -789,76 +789,79 @@ export default function KaitenAPIPage() {
             <h3>{date}</h3>
 
             <div className="task__list">
-              {groupedTasks[date].map((task, taskIndex) => (
-                <div key={taskIndex} className="task__item">
-                  <TaskDetail label="Строка" value={task.index} />
+              {groupedTasks[date]
+                .slice()
+                .reverse()
+                .map((task, taskIndex) => (
+                  <div key={taskIndex} className="task__item">
+                    <TaskDetail label="Строка" value={task.index} />
 
-                  <h4>{task.task}</h4>
+                    <h4>{task.task}</h4>
 
-                  <div className="task__info">
-                    <h4>Доп. инфо:</h4>
-                    {Object.entries(task.other).map(([otherKey, otherValue]) => {
-                      const isLink = ["link", "link1", "link2", "market"].includes(otherKey);
-                      return (
-                        <TaskDetail
-                          key={otherKey}
-                          label={taskLabels[task.type]?.[otherKey] || otherKey}
-                          value={otherValue}
-                          isLink={isLink}
+                    <div className="task__info">
+                      <h4>Доп. инфо:</h4>
+                      {Object.entries(task.other).map(([otherKey, otherValue]) => {
+                        const isLink = ["link", "link1", "link2", "market"].includes(otherKey);
+                        return (
+                          <TaskDetail
+                            key={otherKey}
+                            label={taskLabels[task.type]?.[otherKey] || otherKey}
+                            value={otherValue}
+                            isLink={isLink}
+                          />
+                        );
+                      })}
+                    </div>
+
+                    <div className="task__contacts">
+                      <TaskDetail label="Номер" value={task.number} />
+                      <TaskDetail label="Почта" value={task.mail} />
+                      <TaskDetail label="Способ связи" value={task.moc} />
+                      <label className="checkbox-label">
+                        <input
+                          type="checkbox"
+                          className="hidden-checkbox"
+                          checked={task.kaiten}
+                          onChange={() => toggleTaskKaiten(task.id)}
                         />
-                      );
-                    })}
+                        Запрос создан
+                        <div className="custom-checkbox__container">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                            <path
+                              className="custom-checkbox"
+                              d="M1 15V5C1 2.79086 2.79086 1 5 1H15C17.2091 1 19 2.79086 19 5V15C19 17.2091 17.2091 19 15 19H5C2.79086 19 1 17.2091 1 15Z"
+                              stroke="#F6F6F6"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              className="custom-marker"
+                              d="M3 10L9 16L18 4"
+                              stroke="#16ff65"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </label>
+
+                      <TaskDetail label="Статус" value={task.status} />
+                    </div>
+
+                    <button
+                      className="counter__button kaitenAPI"
+                      onClick={() => createCardInKaiten(task, taskIndex)}
+                    >
+                      Создать карточку
+                    </button>
+
+                    {notifications[`${task.id}_${task.task}`] && (
+                      <div className="notification">{notifications[`${task.id}_${task.task}`]}</div>
+                    )}
                   </div>
-
-                  <div className="task__contacts">
-                    <TaskDetail label="Номер" value={task.number} />
-                    <TaskDetail label="Почта" value={task.mail} />
-                    <TaskDetail label="Способ связи" value={task.moc} />
-                    <label className="checkbox-label">
-                      <input
-                        type="checkbox"
-                        className="hidden-checkbox"
-                        checked={task.kaiten}
-                        onChange={() => toggleTaskKaiten(task.id)}
-                      />
-                      Запрос создан
-                      <div className="custom-checkbox__container">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                          <path
-                            className="custom-checkbox"
-                            d="M1 15V5C1 2.79086 2.79086 1 5 1H15C17.2091 1 19 2.79086 19 5V15C19 17.2091 17.2091 19 15 19H5C2.79086 19 1 17.2091 1 15Z"
-                            stroke="#F6F6F6"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            className="custom-marker"
-                            d="M3 10L9 16L18 4"
-                            stroke="#16ff65"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </label>
-
-                    <TaskDetail label="Статус" value={task.status} />
-                  </div>
-
-                  <button
-                    className="counter__button kaitenAPI"
-                    onClick={() => createCardInKaiten(task, taskIndex)}
-                  >
-                    Создать карточку
-                  </button>
-
-                  {notifications[`${task.id}_${task.task}`] && (
-                    <div className="notification">{notifications[`${task.id}_${task.task}`]}</div>
-                  )}
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         ))}
