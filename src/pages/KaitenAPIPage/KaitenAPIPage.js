@@ -112,7 +112,7 @@ export default function KaitenAPIPage() {
 
       boardId: 988999,
 
-      tag_name: ["Съемка по ТЗ", "What's app"],
+      tag_name: "Съемка по ТЗ",
     }),
 
     mcs: (task) => ({
@@ -587,7 +587,7 @@ export default function KaitenAPIPage() {
       (response) => {
         if (response.success) {
         } else {
-          console.error("Ошибка при обновлении таблицы:", response.error);
+          alert("Ошибка при обновлении таблицы:", response.error);
         }
       }
     );
@@ -665,10 +665,17 @@ export default function KaitenAPIPage() {
     return acc;
   }, {});
 
-  const toggleTaskKaiten = (id) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => (task.id === id ? {...task, kaiten: !task.kaiten} : task))
-    );
+  const toggleTaskKaiten = (taskId) => {
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === taskId) {
+        return {
+          ...task,
+          kaiten: !task.kaiten,
+        };
+      }
+      return task;
+    });
+
     setTasks(updatedTasks);
   };
 

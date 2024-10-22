@@ -1,6 +1,6 @@
 {
   "name": "clickmmps",
-  "version": "1.01",
+  "version": "1.02",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

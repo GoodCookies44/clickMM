@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Click MM PS",
-  "version": "1.01",
+  "version": "1.02",
   
   "background": {
     "service_worker": "background.js"

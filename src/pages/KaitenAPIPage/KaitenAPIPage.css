@@ -1,21 +1,32 @@
-body.body__custom::-webkit-scrollbar {
+body.body__custom {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+body.body__custom::-webkit-scrollbar,
+.task__list::-webkit-scrollbar {
   display: block;
-  width: 0.5em;
-  height: 0.5em;
+  width: 0.6em;
+  height: 0.6em;
   background: #474747;
 }
 
-body.body__custom::-webkit-scrollbar-thumb {
+body.body__custom::-webkit-scrollbar-thumb,
+.task__list::-webkit-scrollbar-thumb {
   background: #2f2f2f;
-  border-radius: 0.1em;
+  border-radius: 0.2em;
 }
 
-body.body__custom::-webkit-scrollbar-thumb:hover {
+body.body__custom::-webkit-scrollbar-thumb:hover,
+.task__list::-webkit-scrollbar-thumb:hover {
   background: #eac56b;
 }
 
 .table__section {
-  padding: 5.5em 0.5em 0.5em;
+  width: fit-content;
+
+  padding: 5.7em 0.5em 0.5em;
+  background-color: #252525;
 }
 
 .task__header {
@@ -23,8 +34,6 @@ body.body__custom::-webkit-scrollbar-thumb:hover {
   top: 2.8em;
   left: 0;
   z-index: 2;
-
-  background-color: #474747;
 
   width: 100%;
 }
@@ -83,8 +92,9 @@ body.body__custom::-webkit-scrollbar-thumb:hover {
   margin: 0;
   padding: 0.3em;
 
-  background-color: #2f2f2f;
-  border-radius: 10%;
+  background-color: #252525;
+  border: 1px solid #eac56b;
+  border-radius: 0.5em;
 
   color: #f6f6f6;
 
@@ -119,27 +129,46 @@ body.body__custom::-webkit-scrollbar-thumb:hover {
   text-wrap: nowrap;
 }
 
+.task__section {
+  display: flex;
+  gap: 1em;
+
+  height: 85vh;
+
+  padding: 0;
+}
+
 .task__group {
   display: flex;
   flex-direction: column;
+
+  padding: 0.5em;
+
+  background-color: #2f2f2f;
+  border-radius: 0.5em;
 }
 
 .task__group h3 {
   color: #eac56b;
   font-weight: 600;
 
-  margin: 0.5em;
+  margin: 0.2em;
 }
 
 .task__list {
   display: flex;
-  flex-direction: row-reverse;
-  align-items: flex-start;
-  gap: 1.5em;
+  flex-direction: column;
+  gap: 0.7em;
+
+  padding: 0 0.3em;
 
   width: fit-content;
+  height: 150ch;
 
-  margin-bottom: 1em;
+  background-color: #2f2f2f;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .task__item {
@@ -148,10 +177,9 @@ body.body__custom::-webkit-scrollbar-thumb:hover {
   width: 40ch;
 
   color: #f6f6f6;
+  background-color: #474747;
 
-  border: 2px solid #2f2f2f;
-  border-radius: 1em;
-  box-shadow: 0px 10px 30px 0px #00000080;
+  border-radius: 0.5em;
 
   overflow-wrap: break-word;
   user-select: text;
