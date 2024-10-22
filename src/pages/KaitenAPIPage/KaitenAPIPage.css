@@ -25,17 +25,12 @@ body.body__custom::-webkit-scrollbar-thumb:hover,
 .table__section {
   width: fit-content;
 
-  padding: 5.7em 0.5em 0.5em;
+  padding: 3em 0.5em 0.5em;
   background-color: #252525;
 }
 
 .task__header {
-  position: fixed;
-  top: 2.8em;
-  left: 0;
-  z-index: 2;
-
-  width: 100%;
+  width: 100vw;
 }
 
 .nav__container {
