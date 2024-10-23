@@ -1,50 +1,54 @@
-// Модули
-import React, {useEffect, useState} from "react";
-import Fuse from "fuse.js";
+/* eslint-disable */
+//Модули
+import React, {useContext} from "react";
 // Компоненты
+import ResetCountersButton from "../../components/ResetCountersButton/ResetCountersButton";
+import {CounterContext} from "../../components/Context/CounterContext";
+// Стили
+import "./CardChecker.css";
 
-export default function CardChecker({cards}) {
-  const [referenceCards, setReferenceCards] = useState([]);
-  const [nonMatchingCards, setNonMatchingCards] = useState([]);
+const CardChecker = () => {
+  const {words, updateWords} = useContext(CounterContext);
 
-  // Загружаем эталонные карточки из localStorage при монтировании компонента
-  useEffect(() => {
-    const savedReferenceCards = JSON.parse(localStorage.getItem("referenceCards")) || [];
-    setReferenceCards(savedReferenceCards);
-  }, []);
-
-  // Обработчик для получения данных карточек
-  const handleCheckCards = (selectedCards) => {
-    // Настройки Fuse.js для нечёткого поиска по названию
-    const fuse = new Fuse(referenceCards, {
-      keys: ["name"], // Сравниваем по названию карточки
-      threshold: 0.4, // Чем ниже порог, тем строже совпадение (0.4 — среднее)
-    });
-
-    const nonMatching = selectedCards.filter((card) => {
-      const result = fuse.search(card.name);
-      return result.length === 0; // Если не нашлось совпадений, добавляем карточку
-    });
-
-    setNonMatchingCards(nonMatching);
-
-    // Отправка не подходящих карточек обратно в contentscript.js
-    chrome.runtime.sendMessage({action: "highlightCards", cards: nonMatching});
+  const handleInputChange = (e) => {
+    const {id, value} = e.target;
+    updateWords(id, value);
   };
 
-  // Отрисовка компонента
+  const handleCheck = () => {
+    chrome.runtime.sendMessage({
+      action: "CHECK_TITLES",
+      includeWords: words.includeWords,
+      excludeWords: words.excludeWords,
+    });
+  };
+
   return (
-    <div>
-      <h1>Card Checker</h1>
-      <button onClick={() => handleCheckCards(nonMatchingCards)}>Проверить карточки</button>
-      <h2>Не подходящие карточки</h2>
-      <ul>
-        {nonMatchingCards.map((card) => (
-          <li key={card.id}>
-            {card.name} (ID: {card.id})
-          </li>
-        ))}
-      </ul>
-    </div>
+    <section className="counter__section FP CC">
+      <div className="rb_container">
+        <ResetCountersButton wordIds={["includeWords", "excludeWords"]} />
+      </div>
+      <textarea
+        className="notepad__textarea"
+        placeholder="Слова, которые должны быть"
+        id="includeWords"
+        value={words.includeWords}
+        onChange={handleInputChange}
+      />
+      <textarea
+        className="notepad__textarea"
+        placeholder="Слова, которые не должны быть"
+        id="excludeWords"
+        value={words.excludeWords}
+        onChange={handleInputChange}
+      />
+
+      <button className="notepad__button" onClick={handleCheck}>
+        Проверить
+      </button>
+    </section>
   );
-}
+};
+
+export default CardChecker;
+/* eslint-enable */

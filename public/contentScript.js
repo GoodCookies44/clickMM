@@ -561,139 +561,102 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 //Проверка карточек в категории
-// Функция для извлечения данных из таблицы
-function getCurrentCategoryCards() {
-  const rows = document.querySelectorAll("tr"); // Каждая строка таблицы
-  return Array.from(rows)
-    .map((row) => {
-      const id = row.querySelector(".field-id a")?.textContent.trim();
-      const name = row.querySelector(".field-wrapped_title")?.textContent.trim();
-      const imageSrc = row.querySelector(".field-product_image img")?.src;
-      const category = row.querySelector(".field-wrapped_category")?.textContent.trim();
+if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
+  chrome.storage.local.get("words", (result) => {
+    const words = result.words;
+    const includeWords = words.includeWords;
+    const excludeWords = words.excludeWords;
 
-      return {id, name, imageSrc, category, row};
-    })
-    .filter((card) => card.id); // Фильтруем строки без ID
-}
-
-// Функция для передачи данных на вкладку CardChecker
-function sendDataToCardChecker(cards) {
-  chrome.runtime.sendMessage({action: "checkCards", cards}, (nonMatchingCards) => {
-    // После получения карточек, которые не подошли, проверяем их изображения
-    checkCardsImagesAgainstReference(nonMatchingCards);
+    if (includeWords || excludeWords) {
+      // Если есть слова, запускаем основную логику
+      postData();
+      checkTitles(includeWords, excludeWords);
+    }
   });
-}
 
-// Функция для проверки изображений с использованием Canvas API
-function compareImages(imageSrc1, imageSrc2) {
-  return new Promise((resolve, reject) => {
-    const img1 = new Image();
-    const img2 = new Image();
+  function postData() {
+    const rows = document.querySelectorAll("tr");
+    const products = [];
 
-    img1.crossOrigin = "Anonymous"; // Нужно для работы с изображениями с других доменов
-    img2.crossOrigin = "Anonymous";
-
-    let canvas = document.createElement("canvas");
-    let context = canvas.getContext("2d");
-
-    img1.src = imageSrc1;
-    img2.src = imageSrc2;
-
-    img1.onload = () => {
-      img2.onload = () => {
-        // Устанавливаем размер для Canvas
-        canvas.width = Math.min(img1.width, img2.width);
-        canvas.height = Math.min(img1.height, img2.height);
-
-        // Рисуем первое изображение на Canvas
-        context.drawImage(img1, 0, 0, canvas.width, canvas.height);
-        const imgData1 = context.getImageData(0, 0, canvas.width, canvas.height).data;
-
-        // Очищаем Canvas и рисуем второе изображение
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(img2, 0, 0, canvas.width, canvas.height);
-        const imgData2 = context.getImageData(0, 0, canvas.width, canvas.height).data;
-
-        // Сравниваем пиксели двух изображений
-        let diff = 0;
-        for (let i = 0; i < imgData1.length; i++) {
-          diff += Math.abs(imgData1[i] - imgData2[i]);
-        }
-
-        // Возвращаем результат сравнения (чем ниже diff, тем ближе изображения)
-        resolve(diff);
-      };
-
-      img2.onerror = reject;
-    };
-
-    img1.onerror = reject;
-  });
-}
-
-// Функция для проверки карточек по изображениям с эталонными
-async function checkCardsImagesAgainstReference(nonMatchingCards) {
-  const referenceCards = JSON.parse(localStorage.getItem("referenceCards")) || [];
-
-  for (let card of nonMatchingCards) {
-    for (let reference of referenceCards) {
-      const diff = await compareImages(card.imageSrc, reference.imageSrc);
-
-      // Пороговое значение для отличия изображений (можно настроить)
-      if (diff > 10000) {
-        highlightRow(card.id); // Подсвечиваем карточку, если изображения сильно отличаются
+    rows.forEach((row) => {
+      const titleElement = row.querySelector(".field-wrapped_title");
+      const title = titleElement ? titleElement.innerText : "";
+      if (title) {
+        const idElement = row.querySelector(".field-id a");
+        const id = idElement ? idElement.innerText : "";
+        products.push({title: title, id: id});
       }
-    }
+    });
+
+    window.productList = products;
   }
-}
 
-// Подсветка строки таблицы
-function highlightRow(cardId) {
-  const row = document.querySelector(`input[value="${cardId}"]`).closest("tr");
-  row.style.backgroundColor = "yellow"; // Можно изменить цвет подсветки
-}
+  function checkTitles(includeWords, excludeWords) {
+    const includeArray = includeWords
+      .split(",")
+      .map((word) => word.trim())
+      .filter(Boolean);
+    const excludeArray = excludeWords
+      .split(",")
+      .map((word) => word.trim())
+      .filter(Boolean);
 
-// Функция для добавления чекбоксов и возможности выбора эталонных карточек
-function addSwitchesForReferenceSelection() {
-  const cards = getCurrentCategoryCards();
+    const options = {
+      threshold: 0.4,
+      keys: ["title"],
+    };
+    const fuse = new Fuse(window.productList, options);
 
-  cards.forEach((card) => {
-    // Добавляем чекбокс для каждой строки в начало
-    if (!card.row.querySelector(".reference-checkbox")) {
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.className = "reference-checkbox";
+    const rows = document.querySelectorAll("tr");
+    rows.forEach((row) => {
+      row.style.backgroundColor = "";
+    });
 
-      const td = document.createElement("td");
-      td.appendChild(checkbox);
+    window.productList.forEach((product) => {
+      const title = product.title;
+      const id = product.id;
 
-      // Вставляем новый элемент перед первым элементом строки
-      card.row.insertBefore(td, card.row.firstChild);
-    }
-  });
+      const hasIncludeWords = includeArray.some((word) => {
+        const result = fuse.search(word);
+        return result.some((res) => res.item.title === title && res.item.id === id);
+      });
 
-  // Добавляем кнопку для отправки данных на вкладку CardChecker
-  if (!document.querySelector("#check-cards-btn")) {
-    const button = document.createElement("button");
-    button.textContent = "Проверить карточки";
-    button.id = "check-cards-btn";
-    button.style.position = "fixed";
-    button.style.bottom = "20px";
-    button.style.right = "20px";
-    button.style.zIndex = "1000";
+      const hasExcludeWords = excludeArray.some((word) => {
+        const result = fuse.search(word);
+        return result.some((res) => res.item.title === title && res.item.id === id);
+      });
 
-    document.body.appendChild(button);
+      const matchingRows = Array.from(rows).filter((row) => {
+        const titleElement = row.querySelector(".field-wrapped_title");
+        const idElement = row.querySelector(".field-id a");
+        return (
+          titleElement &&
+          idElement &&
+          titleElement.innerText === title &&
+          idElement.innerText === id
+        );
+      });
 
-    // Обработчик клика по кнопке для проверки карточек
-    button.addEventListener("click", () => {
-      const selectedCards = cards.filter(
-        (card) => card.row.querySelector(".reference-checkbox").checked
-      );
-
-      sendDataToCardChecker(selectedCards);
+      matchingRows.forEach((matchingRow) => {
+        if (hasIncludeWords && !hasExcludeWords) {
+          matchingRow.style.backgroundColor = "#d4fec3";
+        } else if (!hasIncludeWords && hasExcludeWords) {
+          matchingRow.style.backgroundColor = "#fec3c3";
+        } else if (hasIncludeWords && hasExcludeWords) {
+          matchingRow.style.backgroundColor = "#fef8c3";
+        } else {
+          matchingRow.style.backgroundColor = "#c3ecfe";
+        }
+      });
     });
   }
-}
 
-// Инициализация
-addSwitchesForReferenceSelection();
+  postData();
+
+  // Слушаем сообщения от background.js
+  chrome.runtime.onMessage.addListener((message) => {
+    if (message.action === "CHECK_TITLES") {
+      checkTitles(message.includeWords, message.excludeWords);
+    }
+  });
+}

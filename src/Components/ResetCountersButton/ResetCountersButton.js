@@ -6,14 +6,15 @@ import {CounterContext} from "../Context/CounterContext";
 // Стили
 import "./ResetCountersButton.css";
 
-export default function ResetCountersButton({counterIds, textareaIds}) {
-  const {resetCounters, resetCategoryName} = useContext(CounterContext);
+export default function ResetCountersButton({counterIds, textareaIds, wordIds}) {
+  const {resetCounters, resetCategoryName, resetWords} = useContext(CounterContext);
   const [isRotated, setIsRotated] = useState(false);
 
   const handleResetCounters = () => {
     // Передаем список идентификаторов счетчиков, которые нужно сбросить
     resetCounters(counterIds);
     resetCategoryName(textareaIds);
+    resetWords(wordIds);
     // Запускаем анимацию поворота
     setIsRotated(true);
 
@@ -63,4 +64,5 @@ export default function ResetCountersButton({counterIds, textareaIds}) {
 ResetCountersButton.propTypes = {
   counterIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   textareaIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  wordIds: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

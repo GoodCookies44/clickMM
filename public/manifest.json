@@ -10,7 +10,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["contentScript.js"]
+      "js": ["contentScript.js", "libs/fuse.min.js"]
     }
   ],
   
@@ -25,7 +25,7 @@
     "128": "./images/icon_128.png"
   },
   
-  "permissions": ["sidePanel", "contextMenus", "storage", "declarativeContent", "scripting", "commands", "downloads"],
+  "permissions": ["tabs", "activeTab", "sidePanel", "contextMenus", "storage", "declarativeContent", "scripting", "commands", "downloads"],
   
   "commands": {
     "toggleCaseCommand": {
@@ -61,14 +61,14 @@
     "openLinkCommand": {
       "description": "Открыть ссылку с ШК или ID"
     },
+    "saveCardCommand": {
+      "description": "Сохранить карточку"
+    },
     "insertArrowCommand": {
       "description": "Вставить стрелочку"
     },
     "scrollToElementCommand": {
       "description": "Скрол до выбора категории"
-    },
-    "saveCardCommand": {
-      "description": "Сохранить карточку"
     }
   },
   

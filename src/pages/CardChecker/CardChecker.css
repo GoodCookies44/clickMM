@@ -1,3 +1,11 @@
-.invalid-card {
-  background-color: rgba(255, 0, 0, 0.2); /* Светло-красный фон для некорректных карточек */
+.CC {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.rb_container {
+  width: 100%;
 }

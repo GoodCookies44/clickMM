@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {createContext, useState, useEffect} from "react";
 import PropTypes from "prop-types";
 
@@ -16,11 +17,22 @@ export const CounterProvider = ({children}) => {
     CategoryName_submit: "",
     CategoryName_accepted: "",
   };
+  useEffect(() => {
+    chrome.storage.local.get("words", (result) => {
+      if (result.words) {
+        setWords(result.words);
+      }
+    });
+  }, []);
 
   const [counters, setCounters] = useState(initialCounters);
   const [notepadContent, setNotepadContent] = useState(initialNotepadContent);
   const [TableUrl, setTableUrl] = useState(initialTableUrl);
   const [categoryNames, setCategoryNames] = useState(initialCategoryNames);
+  const [words, setWords] = useState({
+    includeWords: "",
+    excludeWords: "",
+  });
   const [iframeHeight, setIframeHeight] = useState(initialIframeHeight);
 
   // Функция для добавления нового идентификатора счетчика
@@ -71,6 +83,23 @@ export const CounterProvider = ({children}) => {
     }
   };
 
+  // Функция для обновления значений инпутов по их идентификаторам
+  const updateWords = (id, value) => {
+    setWords((prevWords) => ({
+      ...prevWords,
+      [id]: value,
+    }));
+  };
+
+  // Функция для удаления значений инпутов по их идентификаторам
+  const resetWords = (keys) => {
+    if (Array.isArray(keys) && keys.length > 0) {
+      keys.forEach((key) => {
+        updateWords(key, "");
+      });
+    }
+  };
+
   // Функция для обновления значения высоты iframe
   const updateIframeHeight = (height) => {
     setIframeHeight(height);
@@ -97,6 +126,10 @@ export const CounterProvider = ({children}) => {
     localStorage.setItem("categoryNames", JSON.stringify(categoryNames));
   }, [categoryNames]);
 
+  useEffect(() => {
+    chrome.storage.local.set({words: words});
+  }, [words]);
+
   return (
     <CounterContext.Provider
       value={{
@@ -104,6 +137,7 @@ export const CounterProvider = ({children}) => {
         notepadContent,
         TableUrl,
         categoryNames,
+        words,
         iframeHeight,
         updateIframeHeight,
         addCounterId,
@@ -113,6 +147,8 @@ export const CounterProvider = ({children}) => {
         saveTableUrl,
         updateCategoryName,
         resetCategoryName,
+        updateWords,
+        resetWords,
       }}
     >
       {children}
@@ -123,3 +159,4 @@ export const CounterProvider = ({children}) => {
 CounterProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+/* eslint-enable */
