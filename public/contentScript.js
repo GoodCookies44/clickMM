@@ -639,13 +639,13 @@ if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
 
       matchingRows.forEach((matchingRow) => {
         if (hasIncludeWords && !hasExcludeWords) {
-          matchingRow.style.backgroundColor = "#d4fec3";
+          matchingRow.style.backgroundColor = "#EDFFE6";
         } else if (!hasIncludeWords && hasExcludeWords) {
-          matchingRow.style.backgroundColor = "#fec3c3";
+          matchingRow.style.backgroundColor = "#FFDEDE";
         } else if (hasIncludeWords && hasExcludeWords) {
-          matchingRow.style.backgroundColor = "#fef8c3";
+          matchingRow.style.backgroundColor = "#FFFCD8";
         } else {
-          matchingRow.style.backgroundColor = "#c3ecfe";
+          matchingRow.style.backgroundColor = "#D7F3FF";
         }
       });
     });
