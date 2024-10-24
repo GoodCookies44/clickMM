@@ -602,8 +602,10 @@ if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
       .filter(Boolean);
 
     const options = {
-      threshold: 0.4,
+      threshold: 0.3,
       keys: ["title"],
+      tokenize: true,
+      matchAll: true,
     };
     const fuse = new Fuse(window.productList, options);
 
