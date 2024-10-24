@@ -120,36 +120,36 @@ chrome.runtime.onInstalled.addListener(function () {
 chrome.commands.onCommand.addListener(function (command) {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     switch (command) {
-      case "toggleCaseCommand":
+      case "01toggleCaseCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "toggleCase"});
         break;
-      case "capitalizeWordsCommand":
+      case "02capitalizeWordsCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "capitalizeWords"});
         break;
-      case "lowerCaseCommand":
+      case "03lowerCaseCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "lowerCase"});
         break;
-      case "addQuotesCommand":
+      case "04addQuotesCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "addQuotes"});
         break;
-      case "createListCommand":
+      case "05createListCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "createList"});
         break;
-      case "checkImagesCommand":
+      case "06checkImagesCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "checkImages"});
-      case "openLinkCommand":
+      case "07openLinkCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "getSelectedText"});
         break;
-      case "insertArrowCommand":
+      case "08insertArrowCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "insertArrow"});
         break;
-      case "scrollToElementCommand":
+      case "10scrollToElementCommand":
         chrome.tabs.sendMessage(tabs[0].id, {
           action: "scrollToElement",
           elementId: "select2-id_category-container",
         });
         break;
-      case "saveCardCommand":
+      case "09saveCardCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "saveCard"});
         break;
       default:
