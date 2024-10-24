@@ -31,10 +31,10 @@ export default function App() {
         {/* <Route path={"/KP"} element={<KPPage />} />
         <Route path={"/BP"} element={<BPPage />} /> */}
         <Route path={"/Kaiten"} element={<KaitenPage />} />
-        <Route path={"/Report"} element={<ReportPage />} />
-        <Route path={"/Category"} element={<CategoryPage />} />
         <Route path={"/Sheet"} element={<SheetPage />} />
+        <Route path={"/Category"} element={<CategoryPage />} />
         <Route path={"/CardChecker"} element={<CardChecker />} />
+        <Route path={"/Report"} element={<ReportPage />} />
       </Route>
     </Routes>
   );

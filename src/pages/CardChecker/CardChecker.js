@@ -28,24 +28,25 @@ const CardChecker = () => {
       <div className="rb_container">
         <ResetCountersButton wordIds={["includeWords", "excludeWords"]} />
       </div>
+      <label className="label__container">Слова, которые должны быть</label>
       <textarea
         className="notepad__textarea"
-        placeholder="Слова, которые должны быть"
         id="includeWords"
         value={words.includeWords}
         onChange={handleInputChange}
       />
+      <label className="label__container">Слова, которые не должны быть</label>
       <textarea
         className="notepad__textarea"
-        placeholder="Слова, которые не должны быть"
         id="excludeWords"
         value={words.excludeWords}
         onChange={handleInputChange}
       />
-
-      <button className="notepad__button" onClick={handleCheck}>
-        Проверить
-      </button>
+      <div className="btn__container">
+        <button className="notepad__button" onClick={handleCheck}>
+          Проверить
+        </button>
+      </div>
     </section>
   );
 };

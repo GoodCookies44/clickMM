@@ -2,10 +2,19 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
   gap: 0.5em;
 }
 
 .rb_container {
   width: 100%;
+}
+
+.label__container {
+  color: #eac56b;
+  text-shadow: 5px 5px 10px #00000080;
+}
+
+.btn__container {
+  display: flex;
+  justify-content: center;
 }

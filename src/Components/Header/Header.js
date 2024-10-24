@@ -19,7 +19,6 @@ export default function Header() {
         {to: "/", label: "Ссылки", active: false},
         {to: "/Sheet", label: "Таблица", active: false},
         {to: "/Report", label: "Отчёт", active: false},
-        {to: "/CardChecker", label: "Проверка", active: false},
       ]
     );
   });
@@ -73,9 +72,15 @@ export default function Header() {
 
         <nav ref={navRef}>
           {username === "Антон" && (
-            <NavLink to="/Category" className="link header__link">
-              Категории
-            </NavLink>
+            <>
+              <NavLink to="/Category" className="link header__link">
+                Категории
+              </NavLink>
+
+              <NavLink to="/CardChecker" className="link header__link">
+                Проверка
+              </NavLink>
+            </>
           )}
 
           {activeLinks.map((link, index) =>
