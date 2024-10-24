@@ -7,7 +7,7 @@ import {CounterContext} from "../../components/Context/CounterContext";
 // Стили
 import "./CardChecker.css";
 
-const CardChecker = () => {
+export default function CardChecker() {
   const {words, updateWords} = useContext(CounterContext);
 
   const handleInputChange = (e) => {
@@ -49,7 +49,5 @@ const CardChecker = () => {
       </div>
     </section>
   );
-};
-
-export default CardChecker;
+}
 /* eslint-enable */
