@@ -139,36 +139,36 @@ chrome.runtime.onInstalled.addListener(function () {
 chrome.commands.onCommand.addListener(function (command) {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     switch (command) {
-      case "01toggleCaseCommand":
+      case "toggleCaseCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "toggleCase"});
         break;
-      case "02capitalizeWordsCommand":
+      case "capitalizeWordsCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "capitalizeWords"});
         break;
-      case "03lowerCaseCommand":
+      case "lowerCaseCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "lowerCase"});
         break;
-      case "04addQuotesCommand":
+      case "addQuotesCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "addQuotes"});
         break;
-      case "05createListCommand":
+      case "createListCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "createList"});
         break;
-      case "06checkImagesCommand":
+      case "checkImagesCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "checkImages"});
-      case "07openLinkCommand":
+      case "openLinkCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "getSelectedText"});
         break;
-      case "08insertArrowCommand":
+      case "insertArrowCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "insertArrow"});
         break;
-      case "10scrollToElementCommand":
+      case "scrollToElementCommand":
         chrome.tabs.sendMessage(tabs[0].id, {
           action: "scrollToElement",
           elementId: "select2-id_category-container",
         });
         break;
-      case "09saveCardCommand":
+      case "saveCardCommand":
         chrome.tabs.sendMessage(tabs[0].id, {action: "saveCard"});
         break;
       default:
@@ -277,18 +277,6 @@ function sendMessageToTab(message) {
     chrome.tabs.sendMessage(tabs[0].id, message);
   });
 }
-
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "CHECK_TITLES") {
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, {
-        action: "CHECK_TITLES",
-        includeWords: message.includeWords,
-        excludeWords: message.excludeWords,
-      });
-    });
-  }
-});
 
 // Google Sheet API
 const CLIENT_ID = "899506669224-e3ee96lkktlocp3pbp0pi5mr7t6gg8t6.apps.googleusercontent.com";
