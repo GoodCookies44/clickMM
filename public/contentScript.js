@@ -568,14 +568,13 @@ if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
     const excludeWords = words.excludeWords;
 
     if (includeWords || excludeWords) {
-      // Если есть слова, запускаем основную логику
       postData();
       checkTitles(includeWords, excludeWords);
     }
   });
 
   function postData() {
-    const rows = document.querySelectorAll("tr");
+    const rows = document.querySelectorAll("#result_list tr");
     const products = [];
 
     rows.forEach((row) => {
@@ -584,7 +583,7 @@ if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
       if (title) {
         const idElement = row.querySelector(".field-id a");
         const id = idElement ? idElement.innerText : "";
-        products.push({title: title, id: id});
+        products.push({title, id, row});
       }
     });
 
@@ -604,15 +603,21 @@ if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
     const options = {
       threshold: 0.3,
       keys: ["title"],
-      tokenize: true,
-      matchAll: true,
+      useExtendedSearch: true,
+      includeMatches: true,
+      findAllMatches: true,
+      includeHighlights: true,
     };
     const fuse = new Fuse(window.productList, options);
 
-    const rows = document.querySelectorAll("tr");
-    rows.forEach((row) => {
-      row.style.backgroundColor = "";
-    });
+    const groupedRows = {
+      noIncludeExclude: [],
+      noMatchIncludeExclude: [],
+      matchIncludeExclude: [],
+      matchIncludeNoExclude: [],
+      UppercaseWord: [],
+      remainingRows: [],
+    };
 
     window.productList.forEach((product) => {
       const title = product.title;
@@ -628,34 +633,58 @@ if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
         return result.some((res) => res.item.title === title && res.item.id === id);
       });
 
-      const matchingRows = Array.from(rows).filter((row) => {
-        const titleElement = row.querySelector(".field-wrapped_title");
-        const idElement = row.querySelector(".field-id a");
-        return (
-          titleElement &&
-          idElement &&
-          titleElement.innerText === title &&
-          idElement.innerText === id
-        );
-      });
+      // Проверяем, есть ли изображение с alt="True"
+      const isInStock = product.row.querySelector(".field-is_in_stock img[alt='True']") !== null;
 
-      matchingRows.forEach((matchingRow) => {
-        if (hasIncludeWords && !hasExcludeWords) {
-          matchingRow.style.boxShadow = "inset 0px 0px 5px 2px rgba(0, 255, 0, 0.4)";
-        } else if (!hasIncludeWords && hasExcludeWords) {
-          matchingRow.style.boxShadow = "inset 0px 0px 5px 2px rgba(255, 0, 0, 0.4)";
-        } else if (hasIncludeWords && hasExcludeWords) {
-          matchingRow.style.boxShadow = "inset 0px 0px 5px 2px rgba(255, 255, 0, 0.4)";
-        } else {
-          matchingRow.style.boxShadow = "inset 0px 0px 5px 2px rgba(0, 221, 255, 0.4)";
+      // Проверяем на наличие заглавных букв, исключая цифры, только если товар в наличии
+      const hasUppercaseWords =
+        isInStock &&
+        title
+          .replace(/[^A-Za-zА-Яа-яЁё\s]|[0-9]/g, "")
+          .split(" ")
+          .some((word) => word.length > 2 && /^[A-ZА-ЯЁ]+$/.test(word));
+
+      if (hasUppercaseWords) {
+        product.row.style.boxShadow = "inset 0px 0px 5px 2px rgba(244, 0, 255, 0.4)";
+        groupedRows.UppercaseWord.push(product.row);
+      } else if (!hasIncludeWords && hasExcludeWords) {
+        const checkbox = product.row.querySelector("input[name='_selected_action']");
+        if (checkbox) {
+          checkbox.checked = true;
         }
-      });
+        product.row.style.boxShadow = "inset 0px 0px 5px 2px rgba(255, 0, 0, 0.4)";
+        groupedRows.noIncludeExclude.push(product.row);
+      } else if (!hasIncludeWords && !hasExcludeWords) {
+        product.row.style.boxShadow = "inset 0px 0px 5px 2px rgba(0, 221, 255, 0.4)";
+        groupedRows.noMatchIncludeExclude.push(product.row);
+      } else if (hasIncludeWords && hasExcludeWords) {
+        product.row.style.boxShadow = "inset 0px 0px 5px 2px rgba(255, 255, 0, 0.4)";
+        groupedRows.matchIncludeExclude.push(product.row);
+      } else if (hasIncludeWords && !hasExcludeWords) {
+        product.row.style.boxShadow = "inset 0px 0px 5px 2px rgba(0, 255, 0, 0.4)";
+        groupedRows.matchIncludeNoExclude.push(product.row);
+      } else {
+        groupedRows.remainingRows.push(product.row);
+      }
     });
+
+    const tableBody = document.querySelector("#result_list tbody");
+    if (!tableBody) {
+      console.log("Ошибка: элемент tbody не найден");
+      return;
+    }
+    tableBody.innerHTML = "";
+
+    groupedRows.noIncludeExclude.forEach((row) => tableBody.appendChild(row));
+    groupedRows.matchIncludeExclude.forEach((row) => tableBody.appendChild(row));
+    groupedRows.noMatchIncludeExclude.forEach((row) => tableBody.appendChild(row));
+    groupedRows.UppercaseWord.forEach((row) => tableBody.appendChild(row));
+    groupedRows.matchIncludeNoExclude.forEach((row) => tableBody.appendChild(row));
+    groupedRows.remainingRows.forEach((row) => tableBody.appendChild(row));
   }
 
   postData();
 
-  // Слушаем сообщения от background.js
   chrome.runtime.onMessage.addListener((message) => {
     if (message.action === "CHECK_TITLES") {
       checkTitles(message.includeWords, message.excludeWords);
