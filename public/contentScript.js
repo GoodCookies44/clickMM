@@ -691,3 +691,126 @@ if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
     }
   });
 }
+
+// Функция для получения данных категорий с указанной страницы
+async function fetchCategoriesFromPage(page) {
+  const url = `https://admin.kazanexpress.ru/kazanexpress/category/?active__exact=1&p=${page}`;
+
+  try {
+    // Выполняем запрос к странице
+    const response = await fetch(url, {
+      method: "GET",
+      credentials: "include", // Важно для использования куки аутентификации
+    });
+
+    if (response.ok) {
+      const text = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, "text/html");
+
+      // Извлекаем все строки категорий с таблицы на странице
+      const rows = doc.querySelectorAll("#result_list tbody tr");
+
+      const activeCategories = [];
+
+      rows.forEach((row) => {
+        const titleElement = row.querySelector(".field-title a");
+        const idElement = row.querySelector(".field-id");
+        const categoryElement = row.querySelector(".field-parent");
+        const activeElement = row.querySelector(".field-active img");
+        const markingElement = row.querySelector(".field-is_adult img");
+
+        const title = titleElement ? titleElement.innerText : "";
+        const id = idElement ? idElement.innerText : "";
+        const category = categoryElement ? categoryElement.innerText : "";
+        const active = activeElement ? activeElement.alt === "True" : false;
+        const marking = markingElement ? markingElement.alt === "True" : false;
+
+        if (active) {
+          activeCategories.push({
+            id,
+            category,
+            title,
+            active,
+            marking,
+          });
+        }
+      });
+
+      return activeCategories;
+    } else {
+      console.error("Ошибка запроса:", response.status);
+      return [];
+    }
+  } catch (error) {
+    console.error("Ошибка при запросе категорий:", error);
+    return [];
+  }
+}
+
+// Функция для получения общего количества страниц
+async function fetchTotalPages() {
+  const url = "https://admin.kazanexpress.ru/kazanexpress/category/?active__exact=1&p=1"; // Первая страница
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      const text = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, "text/html");
+
+      // Находим элемент с количеством страниц
+      const paginatorEndElement = doc.querySelector(".paginator .end");
+      const totalPages = paginatorEndElement ? parseInt(paginatorEndElement.innerText, 10) : 1;
+
+      return totalPages;
+    } else {
+      console.error("Ошибка запроса:", response.status);
+      return 1;
+    }
+  } catch (error) {
+    console.error("Ошибка при получении количества страниц:", error);
+    return 1;
+  }
+}
+
+// Функция для создания Excel-файла и его скачивания
+function exportToExcel(categories) {
+  // Создаем новый рабочий лист
+  const worksheet = XLSX.utils.json_to_sheet(categories);
+
+  // Создаем новую книгу и добавляем в нее лист
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Категории");
+
+  // Генерируем файл и создаем ссылку для скачивания
+  const excelFile = XLSX.writeFile(workbook, "Категории.xlsx");
+}
+
+// Основная функция для прохода по всем страницам
+async function fetchAllActiveCategories() {
+  const totalPages = await fetchTotalPages(); // Получаем количество страниц
+  const allActiveCategories = [];
+
+  for (let page = 1; page <= totalPages; page++) {
+    console.log(`Получаем данные со страницы ${page} из ${totalPages}`);
+    const categoriesFromPage = await fetchCategoriesFromPage(page);
+    allActiveCategories.push(...categoriesFromPage); // Добавляем активные категории с каждой страницы
+  }
+
+  console.log("Все активные категории:", allActiveCategories);
+
+  // Создаем и скачиваем Excel-файл с активными категориями
+  exportToExcel(allActiveCategories);
+}
+
+// Обработчик сообщений от background.js
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.action === "FETCH_CATEGORIES") {
+    fetchAllActiveCategories();
+  }
+});

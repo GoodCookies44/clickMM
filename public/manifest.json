@@ -10,7 +10,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["contentScript.js", "libs/fuse.min.js"]
+      "js": ["contentScript.js", "libs/fuse.min.js", "libs/xlsx.full.min.js"]
     }
   ],
   

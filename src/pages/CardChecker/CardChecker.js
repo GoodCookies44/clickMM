@@ -23,6 +23,12 @@ export default function CardChecker() {
     });
   };
 
+  const handleCheckCategories = () => {
+    chrome.runtime.sendMessage({
+      action: "FETCH_CATEGORIES",
+    });
+  };
+
   return (
     <section className="counter__section FP CC">
       <div className="rb_container">
@@ -45,6 +51,9 @@ export default function CardChecker() {
       <div className="btn__container">
         <button className="notepad__button" onClick={handleCheck}>
           Проверить
+        </button>
+        <button className="notepad__button" onClick={handleCheckCategories}>
+          Проверить категории
         </button>
       </div>
     </section>
