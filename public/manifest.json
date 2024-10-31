@@ -13,6 +13,10 @@
       "js": ["contentScript.js", "libs/fuse.min.js", "libs/xlsx.full.min.js"]
     }
   ],
+    
+  "action": {
+    "default_popup": "index.html"
+  },
   
   "side_panel": {
     "default_path": "index.html"
@@ -25,7 +29,8 @@
     "128": "./images/icon_128.png"
   },
   
-  "permissions": ["tabs", "activeTab", "sidePanel", "contextMenus", "storage", "declarativeContent", "scripting", "commands", "downloads"],
+  "permissions": ["tabs", "activeTab", "sidePanel", "contextMenus", "storage", "declarativeContent", "scripting", "commands", "downloads", "identity"],
+
   
   "commands": {
     "01toggleCaseCommand": {

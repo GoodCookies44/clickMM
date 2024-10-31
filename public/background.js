@@ -1,11 +1,30 @@
-chrome.sidePanel.setPanelBehavior({openPanelOnActionClick: true});
+chrome.runtime.onInstalled.addListener(() => {
+  // Определяем, какой браузер используется
+  const userAgent = navigator.userAgent.toLowerCase();
+
+  // Если это Google Chrome, открываем как side panel
+  if (userAgent.includes("chrome") && !userAgent.includes("edg")) {
+    chrome.sidePanel.setPanelBehavior({openPanelOnActionClick: true});
+  } else {
+    // Для других браузеров, таких как Opera или Yandex Browser, открываем как вкладку
+    chrome.action.onClicked.addListener(() => {
+      chrome.tabs.create({
+        url: chrome.runtime.getURL("index.html"), // Страница для вкладки
+      });
+    });
+  }
+});
 
 let isContentScriptReady = {};
 
 // Обработчик сообщений от контентного скрипта
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "contentScriptReady") {
-    isContentScriptReady[sender.tab.id] = true;
+    if (sender.tab && sender.tab.id) {
+      isContentScriptReady[sender.tab.id] = true;
+    } else {
+      console.error("sender.tab не определён или не содержит id");
+    }
   } else if (message.type === "toggleImageChecking") {
     const {isEnabled} = message;
     chrome.storage.local.set({isImageCheckEnabled: isEnabled}, () => {
