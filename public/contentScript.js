@@ -193,13 +193,30 @@ function createTooltipElement() {
   return tooltip;
 }
 
+// Функция для нахождения наибольшего общего делителя (НОД)
+function getGCD(a, b) {
+  while (b !== 0) {
+    [a, b] = [b, a % b];
+  }
+  return a;
+}
+
 // Функция для создания элемента с размерами изображения
 function createImageSizeElement(img) {
   const imgSize = document.createElement("div");
+
+  // Вычисляем НОД
+  const gcd = getGCD(img.naturalWidth, img.naturalHeight);
+
+  // Вычисляем соотношение сторон
+  const aspectRatio = `${img.naturalWidth / gcd}:${img.naturalHeight / gcd}`;
+
+  // Выводим размер и соотношение сторон
   imgSize.textContent = `Size: ${img.naturalWidth}x${img.naturalHeight} (${(
     img.naturalWidth / img.naturalHeight
-  ).toFixed(2)})`;
+  ).toFixed(2)}, ${aspectRatio})`;
   imgSize.style.display = "block";
+
   return imgSize;
 }
 
@@ -692,23 +709,20 @@ if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
   });
 }
 
-// Функция для получения данных категорий с указанной страницы
+// Функция для получения данных категорий
 async function fetchCategoriesFromPage(page) {
   const url = `https://admin.kazanexpress.ru/kazanexpress/category/?active__exact=1&p=${page}`;
 
   try {
-    // Выполняем запрос к странице
     const response = await fetch(url, {
       method: "GET",
-      credentials: "include", // Важно для использования куки аутентификации
+      credentials: "include",
     });
 
     if (response.ok) {
       const text = await response.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, "text/html");
-
-      // Извлекаем все строки категорий с таблицы на странице
       const rows = doc.querySelectorAll("#result_list tbody tr");
 
       const activeCategories = [];
@@ -763,7 +777,6 @@ async function fetchTotalPages() {
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, "text/html");
 
-      // Находим элемент с количеством страниц
       const paginatorEndElement = doc.querySelector(".paginator .end");
       const totalPages = paginatorEndElement ? parseInt(paginatorEndElement.innerText, 10) : 1;
 
@@ -780,31 +793,38 @@ async function fetchTotalPages() {
 
 // Функция для создания Excel-файла и его скачивания
 function exportToExcel(categories) {
-  // Создаем новый рабочий лист
-  const worksheet = XLSX.utils.json_to_sheet(categories);
+  const filteredCategories = categories.map(({id, category, title, marking}) => ({
+    id,
+    category,
+    title,
+    marking,
+  }));
 
-  // Создаем новую книгу и добавляем в нее лист
+  const worksheet = XLSX.utils.json_to_sheet([]);
+
+  XLSX.utils.sheet_add_aoa(worksheet, [
+    ["ID", "Родительские категории", "Конечная категория", "Требуется маркировка"],
+  ]);
+
+  XLSX.utils.sheet_add_json(worksheet, filteredCategories, {origin: "A2", skipHeader: true});
+  worksheet["!cols"] = [{wch: 9}, {wch: 115}, {wch: 60}, {wch: 20}];
+
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Категории");
-
-  // Генерируем файл и создаем ссылку для скачивания
-  const excelFile = XLSX.writeFile(workbook, "Категории.xlsx");
+  XLSX.writeFile(workbook, "Выгрузка категорий.xlsx");
 }
 
 // Основная функция для прохода по всем страницам
 async function fetchAllActiveCategories() {
-  const totalPages = await fetchTotalPages(); // Получаем количество страниц
+  const totalPages = await fetchTotalPages();
   const allActiveCategories = [];
 
   for (let page = 1; page <= totalPages; page++) {
     console.log(`Получаем данные со страницы ${page} из ${totalPages}`);
     const categoriesFromPage = await fetchCategoriesFromPage(page);
-    allActiveCategories.push(...categoriesFromPage); // Добавляем активные категории с каждой страницы
+    allActiveCategories.push(...categoriesFromPage);
   }
 
-  console.log("Все активные категории:", allActiveCategories);
-
-  // Создаем и скачиваем Excel-файл с активными категориями
   exportToExcel(allActiveCategories);
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable */
 //Модули
 import React, {useContext} from "react";
 // Компоненты
@@ -13,6 +14,12 @@ export default function CategoryPage() {
   const handleInputChange = (e) => {
     const {id, value} = e.target;
     updateCategoryName(id, value);
+  };
+
+  const handleCheckCategories = () => {
+    chrome.runtime.sendMessage({
+      action: "FETCH_CATEGORIES",
+    });
   };
 
   return (
@@ -57,7 +64,13 @@ export default function CategoryPage() {
             onChange={handleInputChange}
           />
         </div>
+        <div className="btn__container">
+          <button className="notepad__button" onClick={handleCheckCategories}>
+            Сделать выгрузку категорий
+          </button>
+        </div>
       </section>
     </>
   );
 }
+/* eslint-enable */
