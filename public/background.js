@@ -3,7 +3,7 @@ chrome.runtime.onInstalled.addListener(() => {
   const userAgent = navigator.userAgent.toLowerCase();
 
   // Если это Google Chrome, открываем как side panel
-  if (userAgent.includes("chrome") && !userAgent.includes("edg")) {
+  if (userAgent.includes("chrome") || userAgent.includes("edg")) {
     chrome.sidePanel.setPanelBehavior({openPanelOnActionClick: true});
   } else {
     // Для других браузеров, таких как Opera или Yandex Browser, открываем как вкладку
