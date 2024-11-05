@@ -642,13 +642,33 @@ export default function KaitenAPIPage() {
     fetchReportData();
   };
 
-  //Группировка данных по дате
+  // Группировка данных по дате
   const formatDate = (dateString) => {
-    const dateParts = dateString.split(" ")[0].split("-");
-    const day = dateParts[2].padStart(2, "0"); // Добавляем ноль впереди, если нужно
-    const month = dateParts[1].padStart(2, "0");
-    const year = dateParts[0].slice(-2); // Берем последние 2 цифры года
-    return `${day}.${month}.${year}`;
+    if (!dateString || typeof dateString !== "string") {
+      return null; // Возвращаем null, если дата некорректная
+    }
+
+    // Проверяем, если дата в формате дд.мм.гггг
+    const dateParts = dateString.split(".");
+    if (dateParts.length === 3) {
+      const [day, month, year] = dateParts;
+      if (day.length === 2 && month.length === 2 && year.length === 4) {
+        return `${day}.${month}.${year}`;
+      } else {
+        return null; // Возвращаем null, если формат неправильный
+      }
+    }
+
+    // Проверяем, если дата в формате гггг-мм-дд
+    const isoDateParts = dateString.split(" ")[0].split("-");
+    if (isoDateParts.length === 3) {
+      const day = isoDateParts[2]?.padStart(2, "0") || "00";
+      const month = isoDateParts[1]?.padStart(2, "0") || "00";
+      const year = isoDateParts[0]?.slice(-2) || "00";
+      return `${day}.${month}.${year}`;
+    }
+
+    return null; // Возвращаем null, если формат неправильный
   };
 
   const groupedTasks = tasks.reduce((acc, taskGroup) => {
@@ -679,8 +699,21 @@ export default function KaitenAPIPage() {
     setTasks(updatedTasks);
   };
 
-  // Сортировка ключей (дат) в порядке возрастания
+  // Сортируем даты и выводим строки без даты в самом начале
   const sortedDates = Object.keys(groupedTasks).sort((a, b) => {
+    // Проверяем, есть ли дата
+    const isADate = a.includes(".");
+    const isBDate = b.includes(".");
+
+    if (!isADate && !isBDate) {
+      return 0; // Оба элемента без даты
+    } else if (!isADate) {
+      return -1; // a без даты, b с датой
+    } else if (!isBDate) {
+      return 1; // a с датой, b без даты
+    }
+
+    // Если оба элемента с датами, производим сортировку по дате
     const [dayA, monthA, yearA] = a.split(".").map(Number);
     const [dayB, monthB, yearB] = b.split(".").map(Number);
     return new Date(yearB + 2000, monthB - 1, dayB) - new Date(yearA + 2000, monthA - 1, dayA);
@@ -792,76 +825,90 @@ export default function KaitenAPIPage() {
               {groupedTasks[date]
                 .slice()
                 .reverse()
-                .map((task, taskIndex) => (
-                  <div key={taskIndex} className="task__item">
-                    <TaskDetail label="Строка" value={task.index} />
+                .map((task, taskIndex) => {
+                  const formattedDate = formatDate(task.date);
+                  if (!formattedDate) {
+                    return (
+                      <div key={taskIndex} className="task__item error">
+                        <TaskDetail label="Строка" value={task.index} />
+                        <TaskDetail label="Ошибка" value="Некорректные данные" />
+                      </div>
+                    );
+                  }
 
-                    <h4>{task.task}</h4>
+                  return (
+                    <div key={taskIndex} className="task__item">
+                      <TaskDetail label="Строка" value={task.index} />
 
-                    <div className="task__info">
-                      <h4>Доп. инфо:</h4>
-                      {Object.entries(task.other).map(([otherKey, otherValue]) => {
-                        const isLink = ["link", "link1", "link2", "market"].includes(otherKey);
-                        return (
-                          <TaskDetail
-                            key={otherKey}
-                            label={taskLabels[task.type]?.[otherKey] || otherKey}
-                            value={otherValue}
-                            isLink={isLink}
+                      <h4>{task.task}</h4>
+
+                      <div className="task__info">
+                        <h4>Доп. инфо:</h4>
+                        {Object.entries(task.other).map(([otherKey, otherValue]) => {
+                          const isLink = ["link", "link1", "link2", "market"].includes(otherKey);
+                          return (
+                            <TaskDetail
+                              key={otherKey}
+                              label={taskLabels[task.type]?.[otherKey] || otherKey}
+                              value={otherValue}
+                              isLink={isLink}
+                            />
+                          );
+                        })}
+                      </div>
+
+                      <div className="task__contacts">
+                        <TaskDetail label="Номер" value={task.number} />
+                        <TaskDetail label="Почта" value={task.mail} />
+                        <TaskDetail label="Способ связи" value={task.moc} />
+                        <label className="checkbox-label">
+                          <input
+                            type="checkbox"
+                            className="hidden-checkbox"
+                            checked={task.kaiten}
+                            onChange={() => toggleTaskKaiten(task.id)}
                           />
-                        );
-                      })}
-                    </div>
+                          Запрос создан
+                          <div className="custom-checkbox__container">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                              <path
+                                className="custom-checkbox"
+                                d="M1 15V5C1 2.79086 2.79086 1 5 1H15C17.2091 1 19 2.79086 19 5V15C19 17.2091 17.2091 19 15 19H5C2.79086 19 1 17.2091 1 15Z"
+                                stroke="#F6F6F6"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                className="custom-marker"
+                                d="M3 10L9 16L18 4"
+                                stroke="#16ff65"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </div>
+                        </label>
 
-                    <div className="task__contacts">
-                      <TaskDetail label="Номер" value={task.number} />
-                      <TaskDetail label="Почта" value={task.mail} />
-                      <TaskDetail label="Способ связи" value={task.moc} />
-                      <label className="checkbox-label">
-                        <input
-                          type="checkbox"
-                          className="hidden-checkbox"
-                          checked={task.kaiten}
-                          onChange={() => toggleTaskKaiten(task.id)}
-                        />
-                        Запрос создан
-                        <div className="custom-checkbox__container">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                            <path
-                              className="custom-checkbox"
-                              d="M1 15V5C1 2.79086 2.79086 1 5 1H15C17.2091 1 19 2.79086 19 5V15C19 17.2091 17.2091 19 15 19H5C2.79086 19 1 17.2091 1 15Z"
-                              stroke="#F6F6F6"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              className="custom-marker"
-                              d="M3 10L9 16L18 4"
-                              stroke="#16ff65"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
+                        <TaskDetail label="Статус" value={task.status} />
+                      </div>
+
+                      <button
+                        className="counter__button kaitenAPI"
+                        onClick={() => createCardInKaiten(task, taskIndex)}
+                      >
+                        Создать карточку
+                      </button>
+
+                      {notifications[`${task.id}_${task.task}`] && (
+                        <div className="notification">
+                          {notifications[`${task.id}_${task.task}`]}
                         </div>
-                      </label>
-
-                      <TaskDetail label="Статус" value={task.status} />
+                      )}
                     </div>
-
-                    <button
-                      className="counter__button kaitenAPI"
-                      onClick={() => createCardInKaiten(task, taskIndex)}
-                    >
-                      Создать карточку
-                    </button>
-
-                    {notifications[`${task.id}_${task.task}`] && (
-                      <div className="notification">{notifications[`${task.id}_${task.task}`]}</div>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
             </div>
           </div>
         ))}
