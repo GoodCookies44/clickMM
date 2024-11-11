@@ -122,6 +122,31 @@ export default function UsefulList() {
         />
 
         <h2>Инструкции</h2>
+
+        {username === "Антон" && (
+          <>
+            <LinkItem
+              url={
+                "https://wiki.yandex.ru/drpknowledgebase/moderacija/asessory/asessor-po-katalogu/"
+              }
+              title={"Wiki Асессора"}
+            />
+            <h4>
+              Логин: <ListItem text="asessor_om@kazanexpress.tech" />
+            </h4>
+            <h4>
+              Пароль: <ListItem text="3lJWtC*r" />
+            </h4>
+
+            <LinkItem
+              url={"https://seller-manual.mm.ru/product-preparation#product-size-restrictions"}
+              title={"Требования для приёмки товара на склад"}
+            />
+
+            <br />
+          </>
+        )}
+
         <LinkItem
           url={"https://wiki.yandex.ru/drpknowledgebase/moderacija/moderator/"}
           title={"Wiki"}
