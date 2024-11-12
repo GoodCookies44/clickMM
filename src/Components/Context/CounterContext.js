@@ -50,6 +50,7 @@ export const CounterProvider = ({children}) => {
 
   // Функция для сброса значений счетчиков по списку идентификаторов
   const resetCounters = (ids) => {
+    if (!Array.isArray(ids)) return;
     // Сброс значений для счетчиков, чьи идентификаторы переданы в списке ids
     setCounters((prevCounters) =>
       prevCounters.map((counter) => (ids.includes(counter.id) ? {...counter, value: 0} : counter))
