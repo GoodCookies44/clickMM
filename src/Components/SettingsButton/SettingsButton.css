@@ -99,6 +99,16 @@
   align-items: center;
 }
 
+.modal-content .switch {
+  flex-direction: row;
+  align-items: center;
+  font-size: 1.2em;
+}
+
+.switch .custom-switch {
+  margin: 0.2em 0.3em 0 0;
+}
+
 .checkbox-label {
   display: inline-flex;
   align-items: center;

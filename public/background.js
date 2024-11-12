@@ -47,6 +47,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         });
       });
     });
+  } else if (message.type === "toggleTextCheck") {
+    const {isEnabled} = message;
+    chrome.storage.local.set({isTextCheckEnabled: isEnabled}, () => {
+      chrome.tabs.query({}, (tabs) => {
+        tabs.forEach((tab) => {
+          if (isContentScriptReady[tab.id]) {
+            chrome.tabs.sendMessage(tab.id, {type: "textCheckingStatus", isEnabled});
+          }
+        });
+      });
+    });
   } else if (message.type === "openLink") {
     handleSelectedText(message.selectedText);
   }
@@ -54,20 +65,28 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete") {
-    chrome.storage.local.get(["isImageCheckEnabled", "isSquareImageCheckEnabled"], (result) => {
-      const isImageCheckEnabled = result.isImageCheckEnabled;
-      const isSquareImageCheckEnabled = result.isSquareImageCheckEnabled;
-      if (isContentScriptReady[tabId]) {
-        chrome.tabs.sendMessage(tabId, {
-          type: "imageCheckingStatus",
-          isEnabled: isImageCheckEnabled,
-        });
-        chrome.tabs.sendMessage(tabId, {
-          type: "squareImageCheckingStatus",
-          isEnabled: isSquareImageCheckEnabled,
-        });
+    chrome.storage.local.get(
+      ["isImageCheckEnabled", "isSquareImageCheckEnabled", "isTextCheckEnabled"],
+      (result) => {
+        const isImageCheckEnabled = result.isImageCheckEnabled;
+        const isSquareImageCheckEnabled = result.isSquareImageCheckEnabled;
+        const isTextCheckEnabled = result.isTextCheckEnabled;
+        if (isContentScriptReady[tabId]) {
+          chrome.tabs.sendMessage(tabId, {
+            type: "imageCheckingStatus",
+            isEnabled: isImageCheckEnabled,
+          });
+          chrome.tabs.sendMessage(tabId, {
+            type: "squareImageCheckingStatus",
+            isEnabled: isSquareImageCheckEnabled,
+          });
+          chrome.tabs.sendMessage(tabId, {
+            type: "textCheckingStatus",
+            isEnabled: isTextCheckEnabled,
+          });
+        }
       }
-    });
+    );
   }
 });
 

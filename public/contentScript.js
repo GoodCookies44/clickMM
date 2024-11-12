@@ -369,7 +369,9 @@ function checkImagesOnPage() {
   images.forEach((img) => {
     const width = img.naturalWidth;
     const height = img.naturalHeight;
+    const gcd = getGCD(img.naturalWidth, img.naturalHeight);
     const aspectRatio = (width / height).toFixed(2);
+    const aspectRatioGCD = `${width / gcd}:${height / gcd}`;
 
     let boxShadow = "0px 0px 10px .1px rgba(209, 10, 10, 0.9)";
 
@@ -397,7 +399,8 @@ function checkImagesOnPage() {
       img.parentElement.style.position = "relative";
       img.parentElement.appendChild(sizeLabel);
     }
-    sizeLabel.textContent = `${width}x${height} (${aspectRatio})`;
+
+    sizeLabel.textContent = `${width}x${height} (${aspectRatio}, ${aspectRatioGCD})`;
   });
 
   // Удаление теней и разрешений, если оба переключателя выключены
@@ -834,3 +837,213 @@ chrome.runtime.onMessage.addListener((message) => {
     fetchAllActiveCategories();
   }
 });
+
+// Проверка тексовых полей на стоп-слова
+let isTextCheckEnabled = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+  chrome.storage.local.get(["isTextCheckEnabled"], (result) => {
+    const isTextCheckEnabled = result.isTextCheckEnabled;
+    if (isTextCheckEnabled) {
+      checkForStopWords();
+    } else {
+      removeStopWordHighlights();
+    }
+  });
+});
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "textCheckingStatus") {
+    const isTextCheckEnabled = message.isEnabled;
+    if (isTextCheckEnabled) {
+      checkForStopWords();
+    } else {
+      removeStopWordHighlights();
+    }
+  }
+});
+
+const stopWords = [
+  "sale",
+  "распродажа",
+  "в ассортименте",
+  "новинка",
+  "new",
+  "аналог",
+  "заказ",
+  "хит",
+  "копия",
+  "оригинал",
+  "премиум",
+  "реплика",
+  "уценка",
+  "уценен",
+  "скидки",
+  "акция",
+  "ростест",
+  "глушилка",
+  "дешевый",
+  "бесплатно",
+  "выгодно",
+  "купить",
+  "покупай",
+  "тренд",
+  "secondhand",
+  "секонд-хенд",
+];
+
+const fuseOptions = {
+  threshold: 0.6,
+  useExtendedSearch: true,
+  includeMatches: true,
+  findAllMatches: true,
+  includeHighlights: true,
+  includeScore: true,
+};
+
+const fuse = new Fuse(stopWords, fuseOptions);
+
+// Функция для поиска стоп-слов и добавления стилей
+function checkForStopWords() {
+  const url = window.location.href;
+
+  if (url.startsWith("https://admin.kazanexpress.ru/kazanexpress/product/")) {
+    const textFields = [...document.querySelectorAll('input[type="text"], textarea, .ql-editor')];
+
+    textFields.forEach((field) => {
+      let text = "";
+
+      if (field.tagName === "TEXTAREA") {
+        text = field.value;
+      } else if (field.classList.contains("ql-editor")) {
+        text = field.innerText || field.textContent;
+      } else if (field.tagName === "INPUT" && field.type === "text") {
+        text = field.value;
+      }
+
+      if (text.trim() === "") {
+        return;
+      }
+
+      checkWordsInText(text, field);
+    });
+  } else if (url.startsWith("https://admin.kazanexpress.ru/product-moderation/")) {
+    const textFields = [
+      ...document.querySelectorAll(
+        'input[type="text"][name*="new_value"], textarea[name*="new_value"], .ql-editor, input.text-list-item'
+      ),
+    ];
+
+    textFields.forEach((field) => {
+      let text = "";
+
+      if (field.tagName === "TEXTAREA") {
+        text = field.value;
+      } else if (field.classList.contains("ql-editor")) {
+        text = field.innerText || field.textContent;
+      } else if (field.tagName === "INPUT" && field.type === "text") {
+        text = field.value;
+      }
+
+      if (text.trim() === "") {
+        return;
+      }
+
+      checkWordsInText(text, field);
+    });
+  } else if (url.startsWith("https://admin.kazanexpress.ru/moderation/bid/")) {
+    const textFields = [...document.querySelectorAll('input[type="text"], textarea, .ql-editor')];
+
+    textFields.forEach((field) => {
+      let text = "";
+
+      if (field.tagName === "TEXTAREA") {
+        text = field.value;
+      } else if (field.classList.contains("ql-editor")) {
+        text = field.innerText || field.textContent;
+      } else if (field.tagName === "INPUT" && field.type === "text") {
+        text = field.value;
+      }
+
+      if (text.trim() === "") {
+        return;
+      }
+
+      checkWordsInText(text, field);
+    });
+  } else {
+    console.log("Страница не соответствует условию URL.");
+  }
+}
+
+function checkWordsInText(text, field) {
+  const cleanText = text
+    .replace(/[^a-zA-Zа-яА-Я0-9\s]/g, "")
+    .split(/\s+/)
+    .filter((word) => word.length > 2);
+
+  let foundStopWords = [];
+  let foundCapsLockWords = [];
+
+  // Проверяем каждое слово на наличие стоп-слов и капслока
+  cleanText.forEach((word) => {
+    const result = fuse.search(word);
+    if (result.length > 0) {
+      result.forEach((match) => {
+        const stopWordPattern = new RegExp(`${match.item}`, "i"); // Проверяем наличие стоп-слова
+        if (stopWordPattern.test(word)) {
+          foundStopWords.push(word);
+        }
+      });
+    }
+  });
+
+  // Проверка на капс
+  const capsLockPattern = /[A-ZА-Я]{3,}/;
+  const words = text.split(/\s+/); // Разделяем текст на слова для проверки капс-слов без очистки символов
+
+  words.forEach((word) => {
+    if (capsLockPattern.test(word)) {
+      foundCapsLockWords.push(word);
+    }
+  });
+
+  if (foundStopWords.length > 0 || foundCapsLockWords.length > 0) {
+    field.style.boxShadow = "inset 0px 0px 5px 2px rgba(255, 0, 0, 0.4)";
+
+    const stopWordSpan = document.createElement("span");
+    stopWordSpan.style.color = "red";
+    stopWordSpan.style.fontWeight = "bold";
+    stopWordSpan.style.marginLeft = "10px";
+    stopWordSpan.style.display = "block";
+
+    if (foundStopWords.length > 0) {
+      const stopWordsDiv = document.createElement("div");
+      stopWordsDiv.textContent = `Стоп-слова: ${foundStopWords.join(", ")}`;
+      stopWordSpan.appendChild(stopWordsDiv);
+    }
+
+    if (foundCapsLockWords.length > 0) {
+      const capsLockWordsDiv = document.createElement("div");
+      capsLockWordsDiv.textContent = `Слова капсом: ${foundCapsLockWords.join(", ")}`;
+      stopWordSpan.style.color = "blue";
+      stopWordSpan.appendChild(capsLockWordsDiv);
+    }
+
+    if (!field.nextSibling || field.nextSibling.tagName !== "SPAN") {
+      field.parentNode.insertBefore(stopWordSpan, field.nextSibling);
+    }
+  }
+}
+
+// Удаление подсветки и span для всех текстовых полей
+function removeStopWordHighlights() {
+  const highlightedFields = document.querySelectorAll('input[type="text"], textarea, .ql-editor');
+
+  highlightedFields.forEach((field) => {
+    field.style.boxShadow = "";
+    if (field.nextSibling && field.nextSibling.tagName === "SPAN") {
+      field.parentNode.removeChild(field.nextSibling);
+    }
+  });
+}

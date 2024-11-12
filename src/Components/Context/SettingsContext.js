@@ -14,6 +14,9 @@ export const SettingsProvider = ({children}) => {
   const [isCheckboxFunctionEnabled, setCheckboxFunctionEnabled] = useState(
     JSON.parse(localStorage.getItem("isCheckboxFunctionEnabled")) || false
   );
+  const [isTextCheckEnabled, setTextCheckEnabled] = useState(
+    JSON.parse(localStorage.getItem("isTextCheckEnabled")) || false
+  );
 
   useEffect(() => {
     localStorage.setItem("isImageCheckEnabled", JSON.stringify(isImageCheckEnabled));
@@ -36,6 +39,14 @@ export const SettingsProvider = ({children}) => {
     });
   }, [isCheckboxFunctionEnabled]);
 
+  useEffect(() => {
+    localStorage.setItem("isTextCheckEnabled", JSON.stringify(isTextCheckEnabled));
+    chrome.runtime.sendMessage({
+      type: "toggleTextCheck",
+      isEnabled: isTextCheckEnabled,
+    });
+  }, [isTextCheckEnabled]);
+
   return (
     <SettingsContext.Provider
       value={{
@@ -45,6 +56,8 @@ export const SettingsProvider = ({children}) => {
         toggleSquareImageCheck: () => setSquareImageCheckEnabled(!isSquareImageCheckEnabled),
         isCheckboxFunctionEnabled,
         toggleCheckboxFunction: () => setCheckboxFunctionEnabled(!isCheckboxFunctionEnabled),
+        isTextCheckEnabled,
+        toggleTextCheck: () => setTextCheckEnabled(!isTextCheckEnabled),
       }}
     >
       {children}

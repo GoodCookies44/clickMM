@@ -20,6 +20,8 @@ export default function SettingsButton({updateTabs, activeLinks}) {
     toggleSquareImageCheck,
     isCheckboxFunctionEnabled,
     toggleCheckboxFunction,
+    isTextCheckEnabled,
+    toggleTextCheck,
   } = useContext(SettingsContext);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -181,6 +183,11 @@ export default function SettingsButton({updateTabs, activeLinks}) {
               <label htmlFor="CheckboxFunction">Авто галочки</label>
             </li>
           </ul>
+        </div>
+
+        <div className="paragraph__container switch">
+          <Switch id="textCheckSwitch" checked={isTextCheckEnabled} onChange={toggleTextCheck} />
+          <label htmlFor="textCheckSwitch">Проверка текста</label>
         </div>
       </Modal>
     </>
