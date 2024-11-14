@@ -1026,7 +1026,6 @@ function checkWordsInText(text, field) {
     if (foundCapsLockWords.length > 0) {
       const capsLockWordsDiv = document.createElement("div");
       capsLockWordsDiv.textContent = `Слова капсом: ${foundCapsLockWords.join(", ")}`;
-      stopWordSpan.style.color = "blue";
       stopWordSpan.appendChild(capsLockWordsDiv);
     }
 
