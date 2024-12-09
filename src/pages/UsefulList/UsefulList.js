@@ -172,7 +172,7 @@ export default function UsefulList() {
           title={"Порядок разблокировки при вывозе товара"}
         />
         <LinkItem
-          url={"https://docs.google.com/document/d/19DsYNyeAxqCHKem9nnnayeLvEWwMX2T8IQHc62b3l1Y/"}
+          url={"https://docs.google.com/document/d/1Hna191TnQIG8uuWN82eD-vsr-6wnbTTifjg1TABP5Zg/"}
           title={"Инструкция по работе модератора"}
         />
         <LinkItem

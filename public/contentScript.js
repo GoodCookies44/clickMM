@@ -1,7 +1,7 @@
 // Отправка сообщения о готовности контентного скрипта
 chrome.runtime.sendMessage({type: "contentScriptReady"});
 
-// Функция для изменения контента в зависимости от действия
+// == Функция для изменения контента в зависимости от действия == //
 function changeContent(action) {
   const selection = window.getSelection();
   if (selection && selection.rangeCount > 0) {
@@ -21,7 +21,7 @@ function changeContent(action) {
   }
 }
 
-// Функция для изменения регистра слов в выделенном тексте
+//== Функция для изменения регистра слов в выделенном тексте == //
 function changeCase(type, selectedText, range) {
   switch (type) {
     case "toggleCase":
@@ -43,14 +43,7 @@ function changeCase(type, selectedText, range) {
   document.execCommand("insertText", false, selectedText);
 }
 
-// Обработчик сообщений от фона
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "insertArrow") {
-    insertArrow();
-  }
-});
-
-// Функция для изменения регистра слов
+// == Функция для изменения регистра первой буквы в 1 слове == //
 function toggleCase(text) {
   const words = text.split(" ");
   const toggledWords = words.map((word, index) => {
@@ -63,7 +56,7 @@ function toggleCase(text) {
   return toggledWords.join(" ");
 }
 
-// Функция для приведения первой буквы каждого слова к заглавной
+// == Функция для приведения первой буквы каждого слова к заглавной == //
 function capitalizeWords(text) {
   const words = text.split(" ");
   const capitalizedWords = words.map((word) => {
@@ -72,7 +65,7 @@ function capitalizeWords(text) {
   return capitalizedWords.join(" ");
 }
 
-// Функция для добавления кавычек в начале и конце выделенного текста
+// == Функция для добавления кавычек в начале и конце выделенного текста == //
 function addQuotes(text) {
   text = text.trim();
 
@@ -94,7 +87,7 @@ function addQuotes(text) {
   return text;
 }
 
-// Функция для преобразования выделенного текста в список
+// == Функция для преобразования выделенного текста в список == //
 function convertToBulletList(text) {
   const lines = text
     .trim()
@@ -144,7 +137,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 });
 
-// Функция для проверки, является ли URL допустимым для изображения
+// == Функция для проверки, является ли URL допустимым для изображения == //
 function isValidImageUrl(url) {
   if (typeof url !== "string") {
     return false;
@@ -153,7 +146,7 @@ function isValidImageUrl(url) {
   return validExtensions.some((ext) => url.toLowerCase().endsWith(ext));
 }
 
-// Функция для скачивания всех изображений, группируя их по папкам на основе значения атрибута data-sku родительского компонента
+// == Функция для скачивания всех изображений, группируя их по папкам на основе значения атрибута data-sku родительского компонента == //
 function downloadAllImages() {
   const images = document.querySelectorAll(
     ".image-table img, .Images a, .js-attachment-list a, a[class^='jss'], a[class^='v']"
@@ -172,7 +165,7 @@ function downloadAllImages() {
   chrome.runtime.sendMessage({action: "downloadImages", images: imagesData});
 }
 
-// Обработчик сообщений от фонового скрипта
+// == Обработчик сообщений от фонового скрипта для скачивания фото == //
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "downloadAllImages") {
     downloadAllImages();
@@ -181,7 +174,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 });
 
-// Функция для создания элемента, который будет содержать информацию о размере и разрешении изображения
+// == Функция для создания элемента, который будет содержать информацию о размере и разрешении изображения == //
 function createTooltipElement() {
   const tooltip = document.createElement("div");
   tooltip.style.position = "absolute";
@@ -193,7 +186,7 @@ function createTooltipElement() {
   return tooltip;
 }
 
-// Функция для нахождения наибольшего общего делителя (НОД)
+// == Функция для нахождения наибольшего общего делителя (НОД) == //
 function getGCD(a, b) {
   while (b !== 0) {
     [a, b] = [b, a % b];
@@ -201,7 +194,7 @@ function getGCD(a, b) {
   return a;
 }
 
-// Функция для создания элемента с размерами изображения
+// == Функция для создания элемента с размерами изображения == //
 function createImageSizeElement(img) {
   const imgSize = document.createElement("div");
 
@@ -220,7 +213,7 @@ function createImageSizeElement(img) {
   return imgSize;
 }
 
-// Функция для создания круга с цветом
+// == Функция для создания круга с цветом
 function createColorCircle(color) {
   const circle = document.createElement("div");
   circle.style.width = "20px";
@@ -234,7 +227,7 @@ function createColorCircle(color) {
 // Создаем одно окно для отображения разрешения изображения
 const tooltip = createTooltipElement();
 
-// Функция для обновления содержимого окна с разрешением
+// == Функция для обновления содержимого окна с разрешением == //
 async function updateTooltipContent(tooltip, imgSrc, event) {
   const img = new Image();
   img.src = imgSrc;
@@ -253,7 +246,7 @@ async function updateTooltipContent(tooltip, imgSrc, event) {
   }
 }
 
-// Функция для обновления содержимого окна с разрешением и цветом пикселя
+// == Функция для обновления содержимого окна с разрешением и цветом пикселя == //
 async function updateTooltipColor(tooltip, imgSrc, event) {
   const img = new Image();
   img.src = imgSrc;
@@ -305,7 +298,7 @@ async function updateTooltipColor(tooltip, imgSrc, event) {
   }
 }
 
-// Функция для обработки события наведения на элементы с показом разрешения и цвета пикселя
+// == Функция для обработки события наведения на элементы с показом разрешения и цвета пикселя == //
 function handleHover(event) {
   if (!event.altKey) {
     if (tooltip.parentNode) {
@@ -333,10 +326,10 @@ function handleHover(event) {
   }
 }
 
-// Обработчик события наведения мыши на страницу с показом разрешения и цвета пикселя
+// == Обработчик события наведения мыши на страницу с показом разрешения и цвета пикселя == //
 document.addEventListener("mousemove", handleHover);
 
-// Функция автоматической проверки фото на соотношение сторон и разрешение
+// == Функция автоматической проверки фото на соотношение сторон и разрешение == //
 let isImageCheckEnabled = false;
 let isSquareImageCheckEnabled = false;
 
@@ -348,6 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// == Обработчик сообщений от фонового скрипта для проверки == //
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "imageCheckingStatus") {
     isImageCheckEnabled = message.isEnabled;
@@ -415,7 +409,7 @@ function checkImagesOnPage() {
   }
 }
 
-//Функция для автоматической проставки галочек
+// == Функция для автоматической проставки галочек == //
 chrome.storage.sync.get(["enableCheckboxFunction"], (result) => {
   if (
     result.enableCheckboxFunction &&
@@ -469,7 +463,7 @@ chrome.storage.sync.get(["enableCheckboxFunction"], (result) => {
   }
 });
 
-// Функция для получения выделенного текста
+// == Функция для получения выделенного текста == //
 function getSelectedText() {
   const activeElement = document.activeElement;
   const isGoogleSheets =
@@ -498,6 +492,7 @@ function getSelectedText() {
   return "";
 }
 
+// == Функция коприрования выделенного текста в буфер обмена == //
 function copyToClipboard(text) {
   const textarea = document.createElement("textarea");
   textarea.value = text;
@@ -507,6 +502,7 @@ function copyToClipboard(text) {
   document.body.removeChild(textarea);
 }
 
+// == Обработчик сообщений от фонового скрипта копирования == //
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "getSelectedText") {
     const selectedText = getSelectedText();
@@ -519,10 +515,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-// Вставка стрелочек
+// == Функция для вставки стрелочек == //
 function insertArrow() {
   const selection = window.getSelection();
-  if (!selection || selection.rangeCount === 0) return;
+
+  // Если нет выделения или выделенный текст пустой
+  if (!selection || selection.rangeCount === 0 || !selection.toString().trim()) {
+    document.execCommand("insertText", false, " -> ");
+    return;
+  }
 
   let selectedText = selection.toString().trim();
   if (!selectedText) return;
@@ -538,11 +539,17 @@ function insertArrow() {
       .join(" ");
   }
 
-  // Вставляем модифицированный текст
   document.execCommand("insertText", false, selectedText);
 }
 
-// Функция для скроллинга до элемента
+// ==  Обработчик сообщений от фона для вставки стрелочки == //
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "insertArrow") {
+    insertArrow();
+  }
+});
+
+// == Функция для скроллинга до элемента == //
 function scrollToElementById(elementId) {
   const element = document.getElementById(elementId);
   if (element) {
@@ -550,14 +557,14 @@ function scrollToElementById(elementId) {
   }
 }
 
-// Обработчик сообщений от background.js
+// == Обработчик сообщений от фона для скрола до выбора категории == //
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "scrollToElement") {
     scrollToElementById(request.elementId);
   }
 });
 
-// Функция для нажатия кнопки "Сохранить" и отслеживания изменений URL
+// == Функция для нажатия кнопки "Сохранить" и отслеживания изменений URL == //
 function saveCard() {
   const urlPattern = /^https:\/\/admin\.kazanexpress\.ru\/kazanexpress\/product\/\d+\/change\//;
 
@@ -573,15 +580,17 @@ function saveCard() {
   }
 }
 
-// Обработчик сообщений от background.js
+// == Обработчик сообщений от фона для нажатия на кнопку "Сохранить" == //
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "saveCard") {
     saveCard();
   }
 });
 
-//Проверка карточек в категории
-if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
+// == Проверка карточек в категории == //
+if (
+  window.location.href.startsWith("https://admin.kazanexpress.ru/kazanexpress/product/?category=")
+) {
   chrome.storage.local.get("words", (result) => {
     const words = result.words;
     const includeWords = words.includeWords;
@@ -712,7 +721,7 @@ if (window.location.href.startsWith("https://admin.kazanexpress.ru/")) {
   });
 }
 
-// Функция для получения данных категорий
+// == Функция для получения данных категорий == //
 async function fetchCategoriesFromPage(page) {
   const url = `https://admin.kazanexpress.ru/kazanexpress/category/?active__exact=1&p=${page}`;
 
@@ -765,7 +774,7 @@ async function fetchCategoriesFromPage(page) {
   }
 }
 
-// Функция для получения общего количества страниц
+// == Функция для получения общего количества страниц == //
 async function fetchTotalPages() {
   const url = "https://admin.kazanexpress.ru/kazanexpress/category/?active__exact=1&p=1"; // Первая страница
 
@@ -794,7 +803,7 @@ async function fetchTotalPages() {
   }
 }
 
-// Функция для создания Excel-файла и его скачивания
+// == Функция для создания Excel-файла и его скачивания == //
 function exportToExcel(categories) {
   const filteredCategories = categories.map(({id, category, title, marking}) => ({
     id,
@@ -817,7 +826,7 @@ function exportToExcel(categories) {
   XLSX.writeFile(workbook, "Выгрузка категорий.xlsx");
 }
 
-// Основная функция для прохода по всем страницам
+// == Основная функция для прохода по всем страницам == //
 async function fetchAllActiveCategories() {
   const totalPages = await fetchTotalPages();
   const allActiveCategories = [];
@@ -831,14 +840,14 @@ async function fetchAllActiveCategories() {
   exportToExcel(allActiveCategories);
 }
 
-// Обработчик сообщений от background.js
+// == Обработчик сообщений от background.js == //
 chrome.runtime.onMessage.addListener((message) => {
   if (message.action === "FETCH_CATEGORIES") {
     fetchAllActiveCategories();
   }
 });
 
-// Проверка тексовых полей на стоп-слова
+// == Функция проверки тексовых полей на стоп-слова == //
 let isTextCheckEnabled = false;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -852,6 +861,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// == Обработчик сообщений от фона для проверки на стоп-слова == //
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "textCheckingStatus") {
     const isTextCheckEnabled = message.isEnabled;
@@ -863,10 +873,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
+// == Стоп-слова == //
 const stopWords = [
   "sale",
   "распродажа",
-  "в ассортименте",
   "новинка",
   "аналог",
   "заказ",
@@ -874,6 +884,7 @@ const stopWords = [
   "копия",
   "оригинал",
   "премиум",
+  "premium",
   "реплика",
   "уценка",
   "уценен",
@@ -889,8 +900,10 @@ const stopWords = [
   "тренд",
   "secondhand",
   "секонд-хенд",
+  "б/у",
 ];
 
+// == Настройки Fuse.js == //
 const fuseOptions = {
   threshold: 0.6,
   useExtendedSearch: true,
@@ -902,7 +915,7 @@ const fuseOptions = {
 
 const fuse = new Fuse(stopWords, fuseOptions);
 
-// Функция для поиска стоп-слов и добавления стилей
+// == Функция для поиска стоп-слов и добавления стилей == //
 function checkForStopWords() {
   const url = window.location.href;
 
@@ -1034,7 +1047,7 @@ function checkWordsInText(text, field) {
   }
 }
 
-// Удаление подсветки и span для всех текстовых полей
+// == Удаление подсветки и span для всех текстовых полей == //
 function removeStopWordHighlights() {
   const highlightedFields = document.querySelectorAll('input[type="text"], textarea, .ql-editor');
 
@@ -1044,4 +1057,19 @@ function removeStopWordHighlights() {
       field.parentNode.removeChild(field.nextSibling);
     }
   });
+}
+
+// == Функция для увеличения ширины поля заголовка == //
+if (
+  window.location.href.startsWith("https://admin.kazanexpress.ru/kazanexpress/product/") &&
+  window.location.href.includes("/change/")
+) {
+  const inputElement = document.getElementById("id_title");
+
+  if (inputElement) {
+    inputElement.style.width = "50vw";
+    console.log("Поменял размер");
+  } else {
+    console.log("Элемент с id 'id_title' не найден");
+  }
 }
