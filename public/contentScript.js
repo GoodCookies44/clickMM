@@ -588,9 +588,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 // == Проверка карточек в категории == //
-if (
-  window.location.href.startsWith("https://admin.kazanexpress.ru/kazanexpress/product/?category=")
-) {
+if (window.location.href.startsWith("https://admin.kazanexpress.ru/kazanexpress/product/")) {
   chrome.storage.local.get("words", (result) => {
     const words = result.words;
     const includeWords = words.includeWords;
