@@ -78,7 +78,9 @@ export default function UsefulList() {
               title={"KPI"}
             />
             <LinkItem
-              url={"https://docs.google.com/spreadsheets/d/1cgqFRIaFPr7fl0rr_uJHqIVd-nsG_eQJ/"}
+              url={
+                "https://docs.google.com/spreadsheets/d/1Qu5nLEIPZHNWyaXaWM058t_nqH5mny8yjWyi4-l4TK0/"
+              }
               title={"Тип съёмки по категориям"}
             />
             <LinkItem
